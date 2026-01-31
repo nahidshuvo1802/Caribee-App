@@ -1,65 +1,148 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tutor_app/view/components/custom_image/custom_image.dart';
+import '../../components/custom_nav_bar/navbar.dart';
 
-class RestaurantDetailsPage extends StatelessWidget {
+class RestaurantDetailsPage extends StatefulWidget {
   const RestaurantDetailsPage({Key? key}) : super(key: key);
+
+  @override
+  State<RestaurantDetailsPage> createState() => _RestaurantDetailsPageState();
+}
+
+class _RestaurantDetailsPageState extends State<RestaurantDetailsPage>
+    with SingleTickerProviderStateMixin {
+  // 🟢 Scroll-aware NavBar Variables
+  bool _isNavBarVisible = true;
+  late AnimationController _navBarAnimController;
+  late Animation<Offset> _navBarSlideAnimation;
+  DateTime _lastScrollTime = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // 🟢 Initialize NavBar Animation
+    _navBarAnimController = AnimationController(
+      duration: const Duration(milliseconds: 250),
+      vsync: this,
+    );
+    _navBarSlideAnimation = Tween<Offset>(
+      begin: Offset.zero,
+      end: const Offset(0, 1),
+    ).animate(CurvedAnimation(
+      parent: _navBarAnimController,
+      curve: Curves.easeInOut,
+    ));
+  }
+
+  @override
+  void dispose() {
+    _navBarAnimController.dispose();
+    super.dispose();
+  }
+
+  // 🟢 Handle Scroll Notification
+  bool _onScrollNotification(ScrollNotification notification) {
+    if (notification is ScrollUpdateNotification) {
+      _lastScrollTime = DateTime.now();
+      if (_isNavBarVisible) {
+        setState(() => _isNavBarVisible = false);
+        _navBarAnimController.forward();
+      }
+      _checkScrollStopped();
+    }
+    return false;
+  }
+
+  void _checkScrollStopped() async {
+    await Future.delayed(const Duration(milliseconds: 150));
+    if (DateTime.now().difference(_lastScrollTime).inMilliseconds >= 150) {
+      if (!_isNavBarVisible && mounted) {
+        setState(() => _isNavBarVisible = true);
+        _navBarAnimController.reverse();
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          // ------------------------------------------------
-          // Sliver App Bar (Sticky Header with Rounded Image)
-          // ------------------------------------------------
-          SliverAppBar(
-            expandedHeight: 250.h,
-            pinned: true,
-            backgroundColor: Colors.white,
-            elevation: 0,
+      extendBody: true,
+      bottomNavigationBar: SlideTransition(
+        position: _navBarSlideAnimation,
+        child: const NavBar(currentIndex: 0),
+      ),
+      body: NotificationListener<ScrollNotification>(
+        onNotification: _onScrollNotification,
+        child: CustomScrollView(
+          slivers: [
+            // ------------------------------------------------
+            // Sliver App Bar (Sticky Header with Rounded Image)
+            // ------------------------------------------------
+            SliverAppBar(
+              expandedHeight: 250.h,
+              pinned: true,
+              backgroundColor: Colors.white,
+              elevation: 0,
 
-            // --- Leading Icon ---
-            leading: Container(
-              margin: EdgeInsets.all(8.w),
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.3),
-                shape: BoxShape.circle,
+              // --- Leading Icon ---
+              leading: Container(
+                margin: EdgeInsets.all(8.w),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.3),
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back_ios_new,
+                      color: Colors.white, size: 18.sp),
+                  onPressed: () => Navigator.pop(context),
+                ),
               ),
-              child: IconButton(
-                icon: Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 18.sp),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ),
 
-            // --- Title (Sticky) ---
-            centerTitle: true,
-            title: Text(
-              'Restaurant Details',
-              style: TextStyle(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
+              // --- Title (Sticky) ---
+              centerTitle: true,
+              title: Text(
+                'Restaurant Details',
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
               ),
-            ),
 
-            // --- Background Image with Radius ---
-            flexibleSpace: FlexibleSpaceBar(
-              background: ClipRRect(
-                borderRadius: BorderRadius.vertical(bottom: Radius.circular(30.r)),
-                child: Stack(
+              // --- Background Image with Radius ---
+              flexibleSpace: FlexibleSpaceBar(
+                background: Stack(
                   fit: StackFit.expand,
                   children: [
                     // Hero Image
                     Container(
                       color: Colors.grey[300],
-                      child: Image.asset(
-                        'assets/images/Home/resturant_hero.png', // Placeholder
+                      child: Image.network(
+                        'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop',
                         fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Container(
+                            color: const Color(0xFFE0E0E0),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                                color: const Color(0xFF2F6D59),
+                              ),
+                            ),
+                          );
+                        },
                         errorBuilder: (context, error, stackTrace) {
                           return Container(
                             color: const Color(0xFFE0E0E0),
-                            child: Icon(Icons.restaurant, size: 80.sp, color: Colors.grey[400]),
+                            child: Icon(Icons.restaurant,
+                                size: 80.sp, color: Colors.grey[400]),
                           );
                         },
                       ),
@@ -82,49 +165,49 @@ class RestaurantDetailsPage extends StatelessWidget {
                 ),
               ),
             ),
-          ),
 
-          // ------------------------------------------------
-          // Main Content
-          // ------------------------------------------------
-          SliverToBoxAdapter(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.r),
-                  topRight: Radius.circular(20.r),
+            // ------------------------------------------------
+            // Main Content
+            // ------------------------------------------------
+            SliverToBoxAdapter(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20.r),
+                    topRight: Radius.circular(20.r),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Restaurant Header Section
+                    _buildHeaderSection(),
+
+                    Divider(height: 1.h, thickness: 1, color: Colors.grey[200]),
+
+                    // Information Section (Updated Icons)
+                    _buildInformationSection(),
+
+                    // Map Section (Gradient Button)
+                    _buildMapSection(),
+
+                    // Photos from visitors
+                    _buildPhotosSection(),
+
+                    // View Menu Button
+                    _buildViewMenuButton(),
+
+                    // Reviews Section
+                    _buildReviewsSection(),
+
+                    SizedBox(height: 20.h),
+                  ],
                 ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Restaurant Header Section
-                  _buildHeaderSection(),
-
-                  Divider(height: 1.h, thickness: 1, color: Colors.grey[200]),
-
-                  // Information Section (Updated Icons)
-                  _buildInformationSection(),
-
-                  // Map Section (Gradient Button)
-                  _buildMapSection(),
-
-                  // Photos from visitors
-                  _buildPhotosSection(),
-
-                  // View Menu Button
-                  _buildViewMenuButton(),
-
-                  // Reviews Section
-                  _buildReviewsSection(),
-
-                  SizedBox(height: 20.h),
-                ],
-              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -185,7 +268,7 @@ class RestaurantDetailsPage extends StatelessWidget {
               SizedBox(width: 8.w),
               ...List.generate(
                 5,
-                    (index) => Icon(
+                (index) => Icon(
                   index < 4 ? Icons.star : Icons.star_half,
                   color: Colors.amber,
                   size: 16.sp,
@@ -215,7 +298,8 @@ class RestaurantDetailsPage extends StatelessWidget {
           // Distance
           Row(
             children: [
-              Icon(Icons.location_on_outlined, size: 16.sp, color: Colors.grey[600]),
+              Icon(Icons.location_on_outlined,
+                  size: 16.sp, color: Colors.grey[600]),
               SizedBox(width: 4.w),
               Text(
                 '0.3 miles away',
@@ -259,8 +343,8 @@ class RestaurantDetailsPage extends StatelessWidget {
           color: text == 'Seafood'
               ? const Color(0xFFD32F2F)
               : text == 'Jamaican Traditional'
-              ? const Color(0xFF388E3C)
-              : const Color(0xFFF57C00),
+                  ? const Color(0xFF388E3C)
+                  : const Color(0xFFF57C00),
           fontWeight: FontWeight.w500,
         ),
       ),
@@ -382,7 +466,8 @@ class RestaurantDetailsPage extends StatelessWidget {
                   ),
                 ),
                 Center(
-                  child: Icon(Icons.location_on, size: 50.sp, color: const Color(0xFFE53935)),
+                  child: Icon(Icons.location_on,
+                      size: 50.sp, color: const Color(0xFFE53935)),
                 ),
               ],
             ),
@@ -458,6 +543,12 @@ class RestaurantDetailsPage extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: 3,
               itemBuilder: (context, index) {
+                // Different restaurant images for each card
+                final List<String> visitorPhotos = [
+                  'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=800&auto=format&fit=crop',
+                  'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=800&auto=format&fit=crop',
+                  'https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=800&auto=format&fit=crop',
+                ];
                 return Container(
                   width: 240.w,
                   margin: EdgeInsets.only(right: 12.w),
@@ -467,13 +558,30 @@ class RestaurantDetailsPage extends StatelessWidget {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12.r),
-                    child: Image.asset(
-                      'assets/images/Home/resturant_details_misc0.png',
+                    child: Image.network(
+                      visitorPhotos[index],
                       fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Container(
+                          color: const Color(0xFFE0E0E0),
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                              color: const Color(0xFF2F6D59),
+                              strokeWidth: 2.5,
+                            ),
+                          ),
+                        );
+                      },
                       errorBuilder: (context, error, stackTrace) {
                         return Container(
                           color: const Color(0xFFE0E0E0),
-                          child: Icon(Icons.photo, size: 60.sp, color: Colors.grey[400]),
+                          child: Icon(Icons.photo,
+                              size: 60.sp, color: Colors.grey[400]),
                         );
                       },
                     ),
@@ -585,7 +693,7 @@ class RestaurantDetailsPage extends StatelessWidget {
                     Row(
                       children: List.generate(
                         5,
-                            (index) => Icon(
+                        (index) => Icon(
                           Icons.star,
                           color: Colors.amber,
                           size: 14.sp,

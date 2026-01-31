@@ -115,8 +115,8 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
 
     // Navigate to Reset Password Screen
     Get.to(
-          () => const ResetPasswordScreen(),
-      transition: Transition.rightToLeft,
+      () => const ResetPasswordScreen(),
+      transition: Transition.fadeIn,
       duration: const Duration(milliseconds: 300),
     );
   }
@@ -178,20 +178,20 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                       // Verify Button (Shows Loader if loading)
                       isLoading
                           ? Center(
-                        child: CircularProgressIndicator(
-                          color: _primaryGreen,
-                        ),
-                      )
-                      // ✅ 2. APPLY GRADIENT
+                              child: CircularProgressIndicator(
+                                color: _primaryGreen,
+                              ),
+                            )
+                          // ✅ 2. APPLY GRADIENT
                           : CustomButton(
-                        onTap: _handleVerify, // Calls verify function
-                        title: "Verify",
-                        gradient: _primaryGradient, // Use gradient here
-                        textColor: Colors.white,
-                        borderRadius: 30.r,
-                        height: 56.h,
-                        fontSize: 18.sp,
-                      ),
+                              onTap: _handleVerify, // Calls verify function
+                              title: "Verify",
+                              gradient: _primaryGradient, // Use gradient here
+                              textColor: Colors.white,
+                              borderRadius: 30.r,
+                              height: 56.h,
+                              fontSize: 18.sp,
+                            ),
 
                       SizedBox(height: 30.h),
                       _buildFooter(),
@@ -254,7 +254,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
           ),
           SizedBox(height: 12.h),
           Text(
-            "Enter the 4-digit code sent to\nyour email or phone number.",
+            "Enter the 4-digit code sent to\nyour email and phone number.",
             textAlign: TextAlign.center,
             style: GoogleFonts.poppins(
               fontSize: 14.sp,
@@ -322,9 +322,9 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
         GestureDetector(
           onTap: _isResendEnabled
               ? () {
-            print("Resend Code Clicked");
-            startTimer();
-          }
+                  print("Resend Code Clicked");
+                  startTimer();
+                }
               : null,
           child: Text(
             "Resend",

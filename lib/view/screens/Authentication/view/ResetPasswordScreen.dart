@@ -92,7 +92,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     // Navigate back to Login
     Get.offAll(
           () => const LoginScreen(),
-      transition: Transition.rightToLeft,
+      transition: Transition.fadeIn,
       duration: const Duration(milliseconds: 300),
     );
   }

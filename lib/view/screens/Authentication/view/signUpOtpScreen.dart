@@ -120,7 +120,7 @@ class _VerifyOtpScreenState extends State<signUpOtpSreen> {
     });
 
     Get.offAll(
-          () => const LoginScreen(),
+      () => const LoginScreen(),
       transition: Transition.noTransition,
     );
   }
@@ -172,7 +172,7 @@ class _VerifyOtpScreenState extends State<signUpOtpSreen> {
                   onTap: () {
                     Get.back();
                     Get.offAll(
-                          () => const LoginScreen(),
+                      () => const LoginScreen(),
                       transition: Transition.noTransition,
                     );
                   },
@@ -231,20 +231,20 @@ class _VerifyOtpScreenState extends State<signUpOtpSreen> {
                       // Verify Button (Shows Loader even if Error occurs later)
                       isLoading
                           ? Center(
-                        child: CircularProgressIndicator(
-                          color: _primaryGreen,
-                        ),
-                      )
-                      // ✅ 3. APPLY GRADIENT TO MAIN BUTTON
+                              child: CircularProgressIndicator(
+                                color: _primaryGreen,
+                              ),
+                            )
+                          // ✅ 3. APPLY GRADIENT TO MAIN BUTTON
                           : CustomButton(
-                        onTap: _handleVerify,
-                        title: "Verify",
-                        gradient: _primaryGradient, // Use gradient here
-                        textColor: Colors.white,
-                        borderRadius: 30.r,
-                        height: 56.h,
-                        fontSize: 18.sp,
-                      ),
+                              onTap: _handleVerify,
+                              title: "Verify",
+                              gradient: _primaryGradient, // Use gradient here
+                              textColor: Colors.white,
+                              borderRadius: 30.r,
+                              height: 56.h,
+                              fontSize: 18.sp,
+                            ),
 
                       SizedBox(height: 30.h),
                       _buildFooter(),
@@ -298,7 +298,7 @@ class _VerifyOtpScreenState extends State<signUpOtpSreen> {
                   color: Colors.black87,
                   letterSpacing: 0.5)),
           SizedBox(height: 12.h),
-          Text("Enter the 4-digit code sent to\nyour email or phone number.",
+          Text("Enter the 4-digit code sent to\nyour email and phone number.",
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                   fontSize: 14.sp, color: Colors.grey[600], height: 1.5)),
@@ -332,13 +332,12 @@ class _VerifyOtpScreenState extends State<signUpOtpSreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text("Didn't receive the code? ",
-            style:
-            GoogleFonts.poppins(color: Colors.black87, fontSize: 14.sp)),
+            style: GoogleFonts.poppins(color: Colors.black87, fontSize: 14.sp)),
         GestureDetector(
           onTap: _isResendEnabled
               ? () {
-            startTimer();
-          }
+                  startTimer();
+                }
               : null,
           child: Text("Resend",
               style: GoogleFonts.poppins(

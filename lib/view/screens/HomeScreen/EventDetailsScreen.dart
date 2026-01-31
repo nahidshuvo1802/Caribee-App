@@ -2,53 +2,119 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 // তোমার প্রজেক্টের পাথ অনুযায়ী ইমপোর্ট ঠিক রেখো
 import 'package:tutor_app/view/components/custom_image/custom_image.dart';
+import '../../components/custom_nav_bar/navbar.dart';
 
-class Eventdetailsscreen extends StatelessWidget {
+class Eventdetailsscreen extends StatefulWidget {
   const Eventdetailsscreen({Key? key}) : super(key: key);
+
+  @override
+  State<Eventdetailsscreen> createState() => _EventdetailsscreenState();
+}
+
+class _EventdetailsscreenState extends State<Eventdetailsscreen>
+    with SingleTickerProviderStateMixin {
+  // 🟢 Scroll-aware NavBar Variables
+  bool _isNavBarVisible = true;
+  late AnimationController _navBarAnimController;
+  late Animation<Offset> _navBarSlideAnimation;
+  DateTime _lastScrollTime = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // 🟢 Initialize NavBar Animation
+    _navBarAnimController = AnimationController(
+      duration: const Duration(milliseconds: 250),
+      vsync: this,
+    );
+    _navBarSlideAnimation = Tween<Offset>(
+      begin: Offset.zero,
+      end: const Offset(0, 1),
+    ).animate(CurvedAnimation(
+      parent: _navBarAnimController,
+      curve: Curves.easeInOut,
+    ));
+  }
+
+  @override
+  void dispose() {
+    _navBarAnimController.dispose();
+    super.dispose();
+  }
+
+  // 🟢 Handle Scroll Notification
+  bool _onScrollNotification(ScrollNotification notification) {
+    if (notification is ScrollUpdateNotification) {
+      _lastScrollTime = DateTime.now();
+      if (_isNavBarVisible) {
+        setState(() => _isNavBarVisible = false);
+        _navBarAnimController.forward();
+      }
+      _checkScrollStopped();
+    }
+    return false;
+  }
+
+  void _checkScrollStopped() async {
+    await Future.delayed(const Duration(milliseconds: 150));
+    if (DateTime.now().difference(_lastScrollTime).inMilliseconds >= 150) {
+      if (!_isNavBarVisible && mounted) {
+        setState(() => _isNavBarVisible = true);
+        _navBarAnimController.reverse();
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          // ------------------------------------------------
-          // Sliver App Bar (Sticky Header)
-          // ------------------------------------------------
-          SliverAppBar(
-            expandedHeight: 250.h,
-            pinned: true,
-            backgroundColor: Colors.white,
-            elevation: 0,
+      extendBody: true,
+      bottomNavigationBar: SlideTransition(
+        position: _navBarSlideAnimation,
+        child: const NavBar(currentIndex: 0),
+      ),
+      body: NotificationListener<ScrollNotification>(
+        onNotification: _onScrollNotification,
+        child: CustomScrollView(
+          slivers: [
+            // ------------------------------------------------
+            // Sliver App Bar (Sticky Header)
+            // ------------------------------------------------
+            SliverAppBar(
+              expandedHeight: 250.h,
+              pinned: true,
+              backgroundColor: Colors.white,
+              elevation: 0,
 
-            // --- Leading Icon ---
-            leading: Container(
-              margin: EdgeInsets.all(8.w),
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.3),
-                shape: BoxShape.circle,
+              // --- Leading Icon ---
+              leading: Container(
+                margin: EdgeInsets.all(8.w),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.3),
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back_ios_new,
+                      color: Colors.white, size: 18.sp),
+                  onPressed: () => Navigator.pop(context),
+                ),
               ),
-              child: IconButton(
-                icon: Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 18.sp),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ),
 
-            // --- Title (Sticky) ---
-            centerTitle: true,
-            title: Text(
-              'Event Details',
-              style: TextStyle(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
+              // --- Title (Sticky) ---
+              centerTitle: true,
+              title: Text(
+                'Event Details',
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
               ),
-            ),
 
-            // --- Flexible Background Image ---
-            flexibleSpace: FlexibleSpaceBar(
-              background: ClipRRect(
-                borderRadius: BorderRadius.vertical(bottom: Radius.circular(30.r)),
-                child: Stack(
+              // --- Flexible Background Image ---
+              flexibleSpace: FlexibleSpaceBar(
+                background: Stack(
                   fit: StackFit.expand,
                   children: [
                     // Hero Image
@@ -60,7 +126,8 @@ class Eventdetailsscreen extends StatelessWidget {
                         errorBuilder: (context, error, stackTrace) {
                           return Container(
                             color: const Color(0xFFE0E0E0),
-                            child: Icon(Icons.event, size: 80.sp, color: Colors.grey[400]),
+                            child: Icon(Icons.event,
+                                size: 80.sp, color: Colors.grey[400]),
                           );
                         },
                       ),
@@ -84,43 +151,43 @@ class Eventdetailsscreen extends StatelessWidget {
                 ),
               ),
             ),
-          ),
 
-          // ------------------------------------------------
-          // Main Body Content
-          // ------------------------------------------------
-          SliverToBoxAdapter(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.r),
-                  topRight: Radius.circular(20.r),
+            // ------------------------------------------------
+            // Main Body Content
+            // ------------------------------------------------
+            SliverToBoxAdapter(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20.r),
+                    topRight: Radius.circular(20.r),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Header Section
+                    _buildHeaderSection(),
+
+                    Divider(height: 1.h, thickness: 1, color: Colors.grey[200]),
+
+                    // Information Section (Updated with Gradient Icons)
+                    _buildInformationSection(),
+
+                    // Map Section (Updated with Gradient Button)
+                    _buildMapSection(),
+
+                    // Reviews Section
+                    _buildReviewsSection(),
+
+                    SizedBox(height: 20.h),
+                  ],
                 ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Header Section
-                  _buildHeaderSection(),
-
-                  Divider(height: 1.h, thickness: 1, color: Colors.grey[200]),
-
-                  // Information Section (Updated with Gradient Icons)
-                  _buildInformationSection(),
-
-                  // Map Section (Updated with Gradient Button)
-                  _buildMapSection(),
-
-                  // Reviews Section
-                  _buildReviewsSection(),
-
-                  SizedBox(height: 20.h),
-                ],
-              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -180,7 +247,7 @@ class Eventdetailsscreen extends StatelessWidget {
               SizedBox(width: 8.w),
               ...List.generate(
                 5,
-                    (index) => Icon(
+                (index) => Icon(
                   index < 4 ? Icons.star : Icons.star_half,
                   color: Colors.amber,
                   size: 16.sp,
@@ -257,14 +324,19 @@ class Eventdetailsscreen extends StatelessWidget {
         children: [
           Text(
             'Information',
-            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold, color: Colors.black),
+            style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.black),
           ),
           SizedBox(height: 16.h),
           _buildInfoItem(Icons.attach_money, '\$', 'Upscale dining'),
           SizedBox(height: 12.h),
-          _buildInfoItem(Icons.access_time, 'Open until 11:00 PM', 'Mon-Sun: 5PM - 11PM'),
+          _buildInfoItem(
+              Icons.access_time, 'Open until 11:00 PM', 'Mon-Sun: 5PM - 11PM'),
           SizedBox(height: 12.h),
-          _buildInfoItem(Icons.location_on, 'Downtown District', '123 Main Street'),
+          _buildInfoItem(
+              Icons.location_on, 'Downtown District', '123 Main Street'),
         ],
       ),
     );
@@ -297,9 +369,14 @@ class Eventdetailsscreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600, color: Colors.black87)),
+              Text(title,
+                  style: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black87)),
               SizedBox(height: 2.h),
-              Text(subtitle, style: TextStyle(fontSize: 13.sp, color: Colors.grey[600])),
+              Text(subtitle,
+                  style: TextStyle(fontSize: 13.sp, color: Colors.grey[600])),
             ],
           ),
         ),
@@ -328,7 +405,9 @@ class Eventdetailsscreen extends StatelessWidget {
                     width: double.infinity,
                   ),
                 ),
-                Center(child: Icon(Icons.location_on, size: 50.sp, color: const Color(0xFFE53935))),
+                Center(
+                    child: Icon(Icons.location_on,
+                        size: 50.sp, color: const Color(0xFFE53935))),
               ],
             ),
           ),
@@ -362,12 +441,16 @@ class Eventdetailsscreen extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,
                 shadowColor: Colors.transparent,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.r)),
                 elevation: 0,
               ),
               child: Text(
                 'View Details',
-                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, color: Colors.white),
+                style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white),
               ),
             ),
           ),
@@ -385,8 +468,16 @@ class Eventdetailsscreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Reviews', style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold, color: Colors.black)),
-              Text('See all', style: TextStyle(fontSize: 14.sp, color: const Color(0xFFE57373), fontWeight: FontWeight.w500)),
+              Text('Reviews',
+                  style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black)),
+              Text('See all',
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      color: const Color(0xFFE57373),
+                      fontWeight: FontWeight.w500)),
             ],
           ),
           SizedBox(height: 16.h),
@@ -399,29 +490,45 @@ class Eventdetailsscreen extends StatelessWidget {
   Widget _buildReviewItem() {
     return Container(
       padding: EdgeInsets.all(12.w),
-      decoration: BoxDecoration(color: Colors.grey[50], borderRadius: BorderRadius.circular(12.r)),
+      decoration: BoxDecoration(
+          color: Colors.grey[50], borderRadius: BorderRadius.circular(12.r)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              CircleAvatar(radius: 20.r, backgroundColor: Colors.grey[300], child: Icon(Icons.person, size: 24.sp, color: Colors.grey[600])),
+              CircleAvatar(
+                  radius: 20.r,
+                  backgroundColor: Colors.grey[300],
+                  child:
+                      Icon(Icons.person, size: 24.sp, color: Colors.grey[600])),
               SizedBox(width: 12.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Sarah Mitchell', style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600, color: Colors.black)),
+                    Text('Sarah Mitchell',
+                        style: TextStyle(
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black)),
                     SizedBox(height: 2.h),
-                    Row(children: List.generate(5, (index) => Icon(Icons.star, color: Colors.amber, size: 14.sp))),
+                    Row(
+                        children: List.generate(
+                            5,
+                            (index) => Icon(Icons.star,
+                                color: Colors.amber, size: 14.sp))),
                   ],
                 ),
               ),
-              Text('2 days ago', style: TextStyle(fontSize: 12.sp, color: Colors.grey)),
+              Text('2 days ago',
+                  style: TextStyle(fontSize: 12.sp, color: Colors.grey)),
             ],
           ),
           SizedBox(height: 12.h),
-          Text('Absolutely stunning experience!', style: TextStyle(fontSize: 14.sp, color: Colors.grey[700], height: 1.4)),
+          Text('Absolutely stunning experience!',
+              style: TextStyle(
+                  fontSize: 14.sp, color: Colors.grey[700], height: 1.4)),
         ],
       ),
     );

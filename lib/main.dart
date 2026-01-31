@@ -1,9 +1,7 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:tutor_app/view/screens/splash/view/SplashScreens/MainOnboardingScreen.dart';
+import 'package:get/get.dart';
+
 import 'package:tutor_app/view/screens/splash/view/SplashScreens/SplashScreen.dart';
 
 void main() {
@@ -21,6 +19,9 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
+          title: "Caribee",
+          defaultTransition: Transition.rightToLeftWithFade,
+          transitionDuration: const Duration(milliseconds: 300),
           home: const SplashScreen(),
         );
       },

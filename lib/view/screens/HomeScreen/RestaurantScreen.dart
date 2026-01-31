@@ -13,11 +13,69 @@ import '../../components/custom_nav_bar/navbar.dart';
 import '../../components/custom_netwrok_image/custom_network_image.dart';
 
 // Screens
-import 'NotificationScreen.dart';
 import 'SearchScreen.dart';
 
-class RestaurantScreen extends StatelessWidget {
+class RestaurantScreen extends StatefulWidget {
   const RestaurantScreen({super.key});
+
+  @override
+  State<RestaurantScreen> createState() => _RestaurantScreenState();
+}
+
+class _RestaurantScreenState extends State<RestaurantScreen>
+    with SingleTickerProviderStateMixin {
+  // 🟢 Scroll-aware NavBar Variables
+  bool _isNavBarVisible = true;
+  late AnimationController _navBarAnimController;
+  late Animation<Offset> _navBarSlideAnimation;
+  DateTime _lastScrollTime = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // 🟢 Initialize NavBar Animation
+    _navBarAnimController = AnimationController(
+      duration: const Duration(milliseconds: 250),
+      vsync: this,
+    );
+    _navBarSlideAnimation = Tween<Offset>(
+      begin: Offset.zero,
+      end: const Offset(0, 1),
+    ).animate(CurvedAnimation(
+      parent: _navBarAnimController,
+      curve: Curves.easeInOut,
+    ));
+  }
+
+  @override
+  void dispose() {
+    _navBarAnimController.dispose();
+    super.dispose();
+  }
+
+  // 🟢 Handle Scroll Notification
+  bool _onScrollNotification(ScrollNotification notification) {
+    if (notification is ScrollUpdateNotification) {
+      _lastScrollTime = DateTime.now();
+      if (_isNavBarVisible) {
+        setState(() => _isNavBarVisible = false);
+        _navBarAnimController.forward();
+      }
+      _checkScrollStopped();
+    }
+    return false;
+  }
+
+  void _checkScrollStopped() async {
+    await Future.delayed(const Duration(milliseconds: 150));
+    if (DateTime.now().difference(_lastScrollTime).inMilliseconds >= 150) {
+      if (!_isNavBarVisible && mounted) {
+        setState(() => _isNavBarVisible = true);
+        _navBarAnimController.reverse();
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +95,8 @@ class RestaurantScreen extends StatelessWidget {
         "title": "Blue Lagoon",
         "rating": "4.8",
         "reviews": "1.2k",
-        "image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800",
+        "image":
+            "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800",
         "tag": "Top Rated",
         "location": "Port Antonio"
       },
@@ -45,7 +104,8 @@ class RestaurantScreen extends StatelessWidget {
         "title": "Ocean's 11 Spot",
         "rating": "4.6",
         "reviews": "850",
-        "image": "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=800",
+        "image":
+            "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=800",
         "tag": "Trending",
         "location": "Ocho Rios"
       },
@@ -53,7 +113,8 @@ class RestaurantScreen extends StatelessWidget {
         "title": "Spice Garden",
         "rating": "4.7",
         "reviews": "500",
-        "image": "https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=800",
+        "image":
+            "https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=800",
         "tag": "New",
         "location": "Kingston"
       },
@@ -66,35 +127,40 @@ class RestaurantScreen extends StatelessWidget {
         "rating": "4.9",
         "type": "Caribbean • Spicy",
         "location": "Montego Bay, 0.5 mi",
-        "image": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=600&auto=format&fit=crop"
+        "image":
+            "https://images.unsplash.com/photo-1432139555190-58524dae6a55?q=80&w=600&auto=format&fit=crop"
       },
       {
         "title": "Pasta Paradise",
         "rating": "4.7",
         "type": "Italian • Pasta",
         "location": "Kingston, 2.1 mi",
-        "image": "https://images.unsplash.com/photo-1551183053-bf91b1d545ce?q=80&w=600&auto=format&fit=crop"
+        "image":
+            "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?q=80&w=600&auto=format&fit=crop"
       },
       {
         "title": "Ocean View Grill",
         "rating": "4.5",
         "type": "Seafood • Grill",
         "location": "Ocho Rios, 1.0 mi",
-        "image": "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?q=80&w=600&auto=format&fit=crop"
+        "image":
+            "https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=600&auto=format&fit=crop"
       },
       {
         "title": "Island Spice Grill",
         "rating": "4.6",
         "type": "BBQ • Grill",
         "location": "Negril, 1.5 mi",
-        "image": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=600&auto=format&fit=crop"
+        "image":
+            "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?q=80&w=600&auto=format&fit=crop"
       },
       {
         "title": "Reggae Pot Lounge",
         "rating": "4.8",
         "type": "Jamaican • Lounge",
         "location": "Kingston, 3.2 mi",
-        "image": "https://images.unsplash.com/photo-1544025162-d76690b67f11?q=80&w=600&auto=format&fit=crop"
+        "image":
+            "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=600&auto=format&fit=crop"
       },
     ];
 
@@ -102,7 +168,10 @@ class RestaurantScreen extends StatelessWidget {
       extendBody: true,
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
-      bottomNavigationBar: const NavBar(currentIndex: 0),
+      bottomNavigationBar: SlideTransition(
+        position: _navBarSlideAnimation,
+        child: const NavBar(currentIndex: 0),
+      ),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -117,39 +186,6 @@ class RestaurantScreen extends StatelessWidget {
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
-        actions: [
-          GestureDetector(
-            onTap: () => Get.to(() => const NotificationScreen()),
-            child: Container(
-              margin: EdgeInsets.only(right: 20.w),
-              child: Stack(
-                alignment: Alignment.center,
-                clipBehavior: Clip.none,
-                children: [
-                  const Icon(Icons.notifications, color: Colors.white, size: 28),
-                  Positioned(
-                    top: -2,
-                    right: -2,
-                    child: Container(
-                      height: 16.h,
-                      width: 16.w,
-                      alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Text("3",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 9.sp,
-                              fontWeight: FontWeight.bold)),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          )
-        ],
       ),
       body: Stack(
         children: [
@@ -174,237 +210,278 @@ class RestaurantScreen extends StatelessWidget {
           // Content
           SafeArea(
             bottom: false,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              padding: EdgeInsets.only(bottom: 110.h, top: 10.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // --- Title & Search ---
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 10.h),
-                        CustomText(
-                          text: "Restaurants",
-                          fontSize: 22.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          textAlign: TextAlign.left,
-                        ),
-                        SizedBox(height: 5.h),
-                        CustomText(
-                          text: "Where great food meets atmosphere, culture, and good company",
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white.withOpacity(0.9),
-                          textAlign: TextAlign.left,
-                          maxLines: 2,
-                        ),
-                        SizedBox(height: 20.h),
+            child: NotificationListener<ScrollNotification>(
+              onNotification: _onScrollNotification,
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                padding: EdgeInsets.only(bottom: 110.h, top: 10.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // --- Title & Search ---
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 10.h),
+                          CustomText(
+                            text: "Restaurants",
+                            fontSize: 22.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            textAlign: TextAlign.left,
+                          ),
+                          SizedBox(height: 5.h),
+                          CustomText(
+                            text:
+                                "Where great food meets atmosphere, culture, and good company",
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white.withOpacity(0.9),
+                            textAlign: TextAlign.left,
+                            maxLines: 2,
+                          ),
+                          SizedBox(height: 20.h),
 
-                        // Search Bar
-                        GestureDetector(
-                          onTap: () => Get.to(() => SearchScreen(),
-                              transition: Transition.fadeIn),
-                          child: Container(
-                            height: 50.h,
-                            padding: EdgeInsets.symmetric(horizontal: 15.w),
+                          // Search Bar (Modern Design)
+                          GestureDetector(
+                            onTap: () => Get.to(() => SearchScreen(),
+                                transition: Transition.fadeIn),
+                            child: Container(
+                              height: 52.h,
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(16.r),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.08),
+                                    blurRadius: 12,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(8.w),
+                                    decoration: BoxDecoration(
+                                      gradient: const LinearGradient(
+                                        colors: [
+                                          Color(0xFF2E5C38),
+                                          Color(0xFF66B290)
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.circular(10.r),
+                                    ),
+                                    child: Icon(
+                                      Icons.search_rounded,
+                                      color: Colors.white,
+                                      size: 18.sp,
+                                    ),
+                                  ),
+                                  SizedBox(width: 12.w),
+                                  Expanded(
+                                    child: Text(
+                                      "Search for Restaurants...",
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.grey[400],
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.tune_rounded,
+                                    color: const Color(0xFF2E5C38),
+                                    size: 22.sp,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(height: 15.h),
+
+                    // --- Categories (Updated with Gradient) ---
+                    CustomText(
+                      text: "Category",
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      left: 20,
+                    ),
+                    SizedBox(height: 8.h),
+
+                    // 🟢 FILTER CHIP SECTION
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: Row(
+                        children: categories.map((cat) {
+                          bool isSelected =
+                              cat["name"] == "Fine Dining"; // Selection Logic
+
+                          return Container(
+                            margin: EdgeInsets.only(right: 12.w, bottom: 5.h),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 24.w, vertical: 10.h),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.circular(30.r), // Pill shape
+
+                              // 1. Updated Orange Gradient
+                              gradient: isSelected
+                                  ? const LinearGradient(
+                                      colors: [
+                                        Color(
+                                            0xFFFF6B35), // Deep Orange (Left side)
+                                        Color(
+                                            0xFFFDB05E), // Light Orange/Amber (Right side)
+                                      ],
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                    )
+                                  : null,
+
+                              // 2. White Background for Unselected
+                              color: isSelected ? null : Colors.white,
+
+                              // 3. Updated Shadow (Orange glow instead of Green)
+                              boxShadow: isSelected
+                                  ? [
+                                      BoxShadow(
+                                        color: const Color(0xFFFF6B35)
+                                            .withOpacity(0.4),
+                                        offset: const Offset(0, 4),
+                                        blurRadius: 8,
+                                      ),
+                                    ]
+                                  : [],
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  cat["icon"],
+                                  // Changed unselected icon color to orange/grey to fit theme better,
+                                  // or keep your original teal (0xFF357984) if you prefer.
+                                  color: isSelected
+                                      ? Colors.white
+                                      : const Color(0xFF357984),
+                                  size: 18.sp,
+                                ),
+                                SizedBox(width: 8.w),
+                                Text(
+                                  cat["name"],
+                                  style: GoogleFonts.poppins(
+                                    color: isSelected
+                                        ? Colors.white
+                                        : Colors.black87,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12.sp,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+
+                    SizedBox(height: 25.h),
+
+                    // --- Featured Spots ---
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: CustomText(
+                        text: "Featured Restaurants",
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: 15.h),
+
+                    // --- Featured List ---
+                    SizedBox(
+                      height: 240.h,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        itemCount: featuredRestaurants.length,
+                        separatorBuilder: (context, index) =>
+                            SizedBox(width: 15.w),
+                        itemBuilder: (context, index) {
+                          return _buildHomeScreenStyleCard(
+                              featuredRestaurants[index]);
+                        },
+                      ),
+                    ),
+
+                    SizedBox(height: 20.h),
+
+                    // --- Map & Popular List ---
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: Column(
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.symmetric(
+                                vertical: 12.h, horizontal: 15.w),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(30.r),
+                              border: Border.all(color: Colors.amber, width: 2),
                             ),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
+                                const Icon(Icons.location_on,
+                                    color: Colors.red),
+                                SizedBox(width: 10.w),
                                 Expanded(
-                                  child: TextField(
-                                    enabled: false,
-                                    decoration: InputDecoration(
-                                      prefixIcon: const Icon(Icons.search),
-                                      suffixIcon: const Icon(Icons.cancel),
-                                      hintText: "Search for Restaurants",
-                                      hintStyle: GoogleFonts.poppins(
-                                          color: Colors.grey[400], fontSize: 15.sp),
-                                      border: InputBorder.none,
+                                  child: Text(
+                                    "Show Map View",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black87,
                                     ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
 
-                  SizedBox(height: 15.h),
+                          SizedBox(height: 25.h),
 
-                  // --- Categories (Updated with Gradient) ---
-                  CustomText(
-                    text: "Category",
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    left: 20,
-                  ),
-                  SizedBox(height: 8.h),
-
-                  // 🟢 FILTER CHIP SECTION
-                  // 🟢 FILTER CHIP SECTION
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: Row(
-                      children: categories.map((cat) {
-                        bool isSelected = cat["name"] == "Fine Dining"; // Selection Logic
-
-                        return Container(
-                          margin: EdgeInsets.only(right: 12.w, bottom: 5.h),
-                          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30.r), // Pill shape
-
-                            // 1. Updated Orange Gradient
-                            gradient: isSelected
-                                ? const LinearGradient(
-                              colors: [
-                                Color(0xFFFF6B35), // Deep Orange (Left side)
-                                Color(0xFFFDB05E), // Light Orange/Amber (Right side)
-                              ],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                            )
-                                : null,
-
-                            // 2. White Background for Unselected
-                            color: isSelected ? null : Colors.white,
-
-                            // 3. Updated Shadow (Orange glow instead of Green)
-                            boxShadow: isSelected
-                                ? [
-                              BoxShadow(
-                                color: const Color(0xFFFF6B35).withOpacity(0.4),
-                                offset: const Offset(0, 4),
-                                blurRadius: 8,
-                              ),
-                            ]
-                                : [],
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                cat["icon"],
-                                // Changed unselected icon color to orange/grey to fit theme better,
-                                // or keep your original teal (0xFF357984) if you prefer.
-                                color: isSelected ? Colors.white : const Color(0xFF357984),
-                                size: 18.sp,
-                              ),
-                              SizedBox(width: 8.w),
-                              Text(
-                                cat["name"],
-                                style: GoogleFonts.poppins(
-                                  color: isSelected ? Colors.white : Colors.black87,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12.sp,
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-
-                  SizedBox(height: 25.h),
-
-                  // --- Featured Spots ---
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: CustomText(
-                      text: "Featured Restaurants",
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(height: 15.h),
-
-                  // --- Featured List ---
-                  SizedBox(
-                    height: 240.h,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.symmetric(horizontal: 20.w),
-                      itemCount: featuredRestaurants.length,
-                      separatorBuilder: (context, index) => SizedBox(width: 15.w),
-                      itemBuilder: (context, index) {
-                        return _buildHomeScreenStyleCard(featuredRestaurants[index]);
-                      },
-                    ),
-                  ),
-
-                  SizedBox(height: 20.h),
-
-                  // --- Map & Popular List ---
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 15.w),
-                          decoration: BoxDecoration(
+                          CustomText(
+                            text: "Nearby Resturant",
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(30.r),
-                            border: Border.all(color: Colors.amber, width: 2),
                           ),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.location_on, color: Colors.red),
-                              SizedBox(width: 10.w),
-                              Expanded(
-                                child: Text(
-                                  "Show Map View",
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black87,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ],
+                          SizedBox(height: 15.h),
+
+                          // Vertical List
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: restaurants.length,
+                            itemBuilder: (context, index) {
+                              return _buildRestaurantCard(restaurants[index]);
+                            },
                           ),
-                        ),
-
-                        SizedBox(height: 25.h),
-
-                        CustomText(
-                          text: "Nearby Resturant",
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                        SizedBox(height: 15.h),
-
-                        // Vertical List
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: restaurants.length,
-                          itemBuilder: (context, index) {
-                            return _buildRestaurantCard(restaurants[index]);
-                          },
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -417,7 +494,8 @@ class RestaurantScreen extends StatelessWidget {
   Widget _buildHomeScreenStyleCard(Map<String, String> item) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => const RestaurantDetailsPage(), transition: Transition.rightToLeft);
+        Get.to(() => const RestaurantDetailsPage(),
+            transition: Transition.fadeIn);
       },
       child: Container(
         width: 250.w,
@@ -439,7 +517,8 @@ class RestaurantScreen extends StatelessWidget {
               child: Stack(
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(16.r)),
                     child: CustomNetworkImage(
                       imageUrl: item["image"]!,
                       width: double.infinity,
@@ -450,7 +529,8 @@ class RestaurantScreen extends StatelessWidget {
                     top: 8.h,
                     left: 8.w,
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12.r)),
@@ -461,7 +541,8 @@ class RestaurantScreen extends StatelessWidget {
                           SizedBox(width: 4.w),
                           Text(item["tag"]!,
                               style: GoogleFonts.poppins(
-                                  fontSize: 10.sp, fontWeight: FontWeight.bold)),
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ),
@@ -487,7 +568,8 @@ class RestaurantScreen extends StatelessWidget {
                     SizedBox(height: 6.h),
                     Row(
                       children: [
-                        Icon(Icons.star_outlined, color: Colors.amber, size: 18.sp),
+                        Icon(Icons.star_outlined,
+                            color: Colors.amber, size: 18.sp),
                         SizedBox(width: 4.w),
                         Text(item["rating"]!,
                             style: GoogleFonts.poppins(
@@ -525,7 +607,8 @@ class RestaurantScreen extends StatelessWidget {
   Widget _buildRestaurantCard(Map<String, String> item) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => const RestaurantDetailsPage(), transition: Transition.rightToLeft);
+        Get.to(() => const RestaurantDetailsPage(),
+            transition: Transition.fadeIn);
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 15.h),
@@ -539,7 +622,8 @@ class RestaurantScreen extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(12.r), bottomLeft: Radius.circular(12.r)),
+                  topLeft: Radius.circular(12.r),
+                  bottomLeft: Radius.circular(12.r)),
               child: CustomNetworkImage(
                 imageUrl: item["image"]!,
                 height: 100.h,
@@ -563,7 +647,8 @@ class RestaurantScreen extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      const Icon(Icons.favorite_border, color: Colors.grey, size: 20),
+                      const Icon(Icons.favorite_border,
+                          color: Colors.grey, size: 20),
                     ],
                   ),
                   SizedBox(height: 5.h),

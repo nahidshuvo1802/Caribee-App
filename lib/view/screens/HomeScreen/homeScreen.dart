@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -35,10 +36,28 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  // 🟢 Scroll-aware NavBar Variables
+  bool _isNavBarVisible = true;
+  late AnimationController _navBarAnimController;
+  late Animation<Offset> _navBarSlideAnimation;
+  DateTime _lastScrollTime = DateTime.now();
+
   @override
   void initState() {
     super.initState();
+
+    // 🟢 Initialize NavBar Animation
+    _navBarAnimController = AnimationController(
+        duration: const Duration(milliseconds: 200), vsync: this);
+    _navBarSlideAnimation = Tween<Offset>(
+      begin: Offset.zero,
+      end: const Offset(0, 1),
+    ).animate(CurvedAnimation(
+      parent: _navBarAnimController,
+      curve: Curves.easeInOut,
+    ));
 
     // 🟢 Check if offer is already shown
     if (!HomeScreen.hasShownOffer) {
@@ -50,6 +69,35 @@ class _HomeScreenState extends State<HomeScreen> {
           HomeScreen.hasShownOffer = true;
         }
       });
+    }
+  }
+
+  @override
+  void dispose() {
+    _navBarAnimController.dispose();
+    super.dispose();
+  }
+
+  // 🟢 Handle Scroll Notification (Matching EventDetailsScreen)
+  bool _onScrollNotification(ScrollNotification notification) {
+    if (notification is ScrollUpdateNotification) {
+      _lastScrollTime = DateTime.now();
+      if (_isNavBarVisible) {
+        setState(() => _isNavBarVisible = false);
+        _navBarAnimController.forward();
+      }
+      _checkScrollStopped();
+    }
+    return false;
+  }
+
+  void _checkScrollStopped() async {
+    await Future.delayed(const Duration(milliseconds: 150));
+    if (DateTime.now().difference(_lastScrollTime).inMilliseconds >= 150) {
+      if (!_isNavBarVisible && mounted) {
+        setState(() => _isNavBarVisible = true);
+        _navBarAnimController.reverse();
+      }
     }
   }
 
@@ -124,8 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             "https://images.unsplash.com/photo-1555126634-323283e090fa?q=80&w=1000&auto=format&fit=crop",
                         onTap: () {
                           Get.back();
-                          Get.to(() => BusinessPromotionScreen(),
-                              transition: Transition.rightToLeft);
+                          Get.to(() => BusinessPromotionScreen());
                         }),
                     SizedBox(height: 15.h),
                     _buildOfferCard(
@@ -136,8 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             "https://images.unsplash.com/photo-1570481662006-a3a1374699e8?q=80&w=600&auto=format&fit=crop",
                         onTap: () {
                           Get.back();
-                          Get.to(() => BusinessPromotionScreen(),
-                              transition: Transition.rightToLeft);
+                          Get.to(() => BusinessPromotionScreen());
                         }),
                     SizedBox(height: 15.h),
                     _buildOfferCard(
@@ -149,8 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             "https://images.unsplash.com/photo-1605218439566-b258380fb3cd?q=80&w=1000&auto=format&fit=crop",
                         onTap: () {
                           Get.back();
-                          Get.to(() => BusinessPromotionScreen(),
-                              transition: Transition.rightToLeft);
+                          Get.to(() => BusinessPromotionScreen());
                         }),
                     SizedBox(height: 20.h),
                   ],
@@ -400,7 +445,10 @@ class _HomeScreenState extends State<HomeScreen> {
       extendBody: true,
       // 🟢 1. Extend Body behind AppBar
       extendBodyBehindAppBar: true,
-      bottomNavigationBar: const NavBar(currentIndex: 0),
+      bottomNavigationBar: SlideTransition(
+        position: _navBarSlideAnimation,
+        child: const NavBar(currentIndex: 0),
+      ),
 
       // 🟢 2. Added Transparent AppBar with Title and Notification
       appBar: AppBar(
@@ -425,7 +473,8 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  const Icon(Icons.notifications, color: Colors.white, size: 28),
+                  const Icon(Icons.notifications,
+                      color: Colors.white, size: 28),
                   Positioned(
                     top: -2,
                     right: -2,
@@ -437,7 +486,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Colors.red,
                         shape: BoxShape.circle,
                       ),
-                      child: Text("2", style: TextStyle(color: Colors.white, fontSize: 8.sp)),
+                      child: Text("2",
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 8.sp)),
                     ),
                   )
                 ],
@@ -447,387 +498,278 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
 
-      body: Stack(
-        children: [
-          // Background with Reduced Opacity
-          Positioned.fill(
-            child: CustomImage(
-              imageSrc: "assets/images/Home/homepagebg.png",
-              fit: BoxFit.cover,
-              height: double.infinity,
-              width: double.infinity,
-              imageType: ImageType.png,
+      body: NotificationListener<ScrollNotification>(
+        onNotification: _onScrollNotification,
+        child: Stack(
+          children: [
+            // Background with Reduced Opacity
+            Positioned.fill(
+              child: CustomImage(
+                imageSrc: "assets/images/Home/homepagebg.png",
+                fit: BoxFit.cover,
+                height: double.infinity,
+                width: double.infinity,
+                imageType: ImageType.png,
+              ),
             ),
-          ),
 
-          SafeArea(
-            bottom: false,
-            // 🟢 3. Adjusted padding to account for AppBar (no manual header row anymore)
-            child: SingleChildScrollView(
-              padding: EdgeInsets.only(bottom: 110.h, top: 10.h),
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // 🟢 Manual "Caribee" Header Row Removed
+            SafeArea(
+              bottom: false,
+              // 🟢 3. Adjusted padding to account for AppBar (no manual header row anymore)
+              child: SingleChildScrollView(
+                padding: EdgeInsets.only(bottom: 110.h, top: 10.h),
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // 🟢 Manual "Caribee" Header Row Removed
 
-                  // --- Tagline ---
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12),
-                    child: CustomText(
-                      text: "Discover Jamaica Beyond The\nBeaches",
-                      fontSize: 18
-                          .sp, // ✅ This .sp now works correctly without double scaling
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFFFAEFD6),
-                      textAlign: TextAlign.left,
-                      maxLines: 2,
-                    ),
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12),
-                    child: CustomText(
-                      text:
-                          "Curated experiences,real culture,trusted guidance",
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xFFFAEFD6),
-                      textAlign: TextAlign.left,
-                      top: 5.h,
-                    ),
-                  ),
-
-                  SizedBox(height: 20.h),
-
-                  // --- Filter Chips ---
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 8, right: 8, bottom: 10),
-                      child: Row(
-                        children: [
-                          _buildFilterChip("All", true),
-                          SizedBox(width: 10.w),
-                          _buildFilterChip("Restaurants", false, onTap: () {
-                            Get.to(() => const RestaurantScreen(),
-                                transition: Transition.rightToLeft);
-                          }),
-                          SizedBox(width: 10.w),
-                          _buildFilterChip("Experiences", false, onTap: () {
-                            Get.to(() => const ExperiencesScreen(),
-                                transition: Transition.rightToLeft);
-                          }),
-                          SizedBox(width: 10.w),
-                          _buildFilterChip("Events", false, onTap: () {
-                            Get.to(() => const EventScreen(),
-                                transition: Transition.rightToLeft);
-                          }),
-                        ],
+                    // --- Tagline ---
+                    Padding(
+                      padding: const EdgeInsets.only(left: 12),
+                      child: CustomText(
+                        text: "Discover Jamaica Beyond The\nBeaches",
+                        fontSize: 18
+                            .sp, // ✅ This .sp now works correctly without double scaling
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFFFAEFD6),
+                        textAlign: TextAlign.left,
+                        maxLines: 2,
                       ),
                     ),
-                  ),
 
-                  SizedBox(height: 10.h),
-
-                  // --- Map Widget (With Glassmorphism Overlay) ---
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: Container(
-                      height: 140.h,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.r),
-                        image: const DecorationImage(
-                          image: AssetImage("assets/images/Home/map.png"),
-                          fit: BoxFit.cover,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Stack(
-                        children: [
-                          // ✅ Updated Full-Width Glassmorphism Header
-                          Positioned(
-                            top: 0,
-                            left: 0,
-                            right:
-                                0, // বাম এবং ডান দুই পাশেই 0 দিলে এটি পুরো জায়গা নিবে
-                            child: ClipRRect(
-                              // শুধুমাত্র ওপরের কর্নারগুলো প্যারেন্ট কন্টেইনারের মতো রাউন্ড হবে
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20.r),
-                                topRight: Radius.circular(20.r),
-                              ),
-                              child: BackdropFilter(
-                                filter: ImageFilter.blur(
-                                    sigmaX: 10.0,
-                                    sigmaY: 10.0), // 🔹 Blur Effect
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 16.w, vertical: 12.h),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFFBF4E4).withOpacity(
-                                        0.7), // ইমেজের মতো হালকা ক্রিম/সাদা কালার
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Icon(Icons.location_on,
-                                              color: const Color(0xFF2E5C38),
-                                              size: 20.sp),
-                                          SizedBox(width: 8.w),
-                                          RichText(
-                                            text: TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: "Kingston",
-                                                  style: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 14.sp,
-                                                    color: Colors.black87,
-                                                  ),
-                                                ),
-                                                TextSpan(
-                                                  text: "  ·  Nearby Excursion",
-                                                  style: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 12.sp,
-                                                    color: Colors.black87,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Icon(Icons.arrow_forward_ios,
-                                          color: const Color(0xFF2E5C38),
-                                          size: 16.sp),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                    Padding(
+                      padding: const EdgeInsets.only(left: 12),
+                      child: CustomText(
+                        text:
+                            "Curated experiences,real culture,trusted guidance",
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                        color: const Color(0xFFFAEFD6),
+                        textAlign: TextAlign.left,
+                        top: 5.h,
                       ),
                     ),
-                  ),
 
-                  SizedBox(height: 15.h),
+                    SizedBox(height: 20.h),
 
-
-                  // --- eSIM Banner ---
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 12),
-                    child: Container(
-                      // 🟢 1. Background Image in Outer Container
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12.r),
-                        image: DecorationImage(
-                          image: const AssetImage("assets/images/Home/esim.png"),
-                          fit: BoxFit.cover,
-                          colorFilter: ColorFilter.mode(
-                            const Color(0xFF2E5C38).withOpacity(0.2),
-                            BlendMode.multiply,
-                          ),
-                        ),
-                      ),
-                      // 🟢 2. Gradient Overlay in Inner Container
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 12.h),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.r),
-                          gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: [
-                              Colors.white.withOpacity(0.3), // বাম পাশে হালকা সাদা ভাব
-                              Colors.transparent,            // ডান পাশে ট্রান্সপারেন্ট
-                            ],
-                          ),
-                        ),
+                    // --- Filter Chips ---
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 8, right: 8, bottom: 10),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                // 🟢 3. REPLACED ICON WITH YOUR ASSET IMAGE
-                                Image.asset(
-                                  "assets/images/Home/simicon.png",
-                                  height: 48.sp, // আগের আইকনের সাইজ অনুযায়ী রাখা হয়েছে
-                                  width: 38.sp,
-                                  fit: BoxFit.contain,
-                                ),
-
-                                SizedBox(width: 10.w),
-
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Stay Connected with",
-                                        style: GoogleFonts.poppins(
-                                            color: Colors.white, fontSize: 14.sp)),
-                                    Text("Caribee",
-                                        style: GoogleFonts.inter(
-                                          color: Colors.white,
-                                          fontSize: 24.sp,
-                                        )),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.to(() => const EsimScreen(),
-                                    transition: Transition.rightToLeft);
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 12.w, vertical: 6.h),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFFFC107),
-                                  borderRadius: BorderRadius.circular(5.r),
-                                ),
-                                child: Text(
-                                  "Learn More",
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black),
-                                ),
-                              ),
-                            )
+                            _buildFilterChip("All", true),
+                            SizedBox(width: 10.w),
+                            _buildFilterChip("Restaurants", false, onTap: () {
+                              Get.to(() => const RestaurantScreen());
+                            }),
+                            SizedBox(width: 10.w),
+                            _buildFilterChip("Experiences", false, onTap: () {
+                              Get.to(() => const ExperiencesScreen());
+                            }),
+                            SizedBox(width: 10.w),
+                            _buildFilterChip("Events", false, onTap: () {
+                              Get.to(() => const EventScreen());
+                            }),
                           ],
                         ),
                       ),
                     ),
-                  ),
 
-                  SizedBox(height: 25.h),
+                    SizedBox(height: 10.h),
 
-                  // --- Section 1: Weekly Featured ---
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12),
-                    child: _buildSectionHeader("Weekly Featured"),
-                  ),
-                  SizedBox(height: 10.h),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: _buildHorizontalList(weeklyFeatured, onTap: (item) {
-                      Get.to(() => const Experiencedetailsscreen(),
-                          transition: Transition.rightToLeft);
-                    }),
-                  ),
+                    // --- Map Widget (With Glassmorphism Overlay) ---
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Container(
+                        height: 140.h,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.r),
+                          image: const DecorationImage(
+                            image: AssetImage("assets/images/Home/map.png"),
+                            fit: BoxFit.cover,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Stack(
+                          children: [
+                            // ✅ Updated Full-Width Glassmorphism Header
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              right:
+                                  0, // বাম এবং ডান দুই পাশেই 0 দিলে এটি পুরো জায়গা নিবে
+                              child: ClipRRect(
+                                // শুধুমাত্র ওপরের কর্নারগুলো প্যারেন্ট কন্টেইনারের মতো রাউন্ড হবে
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20.r),
+                                  topRight: Radius.circular(20.r),
+                                ),
+                                child: BackdropFilter(
+                                  filter: ImageFilter.blur(
+                                      sigmaX: 10.0,
+                                      sigmaY: 10.0), // 🔹 Blur Effect
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 16.w, vertical: 12.h),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFFBF4E4).withOpacity(
+                                          0.7), // ইমেজের মতো হালকা ক্রিম/সাদা কালার
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Icon(Icons.location_on,
+                                                color: const Color(0xFF2E5C38),
+                                                size: 20.sp),
+                                            SizedBox(width: 8.w),
+                                            RichText(
+                                              text: TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: "Kingston",
+                                                    style: GoogleFonts.poppins(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 14.sp,
+                                                      color: Colors.black87,
+                                                    ),
+                                                  ),
+                                                  TextSpan(
+                                                    text:
+                                                        "  ·  Nearby Excursion",
+                                                    style: GoogleFonts.poppins(
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize: 12.sp,
+                                                      color: Colors.black87,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Icon(Icons.arrow_forward_ios,
+                                            color: const Color(0xFF2E5C38),
+                                            size: 16.sp),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
 
-                  SizedBox(height: 25.h),
+                    SizedBox(height: 15.h),
 
-                  // --- Section 2: Featured Restaurant ---
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12),
-                    child: _buildSectionHeader("Featured Restaurant"),
-                  ),
-                  SizedBox(height: 10.h),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: _buildHorizontalList(restaurants,
-                        onTap: (item) => Get.to(
-                            () => const RestaurantDetailsPage(),
-                            transition: Transition.rightToLeft)),
-                  ),
-
-                  SizedBox(height: 25.h),
-
-                  // --- Section 3: Featured Experience ---
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12),
-                    child: _buildSectionHeader("Featured Experience"),
-                  ),
-                  SizedBox(height: 10.h),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: _buildHorizontalList(experience,
-                        onTap: (item) => Get.to(
-                            () => const Experiencedetailsscreen(),
-                            transition: Transition.rightToLeft)),
-                  ),
-
-                  SizedBox(height: 25.h),
-
-                  // --- Section 4: Featured Events ---
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12),
-                    child: _buildSectionHeader("Featured Events"),
-                  ),
-                  SizedBox(height: 10.h),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: _buildHorizontalList(events,
-                        onTap: (item) => Get.to(
-                            () => const Eventdetailsscreen(),
-                            transition: Transition.rightToLeft)),
-                  ),
-
-                  SizedBox(height: 25.h),
-
-                  // --- Footer Banner ---
-                  // --- Footer Banner ---
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 12),
-                    child: ClipRRect( // 🟢 1. ব্লার ইফেক্টকে বর্ডারের ভেতরে রাখার জন্য ClipRRect
-                      borderRadius: BorderRadius.circular(16.r),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 1.0, sigmaY: 1.0), // 🟢 2. হালকা ব্লার (Light Blur)
+                    // --- eSIM Banner ---
+                    Padding(
+                      padding: const EdgeInsets.only(left: 12, right: 12),
+                      child: Container(
+                        // 🟢 1. Background Image in Outer Container
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12.r),
+                          image: DecorationImage(
+                            image:
+                                const AssetImage("assets/images/Home/esim.png"),
+                            fit: BoxFit.cover,
+                            colorFilter: ColorFilter.mode(
+                              const Color(0xFF2E5C38).withOpacity(0.2),
+                              BlendMode.multiply,
+                            ),
+                          ),
+                        ),
+                        // 🟢 2. Gradient Overlay in Inner Container
                         child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 15.w),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 15.w,
+                              vertical: 8.h), // 🟢 Reduced height
                           decoration: BoxDecoration(
-                            // 🟢 3. ব্যাকগ্রাউন্ডে হালকা কালো শেড (যাতে টেক্সট ফুটে ওঠে)
-                            color: Colors.black.withOpacity(0.3),
-                            borderRadius: BorderRadius.circular(16.r),
-                            border: Border.all(color: Colors.amber.withOpacity(0.4)),
+                            borderRadius: BorderRadius.circular(10.r),
+                            gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                Colors.white.withOpacity(
+                                    0.3), // বাম পাশে হালকা সাদা ভাব
+                                Colors.transparent, // ডান পাশে ট্রান্সপারেন্ট
+                              ],
+                            ),
                           ),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Image.asset(
-                                "assets/images/icon/safetyicon.png",
-                                height: 30.sp, // আগের আইকনের সাইজ অনুযায়ী রাখা হয়েছে
-                                width: 38.sp,
-                                fit: BoxFit.contain,
-                              ),
-
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Row(
                                 children: [
-                                  Text("Travel Confidently &",
-                                      style: GoogleFonts.poppins(color: Colors.white, fontSize: 12.sp)),
-                                  Text("Safe with Caribee",
-                                      style: GoogleFonts.poppins(color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.bold)),
+                                  // 🟢 3. REPLACED ICON WITH NEW ASSET IMAGE & RESIZED
+                                  Container(
+                                    height: 35.h, // Smaller height
+                                    width: 28.w, // Proportional width
+                                    decoration: BoxDecoration(
+                                      image: const DecorationImage(
+                                        image: AssetImage(
+                                            "assets/images/Home/simicon1.png"), // New Logo
+                                        fit: BoxFit.contain,
+                                      ),
+                                      borderRadius: BorderRadius.circular(4.r),
+                                    ),
+                                  ),
+
+                                  SizedBox(width: 8.w),
+
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Stay Connected with",
+                                          style: GoogleFonts.poppins(
+                                              color: Colors.white,
+                                              fontSize: 12.sp)), // Smaller font
+                                      Text("Caribee",
+                                          style: GoogleFonts.inter(
+                                            color: Colors.white,
+                                            fontSize: 20.sp, // Smaller font
+                                            fontWeight: FontWeight.w600,
+                                          )),
+                                    ],
+                                  ),
                                 ],
                               ),
-                              const Spacer(),
                               GestureDetector(
                                 onTap: () {
-                                  Get.to(() => const CaribeeHomeScreen(), transition: Transition.rightToLeft);
+                                  Get.to(() => const EsimScreen());
                                 },
                                 child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 10.w,
+                                      vertical: 5.h), // Smaller Button
                                   decoration: BoxDecoration(
                                     color: const Color(0xFFFFC107),
                                     borderRadius: BorderRadius.circular(5.r),
                                   ),
                                   child: Text(
-                                    "Explore More",
-                                    style: GoogleFonts.poppins(fontSize: 10.sp, fontWeight: FontWeight.bold, color: Colors.black),
+                                    "Learn More",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 10.sp, // Smaller font
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
                                   ),
                                 ),
                               )
@@ -836,12 +778,156 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                  )
-                ],
+
+                    SizedBox(height: 25.h),
+
+                    // --- Section 1: Weekly Featured ---
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: _buildSectionHeader(
+                        "Weekly Featured",
+                        onTap: () => Get.to(() => const ExperiencesScreen()),
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16),
+                      child:
+                          _buildHorizontalList(weeklyFeatured, onTap: (item) {
+                        Get.to(() => const Experiencedetailsscreen());
+                      }),
+                    ),
+
+                    SizedBox(height: 25.h),
+
+                    // --- Section 2: Featured Restaurant ---
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: _buildSectionHeader(
+                        "Featured Restaurant",
+                        onTap: () => Get.to(() => const RestaurantScreen()),
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                    Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: _buildHorizontalList(restaurants,
+                            onTap: (item) =>
+                                Get.to(() => const RestaurantDetailsPage()))),
+
+                    SizedBox(height: 25.h),
+
+                    // --- Section 3: Featured Experience ---
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: _buildSectionHeader(
+                        "Featured Experience",
+                        onTap: () => Get.to(() => const ExperiencesScreen()),
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                    Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: _buildHorizontalList(experience,
+                            onTap: (item) =>
+                                Get.to(() => const Experiencedetailsscreen()))),
+
+                    SizedBox(height: 25.h),
+
+                    // --- Section 4: Featured Events ---
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: _buildSectionHeader(
+                        "Featured Events",
+                        onTap: () => Get.to(() => const EventScreen()),
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                    Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: _buildHorizontalList(events,
+                            onTap: (item) =>
+                                Get.to(() => const Eventdetailsscreen()))),
+
+                    SizedBox(height: 25.h),
+
+                    // --- Footer Banner ---
+                    // --- Footer Banner ---
+                    Padding(
+                      padding: const EdgeInsets.only(left: 12, right: 12),
+                      child: ClipRRect(
+                        // 🟢 1. ব্লার ইফেক্টকে বর্ডারের ভেতরে রাখার জন্য ClipRRect
+                        borderRadius: BorderRadius.circular(16.r),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(
+                              sigmaX: 1.0,
+                              sigmaY: 1.0), // 🟢 2. হালকা ব্লার (Light Blur)
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 15.h, horizontal: 15.w),
+                            decoration: BoxDecoration(
+                              // 🟢 3. ব্যাকগ্রাউন্ডে হালকা কালো শেড (যাতে টেক্সট ফুটে ওঠে)
+                              color: Colors.black.withOpacity(0.3),
+                              borderRadius: BorderRadius.circular(16.r),
+                              border: Border.all(
+                                  color: Colors.amber.withOpacity(0.4)),
+                            ),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  "assets/images/icon/safetyicon.png",
+                                  height: 30
+                                      .sp, // আগের আইকনের সাইজ অনুযায়ী রাখা হয়েছে
+                                  width: 38.sp,
+                                  fit: BoxFit.contain,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Travel Confidently &",
+                                        style: GoogleFonts.poppins(
+                                            color: Colors.white,
+                                            fontSize: 12.sp)),
+                                    Text("Safe with Caribee",
+                                        style: GoogleFonts.poppins(
+                                            color: Colors.white,
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.bold)),
+                                  ],
+                                ),
+                                const Spacer(),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.to(() => const CaribeeHomeScreen());
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 12.w, vertical: 8.h),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFFFC107),
+                                      borderRadius: BorderRadius.circular(5.r),
+                                    ),
+                                    child: Text(
+                                      "Explore More",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 10.sp,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -900,13 +986,30 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildSectionHeader(String title) {
-    return CustomText(
-      text: title,
-      fontSize: 16.sp,
-      fontWeight: FontWeight.bold,
-      color: Colors.white,
-      textAlign: TextAlign.left,
+  Widget _buildSectionHeader(String title, {VoidCallback? onTap}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        CustomText(
+          text: title,
+          fontSize: 16.sp,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+          textAlign: TextAlign.left,
+        ),
+        if (onTap != null)
+          GestureDetector(
+            onTap: onTap,
+            child: Text(
+              "View All",
+              style: GoogleFonts.poppins(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFFFFD15C),
+              ),
+            ),
+          ),
+      ],
     );
   }
 
@@ -958,8 +1061,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                 borderRadius: BorderRadius.circular(12.r)),
                             child: Row(
                               children: [
-                                Icon(Icons.local_fire_department,
-                                    color: Colors.orange, size: 12.sp),
+                                // 🟢 CUSTOM ICON LOGIC FOR TRUSTED TAG
+                                item["tag"] == "Trusted"
+                                    ? Image.asset(
+                                        "assets/images/icon/trusted.png",
+                                        height: 12.sp,
+                                        width: 12.sp,
+                                        fit: BoxFit.contain,
+                                      )
+                                    : Icon(Icons.local_fire_department,
+                                        color: Colors.orange, size: 12.sp),
                                 SizedBox(width: 4.w),
                                 Text(item["tag"]!,
                                     style: GoogleFonts.poppins(

@@ -6,7 +6,6 @@ import 'package:tutor_app/view/screens/BussinessScreen/promotionPageDetails.dart
 // --- Custom Components Imports ---
 import '../../components/custom_text/custom_text.dart';
 import '../../components/custom_netwrok_image/custom_network_image.dart';
-import '../HomeScreen/NotificationScreen.dart';
 
 class BusinessPromotionController extends GetxController {
   // 1=Hotels, 2=Experiences, 3=Transport
@@ -19,39 +18,39 @@ class BusinessPromotionScreen extends StatelessWidget {
   BusinessPromotionScreen({super.key});
 
   final BusinessPromotionController c =
-  Get.put(BusinessPromotionController(), permanent: false);
+      Get.put(BusinessPromotionController(), permanent: false);
 
   // --- 1. Hotels Data ---
   final List<Map<String, String>> _hotelOffers = [
     {
       'image':
-      'https://images.unsplash.com/photo-1505691723518-36a5ac3b2a5b?q=80&w=1200&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1589990194992-bae914a46927?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'title': 'Sandalwood Bay Resort',
       'country': 'St. Lucia',
       'tag': 'LIMITED TIME',
       'highlight': '15% Off Authentic Cuisine',
       'details':
-      'Experience luxury in our beachfront villas with exclusive seasonal rates.',
+          'Experience luxury in our beachfront villas with exclusive seasonal rates.',
     },
     {
       'image':
-      'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop',
       'title': 'Azure Boutique Hotel',
       'country': 'Barbados',
       'tag': 'BEST SELLER',
       'highlight': '3rd Night Free',
       'details':
-      'A hidden gem overlooking the Caribbean Sea. Book 2 nights, get 1 free.',
+          'A hidden gem overlooking the Caribbean Sea. Book 2 nights, get 1 free.',
     },
     {
       'image':
-      'https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=1200&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=1200&auto=format&fit=crop',
       'title': 'Royal Palm Villas',
       'country': 'Jamaica',
       'tag': 'EXCLUSIVE',
       'highlight': 'All-Inclusive Upgrade',
       'details':
-      'Complimentary upgrade to the Platinum Plan for stays over 5 nights.',
+          'Complimentary upgrade to the Platinum Plan for stays over 5 nights.',
     },
   ];
 
@@ -59,33 +58,33 @@ class BusinessPromotionScreen extends StatelessWidget {
   final List<Map<String, String>> _experienceOffers = [
     {
       'image':
-      'https://images.unsplash.com/photo-1544551763-46a42a45745b?q=80&w=1200&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1544551763-46a42a45745b?q=80&w=1200&auto=format&fit=crop',
       'title': 'Sunset Catamaran',
       'country': 'Negril',
       'tag': 'MUST DO',
       'highlight': '20% Off Group Booking',
       'details':
-      'Sail into the sunset with live music, drinks, and unforgettable views.',
+          'Sail into the sunset with live music, drinks, and unforgettable views.',
     },
     {
       'image':
-      'https://images.unsplash.com/photo-1533587851505-d119e13fa0d7?q=80&w=1200&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1533587851505-d119e13fa0d7?q=80&w=1200&auto=format&fit=crop',
       'title': 'Rainforest Zipline',
       'country': 'Ocho Rios',
       'tag': 'THRILL',
       'highlight': 'Free Photo Package',
       'details':
-      'Soar through the canopy and experience the thrill of the jungle.',
+          'Soar through the canopy and experience the thrill of the jungle.',
     },
     {
       'image':
-      'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?q=80&w=1200&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?q=80&w=1200&auto=format&fit=crop',
       'title': 'Blue Mountain Hike',
       'country': 'Kingston',
       'tag': 'ADVENTURE',
       'highlight': 'Early Bird Special',
       'details':
-      'Guided sunrise hike to the peak of the famous Blue Mountains.',
+          'Guided sunrise hike to the peak of the famous Blue Mountains.',
     },
   ];
 
@@ -93,7 +92,7 @@ class BusinessPromotionScreen extends StatelessWidget {
   final List<Map<String, String>> _transportOffers = [
     {
       'image':
-      'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=1200&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=1200&auto=format&fit=crop',
       'title': 'Luxury SUV Transfer',
       'country': 'Montego Bay',
       'tag': 'PREMIUM',
@@ -102,7 +101,7 @@ class BusinessPromotionScreen extends StatelessWidget {
     },
     {
       'image':
-      'https://images.unsplash.com/photo-1556388169-d1092476ae8d?q=80&w=1200&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1556388169-d1092476ae8d?q=80&w=1200&auto=format&fit=crop',
       'title': 'Island Helicopter Tour',
       'country': 'All Island',
       'tag': 'VIP',
@@ -120,8 +119,8 @@ class BusinessPromotionScreen extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new,
-              color: Colors.black, size: 18.sp),
+          icon:
+              Icon(Icons.arrow_back_ios_new, color: Colors.black, size: 18.sp),
           onPressed: () => Get.back(),
         ),
         title: CustomText(
@@ -130,41 +129,6 @@ class BusinessPromotionScreen extends StatelessWidget {
           fontWeight: FontWeight.bold,
           color: Colors.black,
         ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 16.w),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                GestureDetector(
-                    onTap: () => Get.to(() => const NotificationScreen()),
-                    child: Icon(Icons.notifications_none,
-                        color: Colors.black, size: 28.sp)),
-                Positioned(
-                  right: -2.w,
-                  top: -2.h,
-                  child: Container(
-                    height: 16.w,
-                    width: 16.w,
-                    alignment: Alignment.center,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFE53935),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Text(
-                      '2',
-                      style: TextStyle(
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -175,19 +139,21 @@ class BusinessPromotionScreen extends StatelessWidget {
             SizedBox(height: 8.h),
 
             // ---- Filter Chips (Obx for Tab Selection) ----
-            Padding(
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
               padding: EdgeInsets.symmetric(horizontal: 16.w),
+              physics: const BouncingScrollPhysics(),
               child: Obx(
-                    () => Row(
+                () => Row(
                   children: [
-                    _filterChip('Hotels', c.selectedTab.value == 1,
-                            () => c.setTab(1)),
+                    _filterChip(
+                        'Hotels', c.selectedTab.value == 1, () => c.setTab(1)),
                     SizedBox(width: 10.w),
                     _filterChip('Experiences', c.selectedTab.value == 2,
-                            () => c.setTab(2)),
+                        () => c.setTab(2)),
                     SizedBox(width: 10.w),
                     _filterChip('Transport', c.selectedTab.value == 3,
-                            () => c.setTab(3)),
+                        () => c.setTab(3)),
                   ],
                 ),
               ),
@@ -248,7 +214,7 @@ class BusinessPromotionScreen extends StatelessWidget {
                         onCardTap: () {},
                         onButtonTap: () {
                           Get.to(() => Promotionpagedetails(),
-                              transition: Transition.rightToLeft);
+                              transition: Transition.fadeIn);
                         },
                       ),
                     );
@@ -275,7 +241,7 @@ class BusinessPromotionScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: _seamlessTravelCard(
                 imageUrl:
-                'https://images.unsplash.com/photo-1529070538774-1843cb3265df?q=80&w=1200&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1529070538774-1843cb3265df?q=80&w=1200&auto=format&fit=crop',
                 title: 'VIP Airport Transfer',
                 subtitle: 'Island-wide • Priority Fast Track',
                 priceText: r'$50 Off First Trip',
@@ -283,7 +249,7 @@ class BusinessPromotionScreen extends StatelessWidget {
                 onCardTap: () {},
                 onButtonTap: () {
                   Get.to(() => Promotionpagedetails(),
-                      transition: Transition.rightToLeft);
+                      transition: Transition.fadeIn);
                 },
               ),
             ),
@@ -313,7 +279,7 @@ class BusinessPromotionScreen extends StatelessWidget {
                     badgeText: 'Free 7-Day Trial',
                     onTap: () {
                       Get.to(() => Promotionpagedetails(),
-                          transition: Transition.rightToLeft);
+                          transition: Transition.fadeIn);
                     },
                   ),
                   SizedBox(height: 12.h),
@@ -324,7 +290,7 @@ class BusinessPromotionScreen extends StatelessWidget {
                     badgeText: 'Buy 1 Get 1 Rental',
                     onTap: () {
                       Get.to(() => Promotionpagedetails(),
-                          transition: Transition.rightToLeft);
+                          transition: Transition.fadeIn);
                     },
                   ),
                 ],
@@ -347,13 +313,13 @@ class BusinessPromotionScreen extends StatelessWidget {
           // --- CHANGED: Green Gradient when selected ---
           gradient: selected
               ? const LinearGradient(
-            colors: [
-              Color(0xFF43A047), // Vibrant Green
-              Color(0xFF2F6D59), // Darker Theme Green
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          )
+                  colors: [
+                    Color(0xFF43A047), // Vibrant Green
+                    Color(0xFF2F6D59), // Darker Theme Green
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )
               : null,
           color: selected ? null : Colors.white,
           borderRadius: BorderRadius.circular(28.r),
@@ -361,12 +327,12 @@ class BusinessPromotionScreen extends StatelessWidget {
               color: selected ? Colors.transparent : const Color(0xFFE5E7EB)),
           boxShadow: selected
               ? [
-            BoxShadow(
-              color: const Color(0xFF2F6D59).withOpacity(0.25),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            )
-          ]
+                  BoxShadow(
+                    color: const Color(0xFF2F6D59).withOpacity(0.25),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  )
+                ]
               : null,
         ),
         child: Text(
@@ -395,7 +361,7 @@ class BusinessPromotionScreen extends StatelessWidget {
     return GestureDetector(
       onTap: onCardTap,
       child: Container(
-        height: 240.h,
+        height: 280.h,
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(22.r),
@@ -444,7 +410,7 @@ class BusinessPromotionScreen extends StatelessWidget {
                 right: 14.w,
                 child: Container(
                   padding:
-                  EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.85),
                     borderRadius: BorderRadius.circular(20.r),

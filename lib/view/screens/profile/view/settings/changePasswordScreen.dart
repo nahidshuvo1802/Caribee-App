@@ -139,7 +139,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         CustomButton(
                           onTap: () {
                             // Logic to update password
-                            Get.to(() => const ProfileScreen(), transition: Transition.rightToLeft);
+                            Get.to(() => const ProfileScreen(), transition: Transition.fadeIn);
                             Get.snackbar(
                               "Success",
                               "Password Updated Successfully",

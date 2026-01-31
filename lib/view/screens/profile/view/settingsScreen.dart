@@ -80,21 +80,21 @@ class AccountSettingsScreen extends StatelessWidget {
                         _buildSettingsItem(
                           title: "Change Password",
                           onTap: () {
-                            Get.to(() => const ChangePasswordScreen(), transition: Transition.rightToLeft);
+                            Get.to(() => const ChangePasswordScreen(), transition: Transition.fadeIn);
                           },
                         ),
                         _buildDivider(),
                         _buildSettingsItem(
                           title: "Terms of Services",
                           onTap: () {
-                            Get.to(() => const TermsOfServicesScreen(), transition: Transition.rightToLeft);
+                            Get.to(() => const TermsOfServicesScreen(), transition: Transition.fadeIn);
                           },
                         ),
                         _buildDivider(),
                         _buildSettingsItem(
                           title: "Privacy Policy",
                           onTap: () {
-                            Get.to(() => const PrivacyPolicyScreen(), transition: Transition.rightToLeft);
+                            Get.to(() => const PrivacyPolicyScreen(), transition: Transition.fadeIn);
                           },
                         ),
                       ],

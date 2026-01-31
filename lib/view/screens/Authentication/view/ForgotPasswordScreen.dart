@@ -64,7 +64,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
     Get.to(
           () => const VerifyOtpScreen(),
-      transition: Transition.rightToLeft,
+      transition: Transition.fadeIn,
       duration: const Duration(milliseconds: 300),
     );
   }

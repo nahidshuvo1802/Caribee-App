@@ -8,14 +8,76 @@ import '../../components/custom_image/custom_image.dart';
 import '../../components/custom_nav_bar/navbar.dart';
 import '../../components/custom_royel_appbar/custom_royel_appbar.dart';
 
-class NotificationScreen extends StatelessWidget {
+class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
+
+  @override
+  State<NotificationScreen> createState() => _NotificationScreenState();
+}
+
+class _NotificationScreenState extends State<NotificationScreen>
+    with SingleTickerProviderStateMixin {
+  // 🟢 Scroll-aware NavBar Variables
+  bool _isNavBarVisible = true;
+  late AnimationController _navBarAnimController;
+  late Animation<Offset> _navBarSlideAnimation;
+  DateTime _lastScrollTime = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // 🟢 Initialize NavBar Animation
+    _navBarAnimController = AnimationController(
+      duration: const Duration(milliseconds: 250),
+      vsync: this,
+    );
+    _navBarSlideAnimation = Tween<Offset>(
+      begin: Offset.zero,
+      end: const Offset(0, 1),
+    ).animate(CurvedAnimation(
+      parent: _navBarAnimController,
+      curve: Curves.easeInOut,
+    ));
+  }
+
+  @override
+  void dispose() {
+    _navBarAnimController.dispose();
+    super.dispose();
+  }
+
+  // 🟢 Handle Scroll Notification
+  bool _onScrollNotification(ScrollNotification notification) {
+    if (notification is ScrollUpdateNotification) {
+      _lastScrollTime = DateTime.now();
+      if (_isNavBarVisible) {
+        setState(() => _isNavBarVisible = false);
+        _navBarAnimController.forward();
+      }
+      _checkScrollStopped();
+    }
+    return false;
+  }
+
+  void _checkScrollStopped() async {
+    await Future.delayed(const Duration(milliseconds: 150));
+    if (DateTime.now().difference(_lastScrollTime).inMilliseconds >= 150) {
+      if (!_isNavBarVisible && mounted) {
+        setState(() => _isNavBarVisible = true);
+        _navBarAnimController.reverse();
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      bottomNavigationBar: const NavBar(currentIndex: 0),
+      bottomNavigationBar: SlideTransition(
+        position: _navBarSlideAnimation,
+        child: const NavBar(currentIndex: 0),
+      ),
       body: Stack(
         children: [
           // ---------       ---------------------------------------
@@ -50,10 +112,13 @@ class NotificationScreen extends StatelessWidget {
                 // --- Content Container (Glassmorphism Style) ---
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
-                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.9), // আগের স্ক্রিনগুলোর মতো সলিড সাদা ভাব
+                      color: Colors.white.withOpacity(
+                          0.9), // আগের স্ক্রিনগুলোর মতো সলিড সাদা ভাব
                       borderRadius: BorderRadius.circular(20.r),
                       boxShadow: [
                         BoxShadow(
@@ -64,22 +129,27 @@ class NotificationScreen extends StatelessWidget {
                       ],
                     ),
                     // Notification List
-                    child: ListView.separated(
-                      physics: const BouncingScrollPhysics(),
-                      padding: EdgeInsets.zero,
-                      itemCount: 5, // ডামি ডাটা সংখ্যা
-                      separatorBuilder: (context, index) => Divider(
-                        color: Colors.grey.withOpacity(0.2),
-                        height: 20.h,
+                    child: NotificationListener<ScrollNotification>(
+                      onNotification: _onScrollNotification,
+                      child: ListView.separated(
+                        physics: const BouncingScrollPhysics(),
+                        padding: EdgeInsets.zero,
+                        itemCount: 5, // ডামি ডাটা সংখ্যা
+                        separatorBuilder: (context, index) => Divider(
+                          color: Colors.grey.withOpacity(0.2),
+                          height: 20.h,
+                        ),
+                        itemBuilder: (context, index) {
+                          return _buildNotificationItem(
+                            title: "Payment Successful",
+                            message:
+                                "Your payment for the course 'Web Development' was successful.",
+                            time: "2 hours ago",
+                            isUnread: index ==
+                                0, // প্রথমটি unread হিসেবে দেখানোর জন্য
+                          );
+                        },
                       ),
-                      itemBuilder: (context, index) {
-                        return _buildNotificationItem(
-                          title: "Payment Successful",
-                          message: "Your payment for the course 'Web Development' was successful.",
-                          time: "2 hours ago",
-                          isUnread: index == 0, // প্রথমটি unread হিসেবে দেখানোর জন্য
-                        );
-                      },
                     ),
                   ),
                 ),
@@ -107,7 +177,8 @@ class NotificationScreen extends StatelessWidget {
           height: 40.h,
           width: 40.w,
           decoration: BoxDecoration(
-            color: const Color(0xFF2E5C38).withOpacity(0.1), // হালকা গ্রিন ব্যাকগ্রাউন্ড
+            color: const Color(0xFF2E5C38)
+                .withOpacity(0.1), // হালকা গ্রিন ব্যাকগ্রাউন্ড
             shape: BoxShape.circle,
           ),
           child: Icon(

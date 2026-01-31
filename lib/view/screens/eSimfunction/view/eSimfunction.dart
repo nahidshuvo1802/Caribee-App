@@ -8,6 +8,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../../../../utils/app_colors/app_colors.dart';
 import '../../components/custom_image/custom_image.dart';
 import '../../components/custom_netwrok_image/custom_network_image.dart';
+import '../../BussinessScreen/BussinessPromotionScreen.dart';
 
 class EsimScreen extends StatelessWidget {
   const EsimScreen({super.key});
@@ -119,8 +120,10 @@ class EsimScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(8.r),
                                   // ইমেজটি ব্যাকগ্রাউন্ড হিসেবে সেট করা হয়েছে যাতে পুরো জায়গা নেয়
                                   image: const DecorationImage(
-                                    image: AssetImage("assets/images/Home/simicon1.png"),
-                                    fit: BoxFit.cover, // পুরো কন্টেইনার ফিল করবে
+                                    image: AssetImage(
+                                        "assets/images/Home/simicon1.png"),
+                                    fit:
+                                        BoxFit.cover, // পুরো কন্টেইনার ফিল করবে
                                   ),
                                 ),
                               ),
@@ -177,8 +180,10 @@ class EsimScreen extends StatelessWidget {
                                 Icons.close,
                                 "No swapping SIMs or losing your number",
                                 Colors.red),
-                            _buildFeatureRow(Icons.signal_cellular_alt,
-                                "Avoid expensive roaming charges", Colors.green),
+                            _buildFeatureRow(
+                                Icons.signal_cellular_alt,
+                                "Avoid expensive roaming charges",
+                                Colors.green),
                             _buildFeatureRow(
                                 Icons.map,
                                 "Perfect for maps, ride apps, WhatsApp & safety features",
@@ -211,36 +216,193 @@ class EsimScreen extends StatelessWidget {
                                 "Instant activation"
                               ],
                               onTap: () {
-                                Get.to(() => const EsimWebViewScreen(
-                                  url:
-                                  "https://www.airalo.com/?srsltid=AfmBOorZK91onscjR6-Hkz4rxyWyDQevsSlOret0-T-yp9kwjgTqnQQm",
-                                  title: "Airalo",
-                                ));
+                                Get.to(
+                                    () => const EsimWebViewScreen(
+                                          url:
+                                              "https://www.airalo.com/?srsltid=AfmBOorZK91onscjR6-Hkz4rxyWyDQevsSlOret0-T-yp9kwjgTqnQQm",
+                                          title: "Airalo",
+                                        ),
+                                    transition: Transition.fadeIn);
                               },
                             ),
                             SizedBox(width: 15.w),
 
-                            // 2. Ubigi Card
-                            _buildProviderCard(
-                              logoUrl:
-                              "assets/images/Home/Ubigi-Logo-Travel-eSIM.png",
-                              name: "Ubigi",
-                              description:
-                              "High-end global cellular connectivity",
-                              features: [
-                                "Prepaid data plans",
-                                "Great for business travel",
-                                "Reliable 5G/4G/LTE"
+                            // 2. Ubigi Card with Special Offer Ribbon
+                            Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                _buildProviderCard(
+                                  logoUrl:
+                                      "assets/images/Home/Ubigi-Logo-Travel-eSIM.png",
+                                  name: "Ubigi",
+                                  description:
+                                      "High-end global cellular connectivity",
+                                  features: [
+                                    "Prepaid data plans",
+                                    "Great for business travel",
+                                    "Reliable 5G/4G/LTE"
+                                  ],
+                                  onTap: () {
+                                    Get.to(
+                                        () => const EsimWebViewScreen(
+                                              url:
+                                                  "https://cellulardata.ubigi.com/?gad_source=1&gad_campaignid=23023584203&gbraid=0AAAAA9UrVJL2sWKgi4q1oP47hJQE8w8P8&gclid=Cj0KCQiA1czLBhDhARIsAIEc7uipWSY8T8eL0ELpc8q-Sd9WyCid0m4SjVRA4pmx5peg-C9tXDVvux4aAq5GEALw_wcB",
+                                              title: "Ubigi",
+                                            ),
+                                        transition: Transition.fadeIn);
+                                  },
+                                ),
+                                // Premium Ribbon
+                                Positioned(
+                                  top: -5.h,
+                                  right: -5.w,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.red.withOpacity(0.3),
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 3),
+                                        ),
+                                      ],
+                                    ),
+                                    child: ClipPath(
+                                      clipper: RibbonClipper(),
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 12.w,
+                                          vertical: 6.h,
+                                        ),
+                                        decoration: const BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Color(0xFFE53935),
+                                              Color(0xFFD32F2F),
+                                            ],
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                          ),
+                                        ),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Icon(
+                                              Icons.local_offer,
+                                              color: Colors.white,
+                                              size: 12.sp,
+                                            ),
+                                            SizedBox(width: 4.w),
+                                            Text(
+                                              "Special Offer",
+                                              style: GoogleFonts.poppins(
+                                                color: Colors.white,
+                                                fontSize: 10.sp,
+                                                fontWeight: FontWeight.w600,
+                                                letterSpacing: 0.5,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
-                              onTap: () {
-                                Get.to(() => const EsimWebViewScreen(
-                                  url:
-                                  "https://cellulardata.ubigi.com/?gad_source=1&gad_campaignid=23023584203&gbraid=0AAAAA9UrVJL2sWKgi4q1oP47hJQE8w8P8&gclid=Cj0KCQiA1czLBhDhARIsAIEc7uipWSY8T8eL0ELpc8q-Sd9WyCid0m4SjVRA4pmx5peg-C9tXDVvux4aAq5GEALw_wcB",
-                                  title: "Ubigi",
-                                ));
-                              },
                             ),
                           ],
+                        ),
+                      ),
+
+                      SizedBox(height: 20.h),
+
+                      // --- Exclusive Offer Banner (Same as Profile Screen) ---
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.r),
+                            image: const DecorationImage(
+                              image: AssetImage("assets/images/Home/fire.png"),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 15.w,
+                              vertical: 12.h,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12.r),
+                              gradient: LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                colors: [
+                                  const Color.fromRGBO(255, 98, 0, 1)
+                                      .withOpacity(0.85),
+                                  const Color.fromRGBO(107, 28, 29, 1)
+                                      .withOpacity(0.85),
+                                ],
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      "assets/images/profile/fastfood.png",
+                                      height: 30.h,
+                                      width: 30.w,
+                                      fit: BoxFit.contain,
+                                    ),
+                                    SizedBox(width: 10.w),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Exclusive offer By",
+                                          style: GoogleFonts.poppins(
+                                              color: Colors.white,
+                                              fontSize: 14.sp),
+                                        ),
+                                        Text(
+                                          "Caribee",
+                                          style: GoogleFonts.poppins(
+                                            color: Colors.white,
+                                            fontSize: 18.sp,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.to(() => BusinessPromotionScreen(),
+                                        transition: Transition.fadeIn);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 12.w, vertical: 6.h),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFFFC107),
+                                      borderRadius: BorderRadius.circular(5.r),
+                                    ),
+                                    child: Text(
+                                      "See Offer",
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
 
@@ -339,6 +501,7 @@ class EsimScreen extends StatelessWidget {
   }) {
     return Container(
       width: 240.w,
+      height: 260.h, // Fixed height for uniform cards
       padding: EdgeInsets.all(15.w),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -353,6 +516,7 @@ class EsimScreen extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
         children: [
           // Header: Logo & Name
           Row(
@@ -366,16 +530,16 @@ class EsimScreen extends StatelessWidget {
                   color: Colors.transparent,
                   child: logoUrl.startsWith('http')
                       ? CustomNetworkImage(
-                    imageUrl: logoUrl,
-                    height: 35.h,
-                    width: 35.w,
-                  )
+                          imageUrl: logoUrl,
+                          height: 35.h,
+                          width: 35.w,
+                        )
                       : Image.asset(
-                    logoUrl,
-                    height: 35.h,
-                    width: 35.w,
-                    fit: BoxFit.contain,
-                  ),
+                          logoUrl,
+                          height: 35.h,
+                          width: 35.w,
+                          fit: BoxFit.contain,
+                        ),
                 ),
               ),
               SizedBox(width: 10.w),
@@ -397,17 +561,17 @@ class EsimScreen extends StatelessWidget {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style:
-            GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey[700]),
+                GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey[700]),
           ),
           SizedBox(height: 10.h),
 
           // Features List
           ...features.map((feature) => Padding(
-            padding: EdgeInsets.only(bottom: 5.h),
-            child: _buildCheckItem(feature),
-          )),
+                padding: EdgeInsets.only(bottom: 5.h),
+                child: _buildCheckItem(feature),
+              )),
 
-          SizedBox(height: 15.h),
+          const Spacer(), // Push button to bottom
 
           // ---- Explore More Button with Gradient ----
           GestureDetector(
@@ -514,8 +678,8 @@ class _EsimWebViewScreenState extends State<EsimWebViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title,
-            style: GoogleFonts.poppins(color: Colors.black)),
+        title:
+            Text(widget.title, style: GoogleFonts.poppins(color: Colors.black)),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 1,
@@ -535,4 +699,33 @@ class _EsimWebViewScreenState extends State<EsimWebViewScreen> {
       ),
     );
   }
+}
+
+// ------------------------------------------------------------------------
+// RIBBON CLIPPER - Custom Clipper for Special Offer Ribbon
+// ------------------------------------------------------------------------
+class RibbonClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final path = Path();
+    final foldSize = size.height * 0.25;
+
+    // Start from top-left
+    path.moveTo(0, 0);
+    // Top edge
+    path.lineTo(size.width, 0);
+    // Right edge
+    path.lineTo(size.width, size.height - foldSize);
+    // Bottom-right fold
+    path.lineTo(size.width - foldSize, size.height);
+    // Bottom edge
+    path.lineTo(0, size.height);
+    // Close path
+    path.close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

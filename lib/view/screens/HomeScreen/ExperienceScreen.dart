@@ -11,11 +11,69 @@ import '../../components/custom_netwrok_image/custom_network_image.dart';
 
 // --- Screens ---
 import 'ExperienceDetailsScreen.dart';
-import 'NotificationScreen.dart';
 import 'SearchScreen.dart';
 
-class ExperiencesScreen extends StatelessWidget {
+class ExperiencesScreen extends StatefulWidget {
   const ExperiencesScreen({super.key});
+
+  @override
+  State<ExperiencesScreen> createState() => _ExperiencesScreenState();
+}
+
+class _ExperiencesScreenState extends State<ExperiencesScreen>
+    with SingleTickerProviderStateMixin {
+  // 🟢 Scroll-aware NavBar Variables
+  bool _isNavBarVisible = true;
+  late AnimationController _navBarAnimController;
+  late Animation<Offset> _navBarSlideAnimation;
+  DateTime _lastScrollTime = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // 🟢 Initialize NavBar Animation
+    _navBarAnimController = AnimationController(
+      duration: const Duration(milliseconds: 250),
+      vsync: this,
+    );
+    _navBarSlideAnimation = Tween<Offset>(
+      begin: Offset.zero,
+      end: const Offset(0, 1),
+    ).animate(CurvedAnimation(
+      parent: _navBarAnimController,
+      curve: Curves.easeInOut,
+    ));
+  }
+
+  @override
+  void dispose() {
+    _navBarAnimController.dispose();
+    super.dispose();
+  }
+
+  // 🟢 Handle Scroll Notification
+  bool _onScrollNotification(ScrollNotification notification) {
+    if (notification is ScrollUpdateNotification) {
+      _lastScrollTime = DateTime.now();
+      if (_isNavBarVisible) {
+        setState(() => _isNavBarVisible = false);
+        _navBarAnimController.forward();
+      }
+      _checkScrollStopped();
+    }
+    return false;
+  }
+
+  void _checkScrollStopped() async {
+    await Future.delayed(const Duration(milliseconds: 150));
+    if (DateTime.now().difference(_lastScrollTime).inMilliseconds >= 150) {
+      if (!_isNavBarVisible && mounted) {
+        setState(() => _isNavBarVisible = true);
+        _navBarAnimController.reverse();
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,21 +88,24 @@ class ExperiencesScreen extends StatelessWidget {
         "title": "Dunn's River Falls",
         "rating": "4.9",
         "location": "Ocho Rios",
-        "image": "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?q=80&w=600&auto=format&fit=crop",
+        "image":
+            "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?q=80&w=600&auto=format&fit=crop",
         "tag": "Must Visit"
       },
       {
         "title": "Blue Hole Secret",
         "rating": "4.8",
         "location": "Ocho Rios",
-        "image": "https://images.unsplash.com/photo-1544550581-5f7ceaf7f992?q=80&w=600&auto=format&fit=crop",
+        "image":
+            "https://images.unsplash.com/photo-1544550581-5f7ceaf7f992?q=80&w=600&auto=format&fit=crop",
         "tag": "Trending"
       },
       {
         "title": "Rick's Cafe Cliff",
         "rating": "4.7",
         "location": "Negril",
-        "image": "https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?q=80&w=600&auto=format&fit=crop",
+        "image":
+            "https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?q=80&w=600&auto=format&fit=crop",
         "tag": "Popular"
       },
     ];
@@ -56,28 +117,32 @@ class ExperiencesScreen extends StatelessWidget {
         "rating": "4.7",
         "type": "Relaxation",
         "location": "Falmouth, 10 mi",
-        "image": "https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?q=80&w=600&auto=format&fit=crop"
+        "image":
+            "https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?q=80&w=600&auto=format&fit=crop"
       },
       {
         "title": "Mystic Mountain Bobsled",
         "rating": "4.8",
         "type": "Adventure",
         "location": "Ocho Rios, 1.2 mi",
-        "image": "https://images.unsplash.com/photo-1533587851505-d119e13fa0d7?q=80&w=600&auto=format&fit=crop"
+        "image":
+            "https://images.unsplash.com/photo-1533587851505-d119e13fa0d7?q=80&w=600&auto=format&fit=crop"
       },
       {
         "title": "YS Falls Park",
         "rating": "4.8",
         "type": "Nature • Swim",
         "location": "St. Elizabeth, 15 mi",
-        "image": "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?q=80&w=600&auto=format&fit=crop"
+        "image":
+            "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?q=80&w=600&auto=format&fit=crop"
       },
       {
         "title": "Green Grotto Caves",
         "rating": "4.6",
         "type": "History • Tour",
         "location": "Discovery Bay, 5 mi",
-        "image": "https://images.unsplash.com/photo-1519408299519-b7a0274ec315?q=80&w=600&auto=format&fit=crop"
+        "image":
+            "https://images.unsplash.com/photo-1646852205388-84ed2c3f2448?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
       },
     ];
 
@@ -100,36 +165,11 @@ class ExperiencesScreen extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        actions: [
-          GestureDetector(
-            onTap: () => Get.to(() => const NotificationScreen()),
-            child: Container(
-              margin: EdgeInsets.only(right: 20.w),
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  const Icon(Icons.notifications, color: Colors.white, size: 28),
-                  Positioned(
-                    top: -2,
-                    right: -2,
-                    child: Container(
-                      height: 14.h,
-                      width: 14.w,
-                      alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Text("2", style: TextStyle(color: Colors.white, fontSize: 8.sp)),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          )
-        ],
       ),
-      bottomNavigationBar: const NavBar(currentIndex: 0),
+      bottomNavigationBar: SlideTransition(
+        position: _navBarSlideAnimation,
+        child: const NavBar(currentIndex: 0),
+      ),
       body: Stack(
         children: [
           // Background Image
@@ -153,219 +193,254 @@ class ExperiencesScreen extends StatelessWidget {
           // Main Content
           SafeArea(
             bottom: false,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              padding: EdgeInsets.only(bottom: 110.h, top: 10.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // --- Header & Search ---
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 10.h),
-                        CustomText(
-                          text: "Experiences",
-                          fontSize: 28.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          textAlign: TextAlign.left,
-                        ),
-                        SizedBox(height: 5.h),
-                        CustomText(
-                          text: "Handpicked experiences. Designed to be felt, not visited.",
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white.withOpacity(0.9),
-                          textAlign: TextAlign.left,
-                          maxLines: 2,
-                        ),
-                        SizedBox(height: 20.h),
+            child: NotificationListener<ScrollNotification>(
+              onNotification: _onScrollNotification,
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                padding: EdgeInsets.only(bottom: 110.h, top: 10.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // --- Header & Search ---
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 10.h),
+                          CustomText(
+                            text: "Experiences",
+                            fontSize: 28.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            textAlign: TextAlign.left,
+                          ),
+                          SizedBox(height: 5.h),
+                          CustomText(
+                            text:
+                                "Handpicked experiences. Designed to be felt, not visited.",
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white.withOpacity(0.9),
+                            textAlign: TextAlign.left,
+                            maxLines: 2,
+                          ),
+                          SizedBox(height: 20.h),
 
-                        // Search Bar
-                        GestureDetector(
-                          onTap: () {
-                            Get.to(() => SearchScreen(), transition: Transition.fadeIn);
-                          },
-                          child: Container(
-                            height: 50.h,
-                            padding: EdgeInsets.symmetric(horizontal: 15.w),
+                          // Search Bar (Modern Design)
+                          GestureDetector(
+                            onTap: () {
+                              Get.to(() => SearchScreen(),
+                                  transition: Transition.fadeIn);
+                            },
+                            child: Container(
+                              height: 52.h,
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(16.r),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.08),
+                                    blurRadius: 12,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(8.w),
+                                    decoration: BoxDecoration(
+                                      gradient: const LinearGradient(
+                                        colors: [
+                                          Color(0xFF2E5C38),
+                                          Color(0xFF66B290)
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.circular(10.r),
+                                    ),
+                                    child: Icon(
+                                      Icons.search_rounded,
+                                      color: Colors.white,
+                                      size: 18.sp,
+                                    ),
+                                  ),
+                                  SizedBox(width: 12.w),
+                                  Expanded(
+                                    child: Text(
+                                      "Search for Experiences...",
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.grey[400],
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.tune_rounded,
+                                    color: const Color(0xFF2E5C38),
+                                    size: 22.sp,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(height: 25.h),
+
+                    // --- Featured Header ---
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: CustomText(
+                        text: "Featured Experiences",
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    SizedBox(height: 15.h),
+
+                    // --- Featured List (Horizontal 3D Cards) ---
+                    SizedBox(
+                      height: 240.h,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        itemCount: featuredExcursions.length,
+                        separatorBuilder: (context, index) =>
+                            SizedBox(width: 15.w),
+                        itemBuilder: (context, index) {
+                          return _buildHomeScreenStyleCard(
+                              featuredExcursions[index]);
+                        },
+                      ),
+                    ),
+
+                    SizedBox(height: 20.h),
+
+                    // --- Filter Chips (Updated Gradient & Shadow) ---
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: Row(
+                        children: filters.map((filter) {
+                          bool isSelected =
+                              filter == "Nature"; // Logic for selected state
+
+                          return GestureDetector(
+                            onTap: () {
+                              // Add tap logic here
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  right: 12.w,
+                                  bottom: 5.h), // Margin for shadow
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 24.w, vertical: 10.h),
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.circular(30.r), // Pill Shape
+
+                                // 🟢 Gradient for Selected State
+                                gradient: isSelected
+                                    ? const LinearGradient(
+                                        colors: [
+                                          Color.fromRGBO(46, 111, 101, 1),
+                                          Color.fromRGBO(88, 151, 107, 1),
+                                        ],
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                      )
+                                    : null,
+
+                                // 🟢 Color for Unselected State
+                                color: isSelected ? null : Colors.white,
+
+                                // 🟢 Solid Shadow (Hard Shadow)
+                                boxShadow: isSelected
+                                    ? [
+                                        const BoxShadow(
+                                          color:
+                                              Color.fromRGBO(224, 247, 184, 1),
+                                          offset: Offset(0, 4),
+                                          blurRadius: 0, // Solid shadow
+                                        ),
+                                      ]
+                                    : [],
+                              ),
+                              child: Text(
+                                filter,
+                                style: GoogleFonts.poppins(
+                                  color:
+                                      isSelected ? Colors.white : Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14.sp,
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+
+                    SizedBox(height: 15.h),
+
+                    // --- Map & Vertical List ---
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: Column(
+                        children: [
+                          // Map Button
+                          Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.symmetric(
+                                vertical: 12.h, horizontal: 15.w),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(30.r),
+                              border: Border.all(color: Colors.amber, width: 2),
                             ),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                // Icon(Icons.search, color: Colors.grey, size: 24.sp),
-                                // SizedBox(width: 10.w),
-                                Expanded(
-                                  child: TextField(
-                                    enabled: false,
-                                    decoration: InputDecoration(
-                                      prefixIcon: Icon(Icons.search),
-                                      suffixIcon: Icon(Icons.cancel),
-
-                                      hintText: "Search for Experience",
-                                      // hint
-                                      hintStyle: GoogleFonts.poppins(color: Colors.grey[400], fontSize: 15.sp),
-                                      border: InputBorder.none,
-                                    ),
+                                const Icon(Icons.location_on,
+                                    color: Colors.red),
+                                SizedBox(width: 10.w),
+                                Text(
+                                  "Show Map View",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black87,
                                   ),
                                 ),
-
-                                // Text("Cancel")
                               ],
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
 
-                  SizedBox(height: 25.h),
+                          SizedBox(height: 20.h),
 
-                  // --- Featured Header ---
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: CustomText(
-                      text: "Featured Experiences",
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                  SizedBox(height: 15.h),
-
-                  // --- Featured List (Horizontal 3D Cards) ---
-                  SizedBox(
-                    height: 240.h,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.symmetric(horizontal: 20.w),
-                      itemCount: featuredExcursions.length,
-                      separatorBuilder: (context, index) => SizedBox(width: 15.w),
-                      itemBuilder: (context, index) {
-                        return _buildHomeScreenStyleCard(featuredExcursions[index]);
-                      },
-                    ),
-                  ),
-
-                  SizedBox(height: 20.h),
-
-                  // --- Filter Chips (Updated Gradient & Shadow) ---
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: Row(
-                      children: filters.map((filter) {
-                        bool isSelected = filter == "Nature"; // Logic for selected state
-
-                        return GestureDetector(
-                          onTap: () {
-                            // Add tap logic here
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(right: 12.w, bottom: 5.h), // Margin for shadow
-                            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30.r), // Pill Shape
-
-                              // 🟢 Gradient for Selected State
-                              gradient: isSelected
-                                  ? const LinearGradient(
-                                colors: [
-                                  Color.fromRGBO(46, 111, 101, 1),
-                                  Color.fromRGBO(88, 151, 107, 1),
-                                ],
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                              )
-                                  : null,
-
-                              // 🟢 Color for Unselected State
-                              color: isSelected
-                                  ? null
-                                  : Colors.white,
-
-                              // 🟢 Solid Shadow (Hard Shadow)
-                              boxShadow: isSelected
-                                  ? [
-                                const BoxShadow(
-                                  color: Color.fromRGBO(224, 247, 184, 1),
-                                  offset: Offset(0, 4),
-                                  blurRadius: 0, // Solid shadow
-                                ),
-                              ]
-                                  : [],
-                            ),
-                            child: Text(
-                              filter,
-                              style: GoogleFonts.poppins(
-                                color: isSelected ? Colors.white : Colors.black,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-
-                  SizedBox(height: 15.h),
-
-                  // --- Map & Vertical List ---
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: Column(
-                      children: [
-                        // Map Button
-                        Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 15.w),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(30.r),
-                            border: Border.all(color: Colors.amber, width: 2),
-                          ),
-                          child: Row(
+                          // --- Vertical List Items (Optimized Generation) ---
+                          Column(
                             children: [
-                              const Icon(Icons.location_on, color: Colors.red),
-                              SizedBox(width: 10.w),
-                              Text(
-                                "Show Map View",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black87,
-                                ),
-                              ),
+                              ...verticalList.map((item) {
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: 15.h), // Gap between cards
+                                  child: _buildVerticalCard(item),
+                                );
+                              }).toList(),
                             ],
                           ),
-                        ),
-
-                        SizedBox(height: 20.h),
-
-                        // --- Vertical List Items (Optimized Generation) ---
-                        Column(
-                          children: [
-                            ...verticalList.map((item) {
-                              return Padding(
-                                padding: EdgeInsets.only(bottom: 15.h), // Gap between cards
-                                child: _buildVerticalCard(item),
-                              );
-                            }).toList(),
-                          ],
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -380,7 +455,8 @@ class ExperiencesScreen extends StatelessWidget {
   Widget _buildHomeScreenStyleCard(Map<String, String> item) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => const Experiencedetailsscreen(), transition: Transition.rightToLeft);
+        Get.to(() => const Experiencedetailsscreen(),
+            transition: Transition.fadeIn);
       },
       child: Container(
         width: 250.w,
@@ -402,7 +478,8 @@ class ExperiencesScreen extends StatelessWidget {
               child: Stack(
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(16.r)),
                     child: CustomNetworkImage(
                       imageUrl: item["image"]!,
                       width: double.infinity,
@@ -410,15 +487,23 @@ class ExperiencesScreen extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 8.h, left: 8.w,
+                    top: 8.h,
+                    left: 8.w,
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12.r)),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12.r)),
                       child: Row(
                         children: [
-                          Icon(Icons.local_fire_department, color: Colors.orange, size: 12.sp),
+                          Icon(Icons.local_fire_department,
+                              color: Colors.orange, size: 12.sp),
                           SizedBox(width: 4.w),
-                          Text(item["tag"]!, style: GoogleFonts.poppins(fontSize: 10.sp, fontWeight: FontWeight.bold)),
+                          Text(item["tag"]!,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ),
@@ -436,18 +521,20 @@ class ExperiencesScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                        item["title"]!,
+                    Text(item["title"]!,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 14.sp)
-                    ),
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold, fontSize: 14.sp)),
                     SizedBox(height: 6.h),
                     Row(
                       children: [
-                        Icon(Icons.star_outlined, color: Colors.amber, size: 18.sp),
+                        Icon(Icons.star_outlined,
+                            color: Colors.amber, size: 18.sp),
                         SizedBox(width: 4.w),
-                        Text(item["rating"]!, style: GoogleFonts.poppins(fontSize: 14.sp, fontWeight: FontWeight.bold)),
+                        Text(item["rating"]!,
+                            style: GoogleFonts.poppins(
+                                fontSize: 14.sp, fontWeight: FontWeight.bold)),
                         Container(
                           height: 12.h,
                           width: 1.w,
@@ -459,7 +546,8 @@ class ExperiencesScreen extends StatelessWidget {
                         Expanded(
                           child: Text(
                             item["location"]!,
-                            style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey[700]),
+                            style: GoogleFonts.poppins(
+                                fontSize: 12.sp, color: Colors.grey[700]),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
@@ -480,7 +568,8 @@ class ExperiencesScreen extends StatelessWidget {
   Widget _buildVerticalCard(Map<String, String> item) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => const Experiencedetailsscreen(), transition: Transition.rightToLeft);
+        Get.to(() => const Experiencedetailsscreen(),
+            transition: Transition.fadeIn);
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 15.h),
@@ -500,7 +589,9 @@ class ExperiencesScreen extends StatelessWidget {
           children: [
             // Left Side Image
             ClipRRect(
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(10.r), bottomLeft: Radius.circular(10.r)),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.r),
+                  bottomLeft: Radius.circular(10.r)),
               child: CustomNetworkImage(
                 imageUrl: item["image"]!,
                 height: 100.h,
@@ -532,7 +623,8 @@ class ExperiencesScreen extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Icon(Icons.favorite_border, color: Colors.grey, size: 20.sp),
+                      Icon(Icons.favorite_border,
+                          color: Colors.grey, size: 20.sp),
                     ],
                   ),
 
@@ -543,24 +635,23 @@ class ExperiencesScreen extends StatelessWidget {
                     children: [
                       Icon(Icons.star, color: Colors.amber, size: 14.sp),
                       SizedBox(width: 4.w),
-                      Text(
-                          item["rating"]!,
+                      Text(item["rating"]!,
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.bold,
                             fontSize: 12.sp,
                             color: Colors.black,
-                          )
-                      ),
+                          )),
                       SizedBox(width: 8.w),
                       Container(
-                        width: 4.w, height: 4.h,
-                        decoration: const BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
+                        width: 4.w,
+                        height: 4.h,
+                        decoration: const BoxDecoration(
+                            color: Colors.grey, shape: BoxShape.circle),
                       ),
                       SizedBox(width: 8.w),
-                      Text(
-                          item["type"]!,
-                          style: GoogleFonts.poppins(color: Colors.grey[600], fontSize: 12.sp)
-                      ),
+                      Text(item["type"]!,
+                          style: GoogleFonts.poppins(
+                              color: Colors.grey[600], fontSize: 12.sp)),
                     ],
                   ),
 
@@ -569,12 +660,14 @@ class ExperiencesScreen extends StatelessWidget {
                   // Location
                   Row(
                     children: [
-                      Icon(Icons.location_on, color: const Color(0xFF357984), size: 14.sp),
+                      Icon(Icons.location_on,
+                          color: const Color(0xFF357984), size: 14.sp),
                       SizedBox(width: 4.w),
                       Expanded(
                         child: Text(
                           item["location"]!,
-                          style: GoogleFonts.poppins(color: Colors.grey[600], fontSize: 12.sp),
+                          style: GoogleFonts.poppins(
+                              color: Colors.grey[600], fontSize: 12.sp),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),

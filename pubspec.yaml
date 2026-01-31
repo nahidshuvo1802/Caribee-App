@@ -89,7 +89,6 @@ flutter:
     - assets/images/LoginScreen/homescreen.png
     - assets/images/Home/
     - assets/images/profile/
-    - assets/images/eSim/
     - assets/images/icon/
 
   # An image asset can refer to one or more resolution-specific "variants", see
