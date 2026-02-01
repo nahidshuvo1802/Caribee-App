@@ -2,14 +2,12 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 // Custom Components Imports
 import '../../../components/custom_text/custom_text.dart';
 import '../../../components/custom_text_field/custom_text_field.dart';
 import '../../../components/custom_button/custom_button.dart';
-import '../../../../utils/app_colors/app_colors.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -76,7 +74,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         centerTitle: true,
         leading: IconButton(
           onPressed: () => Get.back(),
-          icon: Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20.sp),
+          icon:
+              Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20.sp),
         ),
         title: CustomText(
           text: "Edit Profile",
@@ -112,7 +111,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     padding: EdgeInsets.symmetric(horizontal: 20.w),
                     physics: const BouncingScrollPhysics(),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start, // Align titles to start
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start, // Align titles to start
                       children: [
                         // Profile Image with Camera Icon
                         Center(
@@ -121,7 +121,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               CircleAvatar(
                                 radius: 50.r,
                                 backgroundColor: Colors.grey.shade300,
-                                backgroundImage: const NetworkImage("https://i.pravatar.cc/300?img=11"),
+                                backgroundImage: const NetworkImage(
+                                    "https://i.pravatar.cc/300?img=11"),
                               ),
                               Positioned(
                                 bottom: 0,
@@ -132,7 +133,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     color: Color(0xFF2E5C38),
                                     shape: BoxShape.circle,
                                   ),
-                                  child: Icon(Icons.camera_alt, color: Colors.white, size: 16.sp),
+                                  child: Icon(Icons.camera_alt,
+                                      color: Colors.white, size: 16.sp),
                                 ),
                               ),
                             ],
@@ -145,7 +147,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         CustomTextField(
                           textEditingController: nameController,
                           hintText: "Full Name",
-                          prefixIcon: Icon(Icons.person_outline, color: const Color(0xFF2E5C38), size: 22.sp),
+                          prefixIcon: Icon(Icons.person_outline,
+                              color: const Color(0xFF2E5C38), size: 22.sp),
                           fillColor: Colors.white.withOpacity(0.9),
                           fieldBorderRadius: 40,
                         ),
@@ -156,7 +159,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         CustomTextField(
                           textEditingController: emailController,
                           hintText: "Email Address",
-                          prefixIcon: Icon(Icons.email_outlined, color: const Color(0xFF2E5C38), size: 22.sp),
+                          prefixIcon: Icon(Icons.email_outlined,
+                              color: const Color(0xFF2E5C38), size: 22.sp),
                           fillColor: Colors.white.withOpacity(0.9),
                           keyboardType: TextInputType.emailAddress,
                           fieldBorderRadius: 40,
@@ -170,10 +174,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           hintText: "Date of Birth",
                           readOnly: true,
                           fillColor: Colors.white.withOpacity(0.9),
-                          prefixIcon: Icon(Icons.cake_outlined, color: const Color(0xFF2E5C38), size: 22.sp),
+                          prefixIcon: Icon(Icons.cake_outlined,
+                              color: const Color(0xFF2E5C38), size: 22.sp),
                           suffixIcon: IconButton(
                             onPressed: () => _selectDate(context),
-                            icon: Icon(Icons.calendar_month, color: const Color(0xFF2E5C38), size: 22.sp),
+                            icon: Icon(Icons.calendar_month,
+                                color: const Color(0xFF2E5C38), size: 22.sp),
                           ),
                           fieldBorderRadius: 40,
                         ),
@@ -185,7 +191,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.9),
                             borderRadius: BorderRadius.circular(40.r),
-                            border: Border.all(color: const Color(0xFF2E5C38).withOpacity(0.5)),
+                            border: Border.all(
+                                color:
+                                    const Color(0xFF2E5C38).withOpacity(0.5)),
                           ),
                           child: CountryCodePicker(
                             onChanged: (country) {
@@ -198,13 +206,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             padding: EdgeInsets.symmetric(vertical: 4.h),
                             builder: (country) {
                               return Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 15.w, vertical: 15.h),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
                                       children: [
-                                        Icon(Icons.public, color: const Color(0xFF2E5C38), size: 22.sp),
+                                        Icon(Icons.public,
+                                            color: const Color(0xFF2E5C38),
+                                            size: 22.sp),
                                         SizedBox(width: 15.w),
                                         SizedBox(
                                           width: 200.w,
@@ -219,7 +231,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                         ),
                                       ],
                                     ),
-                                    const Icon(Icons.arrow_drop_down, color: Colors.grey),
+                                    const Icon(Icons.arrow_drop_down,
+                                        color: Colors.grey),
                                   ],
                                 ),
                               );
@@ -234,7 +247,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.9),
                             borderRadius: BorderRadius.circular(40.r),
-                            border: Border.all(color: const Color(0xFF2E5C38).withOpacity(0.5)),
+                            border: Border.all(
+                                color:
+                                    const Color(0xFF2E5C38).withOpacity(0.5)),
                           ),
                           child: Row(
                             children: [
@@ -293,7 +308,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ),
 
                         SizedBox(height: 30.h),
-
                       ],
                     ),
                   ),

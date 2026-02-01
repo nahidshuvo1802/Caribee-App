@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // --- Custom Components Imports ---
-import '../../components/custom_text/custom_text.dart';
 
 class Promotionpagedetails extends StatelessWidget {
   const Promotionpagedetails({super.key});
@@ -32,7 +31,8 @@ class Promotionpagedetails extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.2),
                 shape: BoxShape.circle,
-                border: Border.all(color: Colors.white.withOpacity(0.4), width: 1),
+                border:
+                    Border.all(color: Colors.white.withOpacity(0.4), width: 1),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
@@ -42,7 +42,8 @@ class Promotionpagedetails extends StatelessWidget {
                 ],
               ),
               child: IconButton(
-                icon: Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 18.sp),
+                icon: Icon(Icons.arrow_back_ios_new,
+                    color: Colors.white, size: 18.sp),
                 onPressed: () => Get.back(),
               ),
             ),
@@ -65,7 +66,8 @@ class Promotionpagedetails extends StatelessWidget {
                       top: 60.h,
                       right: 20.w,
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 7.h),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 14.w, vertical: 7.h),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20.r),
@@ -104,9 +106,11 @@ class Promotionpagedetails extends StatelessWidget {
                             textAlign: TextAlign.left,
                             style: GoogleFonts.poppins(
                               fontSize: 40.sp,
-                              fontWeight: FontWeight.w500, // Added bold for better visibility
+                              fontWeight: FontWeight
+                                  .w500, // Added bold for better visibility
                               color: Colors.black, // Kept your requested color
-                              height: 1.2, // 🟢 Adjusted height slightly so lines don't touch
+                              height:
+                                  1.2, // 🟢 Adjusted height slightly so lines don't touch
                               shadows: [
                                 Shadow(
                                   color: Colors.black.withOpacity(0.5),
@@ -116,7 +120,9 @@ class Promotionpagedetails extends StatelessWidget {
                               ],
                             ),
                           ),
-                           SizedBox(height: 10.h,),
+                          SizedBox(
+                            height: 10.h,
+                          ),
                           Row(
                             children: [
                               Icon(Icons.location_on,
@@ -232,7 +238,8 @@ class Promotionpagedetails extends StatelessWidget {
                     subtitle: 'The Serenity Extended\n Stay',
                     description: 'Enjoy a complimentary 4th night on us.',
                     code: 'CARIBEE24',
-                    validDate: 'Valid through Dec 2024. Exclusive to Platinum Members.',
+                    validDate:
+                        'Valid through Dec 2024. Exclusive to Platinum Members.',
                   ),
                   SizedBox(height: 24.h),
 
@@ -412,7 +419,6 @@ class _MemberExclusiveCard extends StatelessWidget {
   }
 }
 
-
 class _RefinementsSection extends StatelessWidget {
   const _RefinementsSection();
 
@@ -442,7 +448,8 @@ class _RefinementsSection extends StatelessWidget {
               SizedBox(width: 12.w),
               const _RefinementItem(text: 'GOURMET', icon: Icons.restaurant),
               SizedBox(width: 12.w),
-              const _RefinementItem(text: 'BEACH CLUB', icon: Icons.beach_access),
+              const _RefinementItem(
+                  text: 'BEACH CLUB', icon: Icons.beach_access),
             ],
           ),
         ),

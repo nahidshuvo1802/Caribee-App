@@ -57,8 +57,7 @@ class BusinessPromotionScreen extends StatelessWidget {
   // --- 2. Experiences Data ---
   final List<Map<String, String>> _experienceOffers = [
     {
-      'image':
-          'https://images.unsplash.com/photo-1544551763-46a42a45745b?q=80&w=1200&auto=format&fit=crop',
+      'image': 'assets/images/Home/sunset_catamaran.png',
       'title': 'Sunset Catamaran',
       'country': 'Negril',
       'tag': 'MUST DO',
@@ -100,8 +99,7 @@ class BusinessPromotionScreen extends StatelessWidget {
       'details': 'Arrive in style with our private chauffeur service.',
     },
     {
-      'image':
-          'https://images.unsplash.com/photo-1556388169-d1092476ae8d?q=80&w=1200&auto=format&fit=crop',
+      'image': 'assets/images/Home/helicopter_tour.png',
       'title': 'Island Helicopter Tour',
       'country': 'All Island',
       'tag': 'VIP',
@@ -379,11 +377,18 @@ class BusinessPromotionScreen extends StatelessWidget {
             children: [
               // image
               Positioned.fill(
-                child: CustomNetworkImage(
-                  imageUrl: imageUrl,
-                  height: double.infinity,
-                  width: double.infinity,
-                ),
+                child: imageUrl.startsWith('http')
+                    ? CustomNetworkImage(
+                        imageUrl: imageUrl,
+                        height: double.infinity,
+                        width: double.infinity,
+                      )
+                    : Image.asset(
+                        imageUrl,
+                        height: double.infinity,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
               ),
 
               // gradient overlay
@@ -543,11 +548,18 @@ class BusinessPromotionScreen extends StatelessWidget {
               SizedBox(
                 height: 170.h,
                 width: double.infinity,
-                child: CustomNetworkImage(
-                  imageUrl: imageUrl,
-                  height: double.infinity,
-                  width: double.infinity,
-                ),
+                child: imageUrl.startsWith('http')
+                    ? CustomNetworkImage(
+                        imageUrl: imageUrl,
+                        height: double.infinity,
+                        width: double.infinity,
+                      )
+                    : Image.asset(
+                        imageUrl,
+                        height: double.infinity,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(14.w, 12.h, 14.w, 14.h),

@@ -58,6 +58,8 @@ dependencies:
   flutter_localization: ^0.2.3
   intl_utils: ^2.8.10
   webview_flutter: ^4.8.0
+  connectivity_plus: ^6.1.5
+  internet_connection_checker: ^3.0.1
 
 dev_dependencies:
   flutter_test:

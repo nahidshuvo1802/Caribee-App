@@ -4,7 +4,7 @@ import 'package:tutor_app/view/components/custom_image/custom_image.dart';
 import '../../components/custom_nav_bar/navbar.dart';
 
 class RestaurantDetailsPage extends StatefulWidget {
-  const RestaurantDetailsPage({Key? key}) : super(key: key);
+  const RestaurantDetailsPage({super.key});
 
   @override
   State<RestaurantDetailsPage> createState() => _RestaurantDetailsPageState();

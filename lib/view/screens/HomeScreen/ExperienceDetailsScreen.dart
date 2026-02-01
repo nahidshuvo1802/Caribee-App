@@ -5,7 +5,7 @@ import 'package:tutor_app/view/components/custom_image/custom_image.dart';
 import '../../components/custom_nav_bar/navbar.dart';
 
 class Experiencedetailsscreen extends StatefulWidget {
-  const Experiencedetailsscreen({Key? key}) : super(key: key);
+  const Experiencedetailsscreen({super.key});
 
   @override
   State<Experiencedetailsscreen> createState() =>

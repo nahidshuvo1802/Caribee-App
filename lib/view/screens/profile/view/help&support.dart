@@ -20,7 +20,8 @@ class SupportScreen extends GetView {
         centerTitle: true,
         leading: IconButton(
           onPressed: () => Get.back(),
-          icon: Icon(Icons.arrow_back_ios_new, color: Colors.black, size: 20.sp),
+          icon:
+              Icon(Icons.arrow_back_ios_new, color: Colors.black, size: 20.sp),
         ),
         title: Text(
           "Help & Support",
@@ -72,7 +73,8 @@ class SupportScreen extends GetView {
                             Container(
                               padding: EdgeInsets.all(8.w),
                               decoration: BoxDecoration(
-                                color: const Color(0xFFE9F5F0), // Light Green BG
+                                color:
+                                    const Color(0xFFE9F5F0), // Light Green BG
                                 borderRadius: BorderRadius.circular(8.r),
                               ),
                               child: Image.asset(
@@ -81,7 +83,9 @@ class SupportScreen extends GetView {
                                 width: 20.w,
                                 fit: BoxFit.contain,
                                 errorBuilder: (context, error, stackTrace) =>
-                                    Icon(Icons.headset_mic, color: const Color(0xFF2E7D58), size: 20.sp),
+                                    Icon(Icons.headset_mic,
+                                        color: const Color(0xFF2E7D58),
+                                        size: 20.sp),
                               ),
                             ),
                             SizedBox(width: 12.w),
@@ -96,7 +100,7 @@ class SupportScreen extends GetView {
                         SizedBox(height: 12.h),
                         CustomText(
                           text:
-                          'Get help with the app, report issues, and learn about safety and trusted listings. Our support team is here to ensure you have the best experience.',
+                              'Get help with the app, report issues, and learn about safety and trusted listings. Our support team is here to ensure you have the best experience.',
                           fontSize: 12,
                           color: const Color(0xFF666666),
                           textAlign: TextAlign.left,
@@ -120,7 +124,8 @@ class SupportScreen extends GetView {
                   _buildMenuItem(
                     icon: Icons.flag_rounded,
                     title: "Report an issue",
-                    subtitle: "Report incorrect info, bugs, or listing problems",
+                    subtitle:
+                        "Report incorrect info, bugs, or listing problems",
                     iconColor: const Color(0xFFFF8A50),
                     iconBg: const Color(0xFFFFEEE8),
                     onTap: () {},
@@ -167,7 +172,8 @@ class SupportScreen extends GetView {
                         Divider(height: 1, color: Color(0xFFEEEEEE)),
                         ExpandableFaq(title: 'Why can’t I see some offers?'),
                         Divider(height: 1, color: Color(0xFFEEEEEE)),
-                        ExpandableFaq(title: 'How do I report wrong information?'),
+                        ExpandableFaq(
+                            title: 'How do I report wrong information?'),
                         Divider(height: 1, color: Color(0xFFEEEEEE)),
                         ExpandableFaq(title: 'Is Caribee safe to use?'),
                       ],
@@ -224,7 +230,7 @@ class SupportScreen extends GetView {
                         SizedBox(height: 10.h),
                         CustomText(
                           text:
-                          'Help us maintain quality by reporting restaurant issues, event problems, app bugs, or incorrect information.',
+                              'Help us maintain quality by reporting restaurant issues, event problems, app bugs, or incorrect information.',
                           fontSize: 12,
                           color: const Color(0xFF666666),
                           textAlign: TextAlign.left,
@@ -403,7 +409,7 @@ class SupportScreen extends GetView {
 
 // --- Safety & Trust Info Card ---
 class SafetyTrustInfoCard extends StatelessWidget {
-  const SafetyTrustInfoCard({Key? key}) : super(key: key);
+  const SafetyTrustInfoCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -414,7 +420,8 @@ class SafetyTrustInfoCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withOpacity(0.05), // Fixed opacity for cleaner look
+            color: AppColors.black
+                .withOpacity(0.05), // Fixed opacity for cleaner look
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -446,7 +453,7 @@ class SafetyTrustInfoCard extends StatelessWidget {
           SizedBox(height: 12.h),
           CustomText(
             text:
-            'Learn about our trusted listings, user safety measures, and how we maintain the reliability of our platform.',
+                'Learn about our trusted listings, user safety measures, and how we maintain the reliability of our platform.',
             fontSize: 12,
             color: AppColors.grey_03,
             textAlign: TextAlign.left,
@@ -491,8 +498,7 @@ class _ExpandableFaqState extends State<ExpandableFaq> {
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(
         tilePadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 0),
-        childrenPadding:
-        EdgeInsets.only(left: 16.w, right: 16.w, bottom: 16.h),
+        childrenPadding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 16.h),
         title: Text(
           widget.title,
           style: TextStyle(

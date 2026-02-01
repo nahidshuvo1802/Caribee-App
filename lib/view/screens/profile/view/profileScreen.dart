@@ -14,7 +14,6 @@ import '../../components/custom_text_field/custom_text_field.dart';
 import '../../Authentication/view/LoginScreen.dart';
 
 // Other Screens
-import '../../eSimfunction/view/eSimfunction.dart';
 import 'editProfileScreen.dart';
 
 class ProfileScreen extends StatefulWidget {

@@ -4,7 +4,11 @@ import 'package:get/get.dart';
 
 import 'package:tutor_app/view/screens/splash/view/SplashScreens/SplashScreen.dart';
 
+import 'package:tutor_app/controllers/network_controller.dart';
+
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Get.put(NetworkController(), permanent: true);
   runApp(const MyApp());
 }
 

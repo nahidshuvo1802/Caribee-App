@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -191,8 +190,7 @@ class _HomeScreenState extends State<HomeScreen>
                         location: "Kingston",
                         offerText:
                             "Guided artisan tour with exclusive workshop",
-                        imageUrl:
-                            "https://images.unsplash.com/photo-1605218439566-b258380fb3cd?q=80&w=1000&auto=format&fit=crop",
+                        imageUrl: "assets/images/Home/heritage_craft.png",
                         onTap: () {
                           Get.back();
                           Get.to(() => BusinessPromotionScreen());
@@ -275,7 +273,9 @@ class _HomeScreenState extends State<HomeScreen>
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.r),
           image: DecorationImage(
-            image: NetworkImage(imageUrl),
+            image: imageUrl.startsWith('http')
+                ? NetworkImage(imageUrl)
+                : AssetImage(imageUrl) as ImageProvider,
             fit: BoxFit.cover,
           ),
         ),
@@ -427,8 +427,7 @@ class _HomeScreenState extends State<HomeScreen>
         "title": "Carnival in Jamaica",
         "rating": "4.8",
         "location": "Kingston • 3.0 km",
-        "image":
-            "https://images.unsplash.com/photo-1533174072545-e8d4aa97edf9?q=80&w=600&auto=format&fit=crop",
+        "image": "assets/images/Home/carnival.png",
         "tag": "Upcoming"
       },
       {
@@ -783,11 +782,8 @@ class _HomeScreenState extends State<HomeScreen>
 
                     // --- Section 1: Weekly Featured ---
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: _buildSectionHeader(
-                        "Weekly Featured",
-                        onTap: () => Get.to(() => const ExperiencesScreen()),
-                      ),
+                      padding: const EdgeInsets.only(left: 12),
+                      child: _buildSectionHeader("Weekly Featured"),
                     ),
                     SizedBox(height: 10.h),
                     Padding(
@@ -1031,7 +1027,9 @@ class _HomeScreenState extends State<HomeScreen>
                 color: const Color(0xFFE0E0E0),
                 borderRadius: BorderRadius.circular(16.r),
                 image: DecorationImage(
-                  image: NetworkImage(item["image"]!),
+                  image: item["image"]!.startsWith('http')
+                      ? NetworkImage(item["image"]!)
+                      : AssetImage(item["image"]!) as ImageProvider,
                   fit: BoxFit.cover,
                   opacity: 0.15,
                 ),
@@ -1043,13 +1041,26 @@ class _HomeScreenState extends State<HomeScreen>
                     flex: 4,
                     child: Stack(
                       children: [
-                        CustomNetworkImage(
-                          imageUrl: item["image"]!,
-                          width: double.infinity,
-                          height: double.infinity,
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(16.r)),
-                        ),
+                        item["image"]!.startsWith('http')
+                            ? CustomNetworkImage(
+                                imageUrl: item["image"]!,
+                                width: double.infinity,
+                                height: double.infinity,
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(16.r)),
+                              )
+                            : Container(
+                                width: double.infinity,
+                                height: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(16.r)),
+                                  image: DecorationImage(
+                                    image: AssetImage(item["image"]!),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
                         Positioned(
                           top: 8.h,
                           left: 8.w,

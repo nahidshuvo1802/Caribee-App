@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tutor_app/view/screens/profile/view/settings/aboutUs.dart';
 import 'package:tutor_app/view/screens/profile/view/settings/privacy&policy.dart';
 import 'package:tutor_app/view/screens/profile/view/settings/termsOfServicesScreen.dart';
 
@@ -26,7 +25,8 @@ class AccountSettingsScreen extends StatelessWidget {
         centerTitle: true,
         leading: IconButton(
           onPressed: () => Get.back(),
-          icon: Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20.sp),
+          icon:
+              Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20.sp),
         ),
         title: Text(
           "Account Settings",
@@ -80,21 +80,24 @@ class AccountSettingsScreen extends StatelessWidget {
                         _buildSettingsItem(
                           title: "Change Password",
                           onTap: () {
-                            Get.to(() => const ChangePasswordScreen(), transition: Transition.fadeIn);
+                            Get.to(() => const ChangePasswordScreen(),
+                                transition: Transition.fadeIn);
                           },
                         ),
                         _buildDivider(),
                         _buildSettingsItem(
                           title: "Terms of Services",
                           onTap: () {
-                            Get.to(() => const TermsOfServicesScreen(), transition: Transition.fadeIn);
+                            Get.to(() => const TermsOfServicesScreen(),
+                                transition: Transition.fadeIn);
                           },
                         ),
                         _buildDivider(),
                         _buildSettingsItem(
                           title: "Privacy Policy",
                           onTap: () {
-                            Get.to(() => const PrivacyPolicyScreen(), transition: Transition.fadeIn);
+                            Get.to(() => const PrivacyPolicyScreen(),
+                                transition: Transition.fadeIn);
                           },
                         ),
                       ],

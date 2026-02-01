@@ -5,7 +5,7 @@ import 'package:tutor_app/view/components/custom_image/custom_image.dart';
 import '../../components/custom_nav_bar/navbar.dart';
 
 class Eventdetailsscreen extends StatefulWidget {
-  const Eventdetailsscreen({Key? key}) : super(key: key);
+  const Eventdetailsscreen({super.key});
 
   @override
   State<Eventdetailsscreen> createState() => _EventdetailsscreenState();

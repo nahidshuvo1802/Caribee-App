@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // --- Custom Components Imports ---
-import '../../components/custom_text/custom_text.dart';
 import '../../components/custom_netwrok_image/custom_network_image.dart';
 import '../../components/custom_nav_bar/navbar.dart';
 

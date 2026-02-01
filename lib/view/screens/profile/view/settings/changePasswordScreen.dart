@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_app/view/screens/profile/view/profileScreen.dart';
 
 // Custom Components Imports
@@ -19,7 +18,8 @@ class ChangePasswordScreen extends StatefulWidget {
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final TextEditingController oldPasswordController = TextEditingController();
   final TextEditingController newPasswordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   final Color primaryGreen = const Color(0xFF2E5C38);
 
   @override
@@ -42,7 +42,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         centerTitle: true,
         leading: IconButton(
           onPressed: () => Get.back(),
-          icon: Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20.sp),
+          icon:
+              Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20.sp),
         ),
         title: CustomText(
           text: "Change Password",
@@ -66,15 +67,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             child: Column(
               children: [
                 SizedBox(height: 20.h),
-
                 Expanded(
                   child: SingleChildScrollView(
                     padding: EdgeInsets.symmetric(horizontal: 24.w),
                     physics: const BouncingScrollPhysics(),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start, // Align titles to left
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start, // Align titles to left
                       children: [
-
                         SizedBox(height: 20.h),
 
                         // --- 1. Old Password ---
@@ -83,7 +83,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           textEditingController: oldPasswordController,
                           hintText: "Old Password",
                           isPassword: true,
-                          prefixIcon: Icon(Icons.lock_outline, color: primaryGreen, size: 22.sp),
+                          prefixIcon: Icon(Icons.lock_outline,
+                              color: primaryGreen, size: 22.sp),
                           fillColor: Colors.white.withOpacity(0.9),
                           fieldBorderRadius: 40, // Rounded 40
                         ),
@@ -95,7 +96,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           textEditingController: newPasswordController,
                           hintText: "New Password",
                           isPassword: true,
-                          prefixIcon: Icon(Icons.lock_outline, color: primaryGreen, size: 22.sp),
+                          prefixIcon: Icon(Icons.lock_outline,
+                              color: primaryGreen, size: 22.sp),
                           fillColor: Colors.white.withOpacity(0.9),
                           fieldBorderRadius: 40, // Rounded 40
                         ),
@@ -107,7 +109,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           textEditingController: confirmPasswordController,
                           hintText: "Confirm Password",
                           isPassword: true,
-                          prefixIcon: Icon(Icons.lock_outline, color: primaryGreen, size: 22.sp),
+                          prefixIcon: Icon(Icons.lock_outline,
+                              color: primaryGreen, size: 22.sp),
                           fillColor: Colors.white.withOpacity(0.9),
                           fieldBorderRadius: 40, // Rounded 40
                         ),
@@ -128,7 +131,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               text: "Forgot Password?",
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w500,
-                              color: Colors.white, // Changed to white to be visible on bg
+                              color: Colors
+                                  .white, // Changed to white to be visible on bg
                             ),
                           ),
                         ),
@@ -139,7 +143,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         CustomButton(
                           onTap: () {
                             // Logic to update password
-                            Get.to(() => const ProfileScreen(), transition: Transition.fadeIn);
+                            Get.to(() => const ProfileScreen(),
+                                transition: Transition.fadeIn);
                             Get.snackbar(
                               "Success",
                               "Password Updated Successfully",
@@ -149,7 +154,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               margin: EdgeInsets.all(20.w),
                               borderRadius: 12.r,
                               duration: const Duration(seconds: 2),
-                              icon: const Icon(Icons.check_circle, color: Colors.white),
+                              icon: const Icon(Icons.check_circle,
+                                  color: Colors.white),
                             );
                           },
                           title: "Update Password",

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../utils/app_colors/app_colors.dart';
-import '../custom_image/custom_image.dart';
 import '../custom_text/custom_text.dart';
 
 class CustomRoyelAppbar extends StatelessWidget implements PreferredSizeWidget {
@@ -20,7 +19,8 @@ class CustomRoyelAppbar extends StatelessWidget implements PreferredSizeWidget {
     this.rightIcon,
     this.rightOnTap,
     this.leftIcon = false,
-    this.color, this.backgroundColor ,
+    this.color,
+    this.backgroundColor,
   });
 
   @override
@@ -30,22 +30,24 @@ class CustomRoyelAppbar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       centerTitle: true,
       scrolledUnderElevation: 0,
-      backgroundColor: backgroundColor ?? Colors.transparent, // ✅ Previously transparent
-      systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith( // ✅ Added for status bar
-       // statusBarColor: AppColors.white,
+      backgroundColor:
+          backgroundColor ?? Colors.transparent, // ✅ Previously transparent
+      systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
+        // ✅ Added for status bar
+        // statusBarColor: AppColors.white,
         statusBarIconBrightness: Brightness.dark,
         statusBarBrightness: Brightness.light,
       ),
       actions: [
         IconButton(
-          onPressed: () {
-            rightOnTap?.call();
-          },
-          icon: rightIcon == null
-              ? const SizedBox()
-              : Icon(Icons.arrow_back_ios) 
-          //CustomImage(imageSrc: rightIcon!, height: 32, width: 32),
-        ),
+            onPressed: () {
+              rightOnTap?.call();
+            },
+            icon: rightIcon == null
+                ? const SizedBox()
+                : Icon(Icons.arrow_back_ios)
+            //CustomImage(imageSrc: rightIcon!, height: 32, width: 32),
+            ),
       ],
       leading: leftIcon == true
           ? BackButton(color: color ?? AppColors.primaryTitleTextClr)

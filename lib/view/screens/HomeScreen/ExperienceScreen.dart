@@ -433,7 +433,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen>
                                       bottom: 15.h), // Gap between cards
                                   child: _buildVerticalCard(item),
                                 );
-                              }).toList(),
+                              }),
                             ],
                           ),
                         ],

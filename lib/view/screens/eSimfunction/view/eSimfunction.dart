@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 // --- Custom Components ---
-import '../../../../utils/app_colors/app_colors.dart';
 import '../../components/custom_image/custom_image.dart';
 import '../../components/custom_netwrok_image/custom_network_image.dart';
 import '../../BussinessScreen/BussinessPromotionScreen.dart';
