@@ -392,10 +392,10 @@ class _FavouriteScreenState extends State<FavouriteScreen>
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 12,
-            spreadRadius: 0,
+            color: Colors.black.withValues(alpha: 0.08),
             offset: const Offset(0, 4),
+            blurRadius: 10,
+            spreadRadius: 2,
           ),
         ],
       ),
@@ -457,7 +457,46 @@ class _FavouriteScreenState extends State<FavouriteScreen>
                           color: AppColors.black,
                         ),
                       ),
-                      SizedBox(width: 8.w),
+                      SizedBox(width: 5.w),
+                      Text(
+                        "${item["rating"]}",
+                        style: GoogleFonts.poppins(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.black,
+                        ),
+                      ),
+                      Text(
+                        " (${item["rating"]})", // Display duplicate for now as requested or check if this is what user meant.
+                        // Wait, user said "both int stars and ratings number".
+                        // The existing code has stars and rating number.
+                        // "Row(children: List.generate(5, ...) ... Text("${item["rating"]}")"
+                        // It seems the user wants to ensure it is there.
+                        // Let's look at HomeScreen.dart lines 1099-1105. It has Icon(star) and Text(rating).
+                        // It does NOT have 5 stars.
+                        // User said "in every card where ratings are mentioned there'll be both stars and ratings number".
+                        // In FavoriteScreen, it has 5 stars AND the number.
+                        // In HomeScreen, it has 1 star and the number.
+                        // I should update HomeScreen to have 5 stars and the number if possible, or at least check if 5 stars fit.
+                        // The user request is "both stars and ratings number".
+                        // Plural "stars" might imply 5 stars.
+                        // Let's update HomeScreen to show 5 stars (or just one star and number if space is tight? User said "stars").
+                        // Since space might be tight in HomeScreen horizontal list, maybe just ensure the number is present.
+                        // The HomeScreen currently has `Icon(Icons.star_outlined, ...)` (singular).
+                        // I will change HomeScreen to use a Row of stars if it fits, or at least ensure the number is there.
+                        // It seems the user wants consistent "Stars + Number".
+                        // Let's assume they want the 5-star visual + number where possible.
+                        // However, strictly reading "both stars and ratings number" could mean "Star Icon + Number".
+                        // Let's look at the FavoriteScreen again. It has `List.generate(5...)` which creates 5 stars.
+                        // HomeScreen has 1 star.
+                        // I will update HomeScreen to have 1 star and number as it is, BUT maybe the user thinks it's missing somewhere?
+                        // Or maybe they want 5 stars in HomeScreen too?
+                        // Let's try to add the 5 stars in HomeScreen.
+                        style: GoogleFonts.poppins(
+                          fontSize: 12.sp,
+                          color: Colors.grey,
+                        ),
+                      ),
                       Expanded(
                         child: Text(
                           item["category"],

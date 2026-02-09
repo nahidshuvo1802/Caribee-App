@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:tutor_app/view/screens/BussinessScreen/promotionPageDetails.dart';
+import 'package:caribee_app/view/screens/BussinessScreen/promotionPageDetails.dart';
 
 // --- Custom Components Imports ---
 import '../../components/custom_text/custom_text.dart';
@@ -326,7 +326,7 @@ class BusinessPromotionScreen extends StatelessWidget {
           boxShadow: selected
               ? [
                   BoxShadow(
-                    color: const Color(0xFF2F6D59).withOpacity(0.25),
+                    color: const Color(0xFF2F6D59).withValues(alpha: 0.25),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   )
@@ -365,7 +365,7 @@ class BusinessPromotionScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(22.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.10),
+              color: Colors.black.withValues(alpha: 0.10),
               blurRadius: 16,
               offset: const Offset(0, 6),
             )
@@ -399,9 +399,9 @@ class BusinessPromotionScreen extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.black.withOpacity(0.05),
-                        Colors.black.withOpacity(0.35),
-                        Colors.black.withOpacity(0.85),
+                        Colors.black.withValues(alpha: 0.05),
+                        Colors.black.withValues(alpha: 0.35),
+                        Colors.black.withValues(alpha: 0.85),
                       ],
                       stops: const [0.0, 0.45, 1.0],
                     ),
@@ -417,7 +417,7 @@ class BusinessPromotionScreen extends StatelessWidget {
                   padding:
                       EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.85),
+                    color: Colors.white.withValues(alpha: 0.85),
                     borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: Text(
@@ -456,7 +456,7 @@ class BusinessPromotionScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w500,
-                        color: Colors.white.withOpacity(0.85),
+                        color: Colors.white.withValues(alpha: 0.85),
                       ),
                     ),
                     SizedBox(height: 10.h),
@@ -477,7 +477,7 @@ class BusinessPromotionScreen extends StatelessWidget {
                         fontSize: 11.sp,
                         height: 1.25,
                         fontWeight: FontWeight.w500,
-                        color: Colors.white.withOpacity(0.88),
+                        color: Colors.white.withValues(alpha: 0.88),
                       ),
                     ),
                     SizedBox(height: 12.h),
@@ -535,7 +535,7 @@ class BusinessPromotionScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.10),
+              color: Colors.black.withValues(alpha: 0.10),
               blurRadius: 14,
               offset: const Offset(0, 6),
             )
@@ -652,7 +652,7 @@ class BusinessPromotionScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.08),
+              color: Colors.black.withValues(alpha: 0.08),
               blurRadius: 12,
               offset: const Offset(0, 4),
             )

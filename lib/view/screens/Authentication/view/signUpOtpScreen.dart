@@ -12,21 +12,21 @@ import '../../../components/custom_pin_code/custom_pin_code.dart';
 // Import the Login Screen
 import 'LoginScreen.dart';
 
-class signUpOtpSreen extends StatefulWidget {
-  const signUpOtpSreen({super.key});
+class SignUpOtpScreen extends StatefulWidget {
+  const SignUpOtpScreen({super.key});
 
   @override
-  State<signUpOtpSreen> createState() => _VerifyOtpScreenState();
+  State<SignUpOtpScreen> createState() => _VerifyOtpScreenState();
 }
 
-class _VerifyOtpScreenState extends State<signUpOtpSreen> {
+class _VerifyOtpScreenState extends State<SignUpOtpScreen> {
   final TextEditingController _otpController = TextEditingController();
 
   // Loading State
   bool isLoading = false;
 
   final Color _primaryGreen = const Color(0xFF437C68);
-  final Color _containerWhite = const Color(0xFFFFFFFF).withOpacity(0.85);
+  final Color _containerWhite = const Color(0xFFFFFFFF).withValues(alpha: 0.85);
   final Color _linkColor = const Color(0xFF2C6E8F);
 
   // ✅ 1. DEFINE GRADIENT
@@ -134,7 +134,7 @@ class _VerifyOtpScreenState extends State<signUpOtpSreen> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.r),
           ),
-          backgroundColor: Colors.white.withOpacity(0.95),
+          backgroundColor: Colors.white.withValues(alpha: 0.95),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
             child: Column(
@@ -215,7 +215,7 @@ class _VerifyOtpScreenState extends State<signUpOtpSreen> {
           ),
           Positioned.fill(
             child: Container(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               child: SafeArea(
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
@@ -285,7 +285,7 @@ class _VerifyOtpScreenState extends State<signUpOtpSreen> {
           borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha: 0.05),
                 blurRadius: 15,
                 spreadRadius: 2)
           ]),

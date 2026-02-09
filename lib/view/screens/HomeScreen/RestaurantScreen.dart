@@ -98,7 +98,8 @@ class _RestaurantScreenState extends State<RestaurantScreen>
         "image":
             "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800",
         "tag": "Top Rated",
-        "location": "Port Antonio"
+        "location": "Port Antonio",
+        "type": "Seafood"
       },
       {
         "title": "Ocean's 11 Spot",
@@ -107,7 +108,8 @@ class _RestaurantScreenState extends State<RestaurantScreen>
         "image":
             "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=800",
         "tag": "Trending",
-        "location": "Ocho Rios"
+        "location": "Ocho Rios",
+        "type": "Jamaican"
       },
       {
         "title": "Spice Garden",
@@ -116,7 +118,8 @@ class _RestaurantScreenState extends State<RestaurantScreen>
         "image":
             "https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=800",
         "tag": "New",
-        "location": "Kingston"
+        "location": "Kingston",
+        "type": "Grill"
       },
     ];
 
@@ -203,7 +206,7 @@ class _RestaurantScreenState extends State<RestaurantScreen>
           // Overlay
           Positioned.fill(
             child: Container(
-              color: Colors.black.withOpacity(0.5),
+              color: Colors.black.withValues(alpha: 0.5),
             ),
           ),
 
@@ -238,7 +241,7 @@ class _RestaurantScreenState extends State<RestaurantScreen>
                                 "Where great food meets atmosphere, culture, and good company",
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
-                            color: Colors.white.withOpacity(0.9),
+                            color: Colors.white.withValues(alpha: 0.9),
                             textAlign: TextAlign.left,
                             maxLines: 2,
                           ),
@@ -256,7 +259,7 @@ class _RestaurantScreenState extends State<RestaurantScreen>
                                 borderRadius: BorderRadius.circular(16.r),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.08),
+                                    color: Colors.black.withValues(alpha: 0.08),
                                     blurRadius: 12,
                                     offset: const Offset(0, 4),
                                   ),
@@ -264,22 +267,10 @@ class _RestaurantScreenState extends State<RestaurantScreen>
                               ),
                               child: Row(
                                 children: [
-                                  Container(
-                                    padding: EdgeInsets.all(8.w),
-                                    decoration: BoxDecoration(
-                                      gradient: const LinearGradient(
-                                        colors: [
-                                          Color(0xFF2E5C38),
-                                          Color(0xFF66B290)
-                                        ],
-                                      ),
-                                      borderRadius: BorderRadius.circular(10.r),
-                                    ),
-                                    child: Icon(
-                                      Icons.search_rounded,
-                                      color: Colors.white,
-                                      size: 18.sp,
-                                    ),
+                                  Icon(
+                                    Icons.search_rounded,
+                                    color: Colors.grey[500],
+                                    size: 24.sp,
                                   ),
                                   SizedBox(width: 12.w),
                                   Expanded(
@@ -356,7 +347,7 @@ class _RestaurantScreenState extends State<RestaurantScreen>
                                   ? [
                                       BoxShadow(
                                         color: const Color(0xFFFF6B35)
-                                            .withOpacity(0.4),
+                                            .withValues(alpha: 0.4),
                                         offset: const Offset(0, 4),
                                         blurRadius: 8,
                                       ),
@@ -460,11 +451,15 @@ class _RestaurantScreenState extends State<RestaurantScreen>
 
                           SizedBox(height: 25.h),
 
-                          CustomText(
-                            text: "Nearby Resturant",
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: CustomText(
+                              text: "Nearby Resturant",
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              textAlign: TextAlign.left,
+                            ),
                           ),
                           SizedBox(height: 15.h),
 
@@ -536,8 +531,44 @@ class _RestaurantScreenState extends State<RestaurantScreen>
                           borderRadius: BorderRadius.circular(12.r)),
                       child: Row(
                         children: [
-                          Icon(Icons.local_fire_department,
-                              color: Colors.orange, size: 12.sp),
+                          item["tag"] == "Trusted"
+                              ? Image.asset("assets/images/icon/trusted.png",
+                                  height: 12.sp,
+                                  width: 12.sp,
+                                  fit: BoxFit.contain)
+                              : item["tag"] == "Top Rated"
+                                  ? Image.asset(
+                                      "assets/images/icon/favorite.png",
+                                      height: 12.sp,
+                                      width: 12.sp,
+                                      fit: BoxFit.contain)
+                                  : item["tag"] == "Weekly Pick"
+                                      ? Image.asset(
+                                          "assets/images/icon/7-days.png",
+                                          height: 12.sp,
+                                          width: 12.sp,
+                                          fit: BoxFit.contain)
+                                      : item["tag"] == "Trending"
+                                          ? Image.asset(
+                                              "assets/images/icon/trend.png",
+                                              height: 12.sp,
+                                              width: 12.sp,
+                                              fit: BoxFit.contain)
+                                          : item["tag"] == "Popular"
+                                              ? Image.asset(
+                                                  "assets/images/icon/flame.png",
+                                                  height: 12.sp,
+                                                  width: 12.sp,
+                                                  fit: BoxFit.contain)
+                                              : item["tag"] == "New"
+                                                  ? Icon(Icons.new_releases,
+                                                      color: Colors.orange,
+                                                      size: 12.sp)
+                                                  : Icon(
+                                                      Icons
+                                                          .local_fire_department,
+                                                      color: Colors.orange,
+                                                      size: 12.sp),
                           SizedBox(width: 4.w),
                           Text(item["tag"]!,
                               style: GoogleFonts.poppins(
@@ -569,17 +600,21 @@ class _RestaurantScreenState extends State<RestaurantScreen>
                     Row(
                       children: [
                         Icon(Icons.star_outlined,
-                            color: Colors.amber, size: 18.sp),
+                            color: Colors.amber, size: 16.sp),
                         SizedBox(width: 4.w),
                         Text(item["rating"]!,
                             style: GoogleFonts.poppins(
-                                fontSize: 14.sp, fontWeight: FontWeight.bold)),
-                        Container(
-                          height: 12.h,
-                          width: 1.w,
-                          color: Colors.grey,
-                          margin: EdgeInsets.symmetric(horizontal: 16.w),
-                        ),
+                                fontSize: 12.sp, fontWeight: FontWeight.bold)),
+                        SizedBox(width: 8.w),
+                        Text("• ${item["type"]}",
+                            style: GoogleFonts.poppins(
+                                fontSize: 12.sp, color: Colors.grey[700]),
+                            overflow: TextOverflow.ellipsis),
+                      ],
+                    ),
+                    SizedBox(height: 4.h),
+                    Row(
+                      children: [
                         Icon(Icons.location_on, color: Colors.red, size: 14.sp),
                         SizedBox(width: 4.w),
                         Expanded(
@@ -616,6 +651,14 @@ class _RestaurantScreenState extends State<RestaurantScreen>
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.1),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+              spreadRadius: 1,
+            ),
+          ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,

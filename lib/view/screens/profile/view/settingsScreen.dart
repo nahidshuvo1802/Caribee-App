@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tutor_app/view/screens/profile/view/settings/privacy&policy.dart';
-import 'package:tutor_app/view/screens/profile/view/settings/termsOfServicesScreen.dart';
+import 'package:caribee_app/view/screens/profile/view/settings/privacy_policy.dart';
+import 'package:caribee_app/view/screens/profile/view/settings/termsOfServicesScreen.dart';
 
 // Custom Components Imports
 import '../../../components/custom_image/custom_image.dart';
@@ -65,11 +65,11 @@ class AccountSettingsScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.85),
+                      color: Colors.white.withValues(alpha: 0.85),
                       borderRadius: BorderRadius.circular(16.r),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.black.withValues(alpha: 0.1),
                           blurRadius: 10,
                           spreadRadius: 2,
                         )
@@ -152,7 +152,7 @@ class AccountSettingsScreen extends StatelessWidget {
   Widget _buildDivider() {
     return Divider(
       height: 1,
-      color: AppColors.black.withOpacity(0.1),
+      color: AppColors.black.withValues(alpha: 0.1),
       indent: 20.w,
       endIndent: 20.w,
     );

@@ -43,8 +43,8 @@ class _SplashScreenState extends State<SplashScreen> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.black.withOpacity(0.1),
-                  Colors.black.withOpacity(0.7),
+                  Colors.black.withValues(alpha: 0.1),
+                  Colors.black.withValues(alpha: 0.7),
                 ],
               ),
             ),
@@ -76,7 +76,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       style: GoogleFonts.inter(
                           // ✅ Changed to GoogleFonts.inter
                           fontSize: 14.sp,
-                          color: Colors.white.withOpacity(0.9),
+                          color: Colors.white.withValues(alpha: 0.9),
                           height: 1.5)),
 
                   const Spacer(flex: 3),
@@ -98,7 +98,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       child: LinearProgressIndicator(
                         minHeight: 4.h, // বারের উচ্চতা
                         backgroundColor: Colors.white
-                            .withOpacity(0.2), // ব্যাকগ্রাউন্ড কালার
+                            .withValues(alpha: 0.2), // ব্যাকগ্রাউন্ড কালার
                         valueColor: const AlwaysStoppedAnimation<Color>(
                             Color(0xFF2E7D58) // আপনার অ্যাপের গ্রিন থিম কালার
                             ),

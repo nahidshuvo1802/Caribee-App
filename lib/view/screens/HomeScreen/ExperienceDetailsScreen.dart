@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 // তোমার প্রজেক্টের পাথ অনুযায়ী ইমপোর্ট ঠিক রেখো
-import 'package:tutor_app/view/components/custom_image/custom_image.dart';
+import 'package:caribee_app/view/components/custom_image/custom_image.dart';
 import '../../components/custom_nav_bar/navbar.dart';
 
 class Experiencedetailsscreen extends StatefulWidget {
@@ -92,7 +92,7 @@ class _ExperiencedetailsscreenState extends State<Experiencedetailsscreen>
               leading: Container(
                 margin: EdgeInsets.all(8.w),
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.3),
+                  color: Colors.black.withValues(alpha: 0.3),
                   shape: BoxShape.circle,
                 ),
                 child: IconButton(
@@ -140,9 +140,9 @@ class _ExperiencedetailsscreenState extends State<Experiencedetailsscreen>
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Colors.black.withOpacity(0.6), // Darker at top
+                            Colors.black.withValues(alpha: 0.6), // Darker at top
                             Colors.transparent,
-                            Colors.black.withOpacity(0.4),
+                            Colors.black.withValues(alpha: 0.4),
                           ],
                           stops: const [0.0, 0.4, 1.0],
                         ),
@@ -435,7 +435,7 @@ class _ExperiencedetailsscreenState extends State<Experiencedetailsscreen>
               borderRadius: BorderRadius.circular(12.r),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
+                  color: Colors.black.withValues(alpha: 0.2),
                   offset: const Offset(0, 4),
                   blurRadius: 5,
                 ),

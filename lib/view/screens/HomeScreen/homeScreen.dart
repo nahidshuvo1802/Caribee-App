@@ -16,7 +16,7 @@ import '../../components/custom_netwrok_image/custom_network_image.dart';
 import '../BussinessScreen/BussinessPromotionScreen.dart';
 import 'EventScreen.dart';
 import 'ExperienceScreen.dart';
-import 'NotificationScreen.dart';
+
 import 'RestaurantScreen.dart';
 import 'RestaurantDetailsScreen.dart';
 import 'EventDetailsScreen.dart';
@@ -220,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen>
                     borderRadius: BorderRadius.circular(30.r),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.black.withValues(alpha: 0.2),
                         offset: const Offset(0, 4),
                         blurRadius: 5,
                       ),
@@ -288,8 +288,8 @@ class _HomeScreenState extends State<HomeScreen>
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Colors.black.withOpacity(0.1),
-                    Colors.black.withOpacity(0.7),
+                    Colors.black.withValues(alpha: 0.1),
+                    Colors.black.withValues(alpha: 0.7),
                   ],
                 ),
               ),
@@ -386,11 +386,11 @@ class _HomeScreenState extends State<HomeScreen>
         "tag": "Trusted"
       },
       {
-        "title": "Mountain View",
-        "rating": "4.8",
-        "location": "Kingston • 1.2 km",
+        "title": "Miss T's Kitchen",
+        "rating": "4.7",
+        "location": "Ocho Rios • 0.8 km",
         "image":
-            "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=600&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=600&auto=format&fit=crop",
         "tag": "Popular"
       },
     ];
@@ -466,31 +466,14 @@ class _HomeScreenState extends State<HomeScreen>
         ),
         actions: [
           GestureDetector(
-            onTap: () => Get.to(() => const NotificationScreen()),
+            onTap: () => Get.to(() => const CaribeeHomeScreen()),
             child: Container(
               margin: EdgeInsets.only(right: 20.w),
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  const Icon(Icons.notifications,
-                      color: Colors.white, size: 28),
-                  Positioned(
-                    top: -2,
-                    right: -2,
-                    child: Container(
-                      height: 14.h,
-                      width: 14.w,
-                      alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Text("2",
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 8.sp)),
-                    ),
-                  )
-                ],
+              child: CustomImage(
+                imageSrc: "assets/images/icon/security.png",
+                imageType: ImageType.png,
+                height: 35.h,
+                width: 35.w,
               ),
             ),
           )
@@ -594,7 +577,7 @@ class _HomeScreenState extends State<HomeScreen>
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
+                              color: Colors.black.withValues(alpha: 0.1),
                               blurRadius: 10,
                               offset: const Offset(0, 4),
                             ),
@@ -622,8 +605,9 @@ class _HomeScreenState extends State<HomeScreen>
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 16.w, vertical: 12.h),
                                     decoration: BoxDecoration(
-                                      color: const Color(0xFFFBF4E4).withOpacity(
-                                          0.7), // ইমেজের মতো হালকা ক্রিম/সাদা কালার
+                                      color: const Color(0xFFFBF4E4).withValues(
+                                          alpha:
+                                              0.7), // ইমেজের মতো হালকা ক্রিম/সাদা কালার
                                     ),
                                     child: Row(
                                       mainAxisAlignment:
@@ -690,7 +674,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 const AssetImage("assets/images/Home/esim.png"),
                             fit: BoxFit.cover,
                             colorFilter: ColorFilter.mode(
-                              const Color(0xFF2E5C38).withOpacity(0.2),
+                              const Color(0xFF2E5C38).withValues(alpha: 0.2),
                               BlendMode.multiply,
                             ),
                           ),
@@ -706,8 +690,8 @@ class _HomeScreenState extends State<HomeScreen>
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
                               colors: [
-                                Colors.white.withOpacity(
-                                    0.3), // বাম পাশে হালকা সাদা ভাব
+                                Colors.white.withValues(
+                                    alpha: 0.3), // বাম পাশে হালকা সাদা ভাব
                                 Colors.transparent, // ডান পাশে ট্রান্সপারেন্ট
                               ],
                             ),
@@ -800,7 +784,7 @@ class _HomeScreenState extends State<HomeScreen>
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: _buildSectionHeader(
-                        "Featured Restaurant",
+                        "Featured Restaurants",
                         onTap: () => Get.to(() => const RestaurantScreen()),
                       ),
                     ),
@@ -817,7 +801,7 @@ class _HomeScreenState extends State<HomeScreen>
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: _buildSectionHeader(
-                        "Featured Experience",
+                        "Featured Experiences",
                         onTap: () => Get.to(() => const ExperiencesScreen()),
                       ),
                     ),
@@ -863,10 +847,10 @@ class _HomeScreenState extends State<HomeScreen>
                                 vertical: 15.h, horizontal: 15.w),
                             decoration: BoxDecoration(
                               // 🟢 3. ব্যাকগ্রাউন্ডে হালকা কালো শেড (যাতে টেক্সট ফুটে ওঠে)
-                              color: Colors.black.withOpacity(0.3),
+                              color: Colors.black.withValues(alpha: 0.3),
                               borderRadius: BorderRadius.circular(16.r),
                               border: Border.all(
-                                  color: Colors.amber.withOpacity(0.4)),
+                                  color: Colors.amber.withValues(alpha: 0.4)),
                             ),
                             child: Row(
                               children: [
@@ -996,12 +980,33 @@ class _HomeScreenState extends State<HomeScreen>
         if (onTap != null)
           GestureDetector(
             onTap: onTap,
-            child: Text(
-              "View All",
-              style: GoogleFonts.poppins(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFFFFD15C),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.6),
+                borderRadius: BorderRadius.circular(20.r),
+                border: Border.all(
+                  color: const Color(0xFFFFD15C),
+                  width: 1,
+                ),
+              ),
+              child: Row(
+                children: [
+                  Text(
+                    "View All",
+                    style: GoogleFonts.poppins(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFFFFD15C),
+                    ),
+                  ),
+                  SizedBox(width: 4.w),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: 10.sp,
+                    color: const Color(0xFFFFD15C),
+                  ),
+                ],
               ),
             ),
           ),
@@ -1080,8 +1085,57 @@ class _HomeScreenState extends State<HomeScreen>
                                         width: 12.sp,
                                         fit: BoxFit.contain,
                                       )
-                                    : Icon(Icons.local_fire_department,
-                                        color: Colors.orange, size: 12.sp),
+                                    : item["tag"] == "Top Rated"
+                                        ? Image.asset(
+                                            "assets/images/icon/favorite.png",
+                                            height: 12.sp,
+                                            width: 12.sp,
+                                            fit: BoxFit.contain,
+                                          )
+                                        : item["tag"] == "Weekly Pick"
+                                            ? Image.asset(
+                                                "assets/images/icon/7-days.png",
+                                                height: 12.sp,
+                                                width: 12.sp,
+                                                fit: BoxFit.contain,
+                                              )
+                                            : item["tag"] == "Trending"
+                                                ? Image.asset(
+                                                    "assets/images/icon/trend.png",
+                                                    height: 12.sp,
+                                                    width: 12.sp,
+                                                    fit: BoxFit.contain,
+                                                  )
+                                                : item["tag"] == "Live"
+                                                    ? Image.asset(
+                                                        "assets/images/icon/live-stream.png",
+                                                        height: 12.sp,
+                                                        width: 12.sp,
+                                                        fit: BoxFit.contain,
+                                                      )
+                                                    : item["tag"] == "Upcoming"
+                                                        ? Image.asset(
+                                                            "assets/images/icon/upcoming.png",
+                                                            height: 12.sp,
+                                                            width: 12.sp,
+                                                            fit: BoxFit.contain,
+                                                          )
+                                                        : item["tag"] ==
+                                                                "Featured"
+                                                            ? Image.asset(
+                                                                "assets/images/icon/featured.png",
+                                                                height: 12.sp,
+                                                                width: 12.sp,
+                                                                fit: BoxFit
+                                                                    .contain,
+                                                              )
+                                                            : Icon(
+                                                                Icons
+                                                                    .local_fire_department,
+                                                                color: Colors
+                                                                    .orange,
+                                                                size: 12.sp,
+                                                              ),
                                 SizedBox(width: 4.w),
                                 Text(item["tag"]!,
                                     style: GoogleFonts.poppins(
@@ -1112,13 +1166,24 @@ class _HomeScreenState extends State<HomeScreen>
                           SizedBox(height: 6.h),
                           Row(
                             children: [
-                              Icon(Icons.star_outlined,
-                                  color: Colors.amber, size: 18.sp),
+                              Row(
+                                children: List.generate(
+                                  5,
+                                  (index) => Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                    size: 12.sp,
+                                  ),
+                                ),
+                              ),
                               SizedBox(width: 4.w),
-                              Text(item["rating"]!,
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.bold)),
+                              Text(
+                                item["rating"]!,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                               Container(
                                 height: 12.h,
                                 width: 1.w,

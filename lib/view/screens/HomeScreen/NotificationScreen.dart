@@ -116,12 +116,12 @@ class _NotificationScreenState extends State<NotificationScreen>
                     padding:
                         EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(
-                          0.9), // আগের স্ক্রিনগুলোর মতো সলিড সাদা ভাব
+                      color: Colors.white.withValues(
+                          alpha: 0.9), // আগের স্ক্রিনগুলোর মতো সলিড সাদা ভাব
                       borderRadius: BorderRadius.circular(20.r),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
+                          color: Colors.black.withValues(alpha: 0.05),
                           blurRadius: 10,
                           spreadRadius: 2,
                         )
@@ -135,7 +135,7 @@ class _NotificationScreenState extends State<NotificationScreen>
                         padding: EdgeInsets.zero,
                         itemCount: 5, // ডামি ডাটা সংখ্যা
                         separatorBuilder: (context, index) => Divider(
-                          color: Colors.grey.withOpacity(0.2),
+                          color: Colors.grey.withValues(alpha: 0.2),
                           height: 20.h,
                         ),
                         itemBuilder: (context, index) {
@@ -177,7 +177,7 @@ class _NotificationScreenState extends State<NotificationScreen>
           width: 40.w,
           decoration: BoxDecoration(
             color: const Color(0xFF2E5C38)
-                .withOpacity(0.1), // হালকা গ্রিন ব্যাকগ্রাউন্ড
+                .withValues(alpha: 0.1), // হালকা গ্রিন ব্যাকগ্রাউন্ড
             shape: BoxShape.circle,
           ),
           child: Icon(

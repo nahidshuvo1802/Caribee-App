@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import 'package:tutor_app/view/screens/splash/view/SplashScreens/SplashScreen.dart';
+import 'package:caribee_app/view/screens/splash/view/SplashScreens/SplashScreen.dart';
 
-import 'package:tutor_app/controllers/network_controller.dart';
+import 'package:caribee_app/controllers/network_controller.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

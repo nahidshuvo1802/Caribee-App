@@ -194,7 +194,7 @@ class MainOnboardingScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30.r),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFF2E7D58).withOpacity(0.5),
+                        color: const Color(0xFF2E7D58).withValues(alpha: 0.5),
                         blurRadius: 12,
                         offset: const Offset(0, 6),
                       ),
@@ -247,9 +247,9 @@ class MainOnboardingScreen extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Colors.black.withOpacity(0.1),
-                Colors.black.withOpacity(0.5),
-                Colors.black.withOpacity(0.95),
+                Colors.black.withValues(alpha: 0.1),
+                Colors.black.withValues(alpha: 0.5),
+                Colors.black.withValues(alpha: 0.95),
               ],
               stops: const [0.0, 0.6, 1.0],
             ),
@@ -274,7 +274,7 @@ class MainOnboardingScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 16.sp,
-                        color: Colors.white.withOpacity(0.9),
+                        color: Colors.white.withValues(alpha: 0.9),
                         height: 1.5),
                   ),
                 ],
@@ -296,7 +296,7 @@ class MainOnboardingScreen extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 38.h),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.white.withOpacity(0.01)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.01)),
       ),
       child: Column(
         children: [
@@ -361,7 +361,7 @@ class MainOnboardingScreen extends StatelessWidget {
                 ],
               )
             : null,
-        color: isActive ? null : Colors.white.withOpacity(0.5),
+        color: isActive ? null : Colors.white.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(4.r),
       ),
     );

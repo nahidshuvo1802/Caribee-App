@@ -53,7 +53,7 @@ class EsimScreen extends StatelessWidget {
           // ------------------------------------------------
           Positioned.fill(
             child: Container(
-              color: Colors.white.withOpacity(0.5),
+              color: Colors.white.withValues(alpha: 0.5),
               child: SafeArea(
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
@@ -98,11 +98,11 @@ class EsimScreen extends StatelessWidget {
                         child: Container(
                           padding: EdgeInsets.all(16.w),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.9),
+                            color: Colors.white.withValues(alpha: 0.9),
                             borderRadius: BorderRadius.circular(16.r),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.05),
+                                color: Colors.black.withValues(alpha: 0.05),
                                 blurRadius: 10,
                                 spreadRadius: 2,
                               )
@@ -259,7 +259,7 @@ class EsimScreen extends StatelessWidget {
                                     decoration: BoxDecoration(
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.red.withOpacity(0.3),
+                                          color: Colors.red.withValues(alpha: 0.3),
                                           blurRadius: 8,
                                           offset: const Offset(0, 3),
                                         ),
@@ -337,9 +337,9 @@ class EsimScreen extends StatelessWidget {
                                 end: Alignment.centerRight,
                                 colors: [
                                   const Color.fromRGBO(255, 98, 0, 1)
-                                      .withOpacity(0.85),
+                                      .withValues(alpha: 0.85),
                                   const Color.fromRGBO(107, 28, 29, 1)
-                                      .withOpacity(0.85),
+                                      .withValues(alpha: 0.85),
                                 ],
                               ),
                             ),
@@ -507,7 +507,7 @@ class EsimScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 5,
             spreadRadius: 1,
           )

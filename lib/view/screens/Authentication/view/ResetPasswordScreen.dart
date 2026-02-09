@@ -19,15 +19,15 @@ class ResetPasswordScreen extends StatefulWidget {
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   // Loading State
   bool isLoading = false;
 
   // Colors
   final Color _primaryGreen = const Color(0xFF437C68);
-  final Color _containerWhite = const Color(0xFFFFFFFF).withOpacity(0.85);
-  final Color _linkColor = const Color(0xFF2C6E8F);
+  final Color _containerWhite = const Color(0xFFFFFFFF).withValues(alpha: 0.85);
 
   // ✅ 1. DEFINE GRADIENT
   final Gradient _primaryGradient = const LinearGradient(
@@ -91,7 +91,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
     // Navigate back to Login
     Get.offAll(
-          () => const LoginScreen(),
+      () => const LoginScreen(),
       transition: Transition.fadeIn,
       duration: const Duration(milliseconds: 300),
     );
@@ -136,7 +136,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           // 2. Dark Overlay & Content
           Positioned.fill(
             child: Container(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               child: SafeArea(
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
@@ -152,20 +152,20 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       // Update Password Button (Shows Loader if loading)
                       isLoading
                           ? Center(
-                        child: CircularProgressIndicator(
-                          color: _primaryGreen,
-                        ),
-                      )
-                      // ✅ 2. APPLY GRADIENT
+                              child: CircularProgressIndicator(
+                                color: _primaryGreen,
+                              ),
+                            )
+                          // ✅ 2. APPLY GRADIENT
                           : CustomButton(
-                        onTap: _handleUpdatePassword,
-                        title: "Update Password",
-                        gradient: _primaryGradient, // Use gradient here
-                        textColor: Colors.white,
-                        borderRadius: 30.r,
-                        height: 56.h,
-                        fontSize: 18.sp,
-                      ),
+                              onTap: _handleUpdatePassword,
+                              title: "Update Password",
+                              gradient: _primaryGradient, // Use gradient here
+                              textColor: Colors.white,
+                              borderRadius: 30.r,
+                              height: 56.h,
+                              fontSize: 18.sp,
+                            ),
 
                       SizedBox(height: 50.h),
                     ],
@@ -207,7 +207,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 15,
             spreadRadius: 2,
           ),
@@ -259,8 +259,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             textEditingController: _newPasswordController,
             hintText: "Enter password",
             isPassword: true,
-            prefixIcon: Icon(Icons.lock_rounded,
-                color: Colors.grey[600], size: 20.sp),
+            prefixIcon:
+                Icon(Icons.lock_rounded, color: Colors.grey[600], size: 20.sp),
             fillColor: Colors.white,
             fieldBorderRadius: 12.r,
           ),
@@ -280,8 +280,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             textEditingController: _confirmPasswordController,
             hintText: "Enter password",
             isPassword: true,
-            prefixIcon: Icon(Icons.lock_rounded,
-                color: Colors.grey[600], size: 20.sp),
+            prefixIcon:
+                Icon(Icons.lock_rounded, color: Colors.grey[600], size: 20.sp),
             fillColor: Colors.white,
             fieldBorderRadius: 12.r,
           ),

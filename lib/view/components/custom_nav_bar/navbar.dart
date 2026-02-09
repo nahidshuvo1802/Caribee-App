@@ -152,7 +152,7 @@ class _NavBarContent extends StatelessWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.3),
+            color: Colors.black.withValues(alpha: 0.3),
             blurRadius: 10,
             spreadRadius: 2,
             offset: const Offset(0, -2),
@@ -206,7 +206,7 @@ class _NavBarContent extends StatelessWidget {
             horizontal: isSelected ? 12.w : 0, vertical: 8.h),
         decoration: isSelected
             ? BoxDecoration(
-                color: Colors.white.withOpacity(0.05),
+                color: Colors.white.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(20.r),
               )
             : null,

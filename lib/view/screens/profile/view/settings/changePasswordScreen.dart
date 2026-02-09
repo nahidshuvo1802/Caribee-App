@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:tutor_app/view/screens/profile/view/profileScreen.dart';
+import 'package:caribee_app/view/screens/profile/view/profileScreen.dart';
 
 // Custom Components Imports
 import '../../../../components/custom_button/custom_button.dart';
@@ -85,7 +85,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           isPassword: true,
                           prefixIcon: Icon(Icons.lock_outline,
                               color: primaryGreen, size: 22.sp),
-                          fillColor: Colors.white.withOpacity(0.9),
+                          fillColor: Colors.white.withValues(alpha: 0.9),
                           fieldBorderRadius: 40, // Rounded 40
                         ),
                         SizedBox(height: 20.h),
@@ -98,7 +98,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           isPassword: true,
                           prefixIcon: Icon(Icons.lock_outline,
                               color: primaryGreen, size: 22.sp),
-                          fillColor: Colors.white.withOpacity(0.9),
+                          fillColor: Colors.white.withValues(alpha: 0.9),
                           fieldBorderRadius: 40, // Rounded 40
                         ),
                         SizedBox(height: 20.h),
@@ -111,7 +111,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           isPassword: true,
                           prefixIcon: Icon(Icons.lock_outline,
                               color: primaryGreen, size: 22.sp),
-                          fillColor: Colors.white.withOpacity(0.9),
+                          fillColor: Colors.white.withValues(alpha: 0.9),
                           fieldBorderRadius: 40, // Rounded 40
                         ),
 

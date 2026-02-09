@@ -32,7 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // --- Controllers & Variables (Create Account) ---
   final TextEditingController _fullNameController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final TextEditingController _personalizeController = TextEditingController();
 
   // Dropdown Values
@@ -52,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // Colors
   final Color _primaryGreen = const Color(0xFF437C68);
-  final Color _containerWhite = const Color(0xFFFFFFFF).withOpacity(0.90);
+  final Color _containerWhite = const Color(0xFFFFFFFF).withValues(alpha: 0.90);
   final Color _labelColor = Colors.black87;
 
   // ✅ 1. DEFINE THE GREEN GRADIENT
@@ -114,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Get.offAll(() => const HomeScreen());
     } else {
       print("Create Account Successful");
-      Get.to(() => const signUpOtpSreen());
+      Get.to(() => const SignUpOtpScreen());
     }
   }
 
@@ -156,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
           // Content with Overlay
           Positioned.fill(
             child: Container(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               child: SafeArea(
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
@@ -174,20 +175,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       // Main Button with Loading State
                       isLoading
                           ? Center(
-                        child: CircularProgressIndicator(
-                          color: _primaryGreen,
-                        ),
-                      )
-                      // ✅ 2. APPLY GRADIENT TO BUTTON
+                              child: CircularProgressIndicator(
+                                color: _primaryGreen,
+                              ),
+                            )
+                          // ✅ 2. APPLY GRADIENT TO BUTTON
                           : CustomButton(
-                        onTap: _handleAuthAction,
-                        title: isSignIn ? "Sign In" : "Create Account",
-                        gradient: _primaryGradient, // Use gradient here
-                        textColor: Colors.white,
-                        borderRadius: 30.r,
-                        height: 56.h,
-                        fontSize: 18.sp,
-                      ),
+                              onTap: _handleAuthAction,
+                              title: isSignIn ? "Sign In" : "Create Account",
+                              gradient: _primaryGradient, // Use gradient here
+                              textColor: Colors.white,
+                              borderRadius: 30.r,
+                              height: 56.h,
+                              fontSize: 18.sp,
+                            ),
 
                       SizedBox(height: 20.h),
                       _buildFooter(),
@@ -226,9 +227,9 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       height: 50.h,
       decoration: BoxDecoration(
-        color: const Color(0xFFB0C6D1).withOpacity(0.6),
+        color: const Color(0xFFB0C6D1).withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: Colors.white.withOpacity(0.3)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
       ),
       child: Stack(
         children: [
@@ -245,7 +246,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 borderRadius: BorderRadius.circular(10.r),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 4,
                     offset: const Offset(0, 2),
                   ),
@@ -296,7 +297,7 @@ class _LoginScreenState extends State<LoginScreen> {
         borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 15,
             spreadRadius: 2,
           ),
@@ -318,7 +319,8 @@ class _LoginScreenState extends State<LoginScreen> {
         CustomTextField(
           textEditingController: _emailController,
           hintText: "Enter email or phone number",
-          prefixIcon: Icon(Icons.email_sharp, color: Colors.grey[600], size: 20.sp),
+          prefixIcon:
+              Icon(Icons.email_sharp, color: Colors.grey[600], size: 20.sp),
           fillColor: Colors.white,
           fieldBorderRadius: 12.r,
         ),
@@ -329,7 +331,8 @@ class _LoginScreenState extends State<LoginScreen> {
           textEditingController: _passwordController,
           hintText: "Enter password",
           isPassword: true,
-          prefixIcon: Icon(Icons.lock_rounded, color: Colors.grey[600], size: 20.sp),
+          prefixIcon:
+              Icon(Icons.lock_rounded, color: Colors.grey[600], size: 20.sp),
           fillColor: Colors.white,
           fieldBorderRadius: 12.r,
         ),
@@ -339,7 +342,7 @@ class _LoginScreenState extends State<LoginScreen> {
             onTap: isLoading ? null : _handleForgotPassword,
             child: CustomText(
               text: "Forgot Password?",
-              color: Colors.blueAccent ,
+              color: Colors.blueAccent,
               fontWeight: FontWeight.w600,
               fontSize: 14.sp,
             ),
@@ -359,7 +362,8 @@ class _LoginScreenState extends State<LoginScreen> {
         CustomTextField(
           textEditingController: _fullNameController,
           hintText: "Enter your name",
-          prefixIcon: Icon(Icons.person_outline_rounded, color: Colors.grey[600], size: 20.sp),
+          prefixIcon: Icon(Icons.person_outline_rounded,
+              color: Colors.grey[600], size: 20.sp),
           fillColor: Colors.white,
           fieldBorderRadius: 12.r,
         ),
@@ -369,7 +373,8 @@ class _LoginScreenState extends State<LoginScreen> {
         CustomTextField(
           textEditingController: _emailController,
           hintText: "Enter email or phone number",
-          prefixIcon: Icon(Icons.email_sharp, color: Colors.grey[600], size: 20.sp),
+          prefixIcon:
+              Icon(Icons.email_sharp, color: Colors.grey[600], size: 20.sp),
           fillColor: Colors.white,
           fieldBorderRadius: 12.r,
         ),
@@ -380,7 +385,8 @@ class _LoginScreenState extends State<LoginScreen> {
           textEditingController: _passwordController,
           hintText: "Create a strong password",
           isPassword: true,
-          prefixIcon: Icon(Icons.lock_rounded, color: Colors.grey[600], size: 20.sp),
+          prefixIcon:
+              Icon(Icons.lock_rounded, color: Colors.grey[600], size: 20.sp),
           fillColor: Colors.white,
           fieldBorderRadius: 12.r,
         ),
@@ -422,7 +428,8 @@ class _LoginScreenState extends State<LoginScreen> {
           textEditingController: _confirmPasswordController,
           hintText: "Retype password",
           isPassword: true,
-          prefixIcon: Icon(Icons.lock_rounded, color: Colors.grey[600], size: 20.sp),
+          prefixIcon:
+              Icon(Icons.lock_rounded, color: Colors.grey[600], size: 20.sp),
           fillColor: Colors.white,
           fieldBorderRadius: 12.r,
         ),
@@ -469,7 +476,8 @@ class _LoginScreenState extends State<LoginScreen> {
           value: value,
           hint: Text(
             hint,
-            style: GoogleFonts.poppins(fontSize: 14.sp, color: Colors.grey[600]),
+            style:
+                GoogleFonts.poppins(fontSize: 14.sp, color: Colors.grey[600]),
           ),
           icon: const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
           isExpanded: true,
@@ -478,7 +486,8 @@ class _LoginScreenState extends State<LoginScreen> {
               value: item,
               child: Text(
                 item,
-                style: GoogleFonts.poppins(fontSize: 14.sp, color: Colors.black87),
+                style:
+                    GoogleFonts.poppins(fontSize: 14.sp, color: Colors.black87),
               ),
             );
           }).toList(),
@@ -544,17 +553,20 @@ class _LoginScreenState extends State<LoginScreen> {
       child: RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
-          style: GoogleFonts.poppins(color: Colors.black87, fontSize: 12.sp, height: 1.5),
+          style: GoogleFonts.poppins(
+              color: Colors.black87, fontSize: 12.sp, height: 1.5),
           children: [
             const TextSpan(text: "By continuing, you agree to Global Jump's "),
             TextSpan(
               text: "Terms",
-              style: GoogleFonts.poppins(color: const Color(0xFF2C6E8F), fontWeight: FontWeight.bold),
+              style: GoogleFonts.poppins(
+                  color: const Color(0xFF2C6E8F), fontWeight: FontWeight.bold),
             ),
             const TextSpan(text: " and "),
             TextSpan(
               text: "Privacy Policy",
-              style: GoogleFonts.poppins(color: const Color(0xFF2C6E8F), fontWeight: FontWeight.bold),
+              style: GoogleFonts.poppins(
+                  color: const Color(0xFF2C6E8F), fontWeight: FontWeight.bold),
             ),
           ],
         ),

@@ -153,7 +153,7 @@ class _EventScreenState extends State<EventScreen>
           // Dark Overlay
           Positioned.fill(
             child: Container(
-              color: Colors.black.withOpacity(0.4),
+              color: Colors.black.withValues(alpha: 0.4),
             ),
           ),
 
@@ -191,7 +191,7 @@ class _EventScreenState extends State<EventScreen>
                                 text: "Where the island comes alive",
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w400,
-                                color: Colors.white.withOpacity(0.9),
+                                color: Colors.white.withValues(alpha: 0.9),
                                 textAlign: TextAlign.left,
                                 maxLines: 2,
                               ),
@@ -292,7 +292,7 @@ class _EventScreenState extends State<EventScreen>
                                 borderRadius: BorderRadius.circular(16.r),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.08),
+                                    color: Colors.black.withValues(alpha: 0.08),
                                     blurRadius: 12,
                                     offset: const Offset(0, 4),
                                   ),
@@ -300,22 +300,10 @@ class _EventScreenState extends State<EventScreen>
                               ),
                               child: Row(
                                 children: [
-                                  Container(
-                                    padding: EdgeInsets.all(8.w),
-                                    decoration: BoxDecoration(
-                                      gradient: const LinearGradient(
-                                        colors: [
-                                          Color(0xFF2E5C38),
-                                          Color(0xFF66B290)
-                                        ],
-                                      ),
-                                      borderRadius: BorderRadius.circular(10.r),
-                                    ),
-                                    child: Icon(
-                                      Icons.search_rounded,
-                                      color: Colors.white,
-                                      size: 18.sp,
-                                    ),
+                                  Icon(
+                                    Icons.search_rounded,
+                                    color: Colors.grey[500],
+                                    size: 24.sp,
                                   ),
                                   SizedBox(width: 12.w),
                                   Expanded(
@@ -402,7 +390,8 @@ class _EventScreenState extends State<EventScreen>
                                             end: Alignment.bottomCenter,
                                             colors: [
                                               Colors.transparent,
-                                              Colors.black.withOpacity(0.8)
+                                              Colors.black
+                                                  .withValues(alpha: 0.8)
                                             ],
                                           ),
                                         ),
@@ -420,9 +409,11 @@ class _EventScreenState extends State<EventScreen>
                                           ),
                                           child: Row(
                                             children: [
-                                              Icon(Icons.local_fire_department,
-                                                  color: Colors.orange,
-                                                  size: 14.sp),
+                                              Image.asset(
+                                                  "assets/images/icon/flame.png",
+                                                  height: 14.sp,
+                                                  width: 14.sp,
+                                                  fit: BoxFit.contain),
                                               SizedBox(width: 4.w),
                                               Text("Popular",
                                                   style: GoogleFonts.poppins(
@@ -622,7 +613,7 @@ class _EventScreenState extends State<EventScreen>
           borderRadius: BorderRadius.circular(10.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, 4),
             )

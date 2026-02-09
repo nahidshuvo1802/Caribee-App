@@ -149,7 +149,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           hintText: "Full Name",
                           prefixIcon: Icon(Icons.person_outline,
                               color: const Color(0xFF2E5C38), size: 22.sp),
-                          fillColor: Colors.white.withOpacity(0.9),
+                          fillColor: Colors.white.withValues(alpha: 0.9),
                           fieldBorderRadius: 40,
                         ),
                         SizedBox(height: 15.h),
@@ -161,7 +161,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           hintText: "Email Address",
                           prefixIcon: Icon(Icons.email_outlined,
                               color: const Color(0xFF2E5C38), size: 22.sp),
-                          fillColor: Colors.white.withOpacity(0.9),
+                          fillColor: Colors.white.withValues(alpha: 0.9),
                           keyboardType: TextInputType.emailAddress,
                           fieldBorderRadius: 40,
                         ),
@@ -173,7 +173,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           textEditingController: dobController,
                           hintText: "Date of Birth",
                           readOnly: true,
-                          fillColor: Colors.white.withOpacity(0.9),
+                          fillColor: Colors.white.withValues(alpha: 0.9),
                           prefixIcon: Icon(Icons.cake_outlined,
                               color: const Color(0xFF2E5C38), size: 22.sp),
                           suffixIcon: IconButton(
@@ -189,11 +189,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         _buildFieldTitle("Country"),
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.9),
+                            color: Colors.white.withValues(alpha: 0.9),
                             borderRadius: BorderRadius.circular(40.r),
                             border: Border.all(
                                 color:
-                                    const Color(0xFF2E5C38).withOpacity(0.5)),
+                                    const Color(0xFF2E5C38).withValues(alpha: 0.5)),
                           ),
                           child: CountryCodePicker(
                             onChanged: (country) {
@@ -245,11 +245,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         _buildFieldTitle("Phone Number"),
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.9),
+                            color: Colors.white.withValues(alpha: 0.9),
                             borderRadius: BorderRadius.circular(40.r),
                             border: Border.all(
                                 color:
-                                    const Color(0xFF2E5C38).withOpacity(0.5)),
+                                    const Color(0xFF2E5C38).withValues(alpha: 0.5)),
                           ),
                           child: Row(
                             children: [

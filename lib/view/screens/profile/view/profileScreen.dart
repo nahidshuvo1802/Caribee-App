@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tutor_app/view/screens/BussinessScreen/BussinessPromotionScreen.dart';
-import 'package:tutor_app/view/screens/profile/view/help&support.dart';
-import 'package:tutor_app/view/screens/profile/view/settings/aboutUs.dart';
-import 'package:tutor_app/view/screens/profile/view/settingsScreen.dart';
+import 'package:caribee_app/view/screens/BussinessScreen/BussinessPromotionScreen.dart';
+import 'package:caribee_app/view/screens/profile/view/help_and_support.dart';
+import 'package:caribee_app/view/screens/profile/view/settings/aboutUs.dart';
+import 'package:caribee_app/view/screens/profile/view/settingsScreen.dart';
 
 // Custom Components
 import '../../../components/custom_nav_bar/navbar.dart';
@@ -171,10 +171,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                               colors: [
                                 // Left Color: rgba(255, 98, 0, 1) -> with Opacity
                                 const Color.fromRGBO(255, 98, 0, 1)
-                                    .withOpacity(0.85),
+                                    .withValues(alpha: 0.85),
                                 // Right Color: rgba(107, 28, 29, 1) -> with Opacity
                                 const Color.fromRGBO(107, 28, 29, 1)
-                                    .withOpacity(0.85),
+                                    .withValues(alpha: 0.85),
                               ],
                             ),
                           ),
@@ -346,7 +346,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     return CustomTextField(
       readOnly: true,
       onTap: onTap,
-      fillColor: Colors.white.withOpacity(0.85),
+      fillColor: Colors.white.withValues(alpha: 0.85),
       fieldBorderRadius: 12,
       fieldBorderColor: Colors.transparent,
       prefixIcon: Icon(

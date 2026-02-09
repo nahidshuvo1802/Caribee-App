@@ -28,7 +28,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
 
   // Colors
   final Color _primaryGreen = const Color(0xFF437C68);
-  final Color _containerWhite = const Color(0xFFFFFFFF).withOpacity(0.85);
+  final Color _containerWhite = const Color(0xFFFFFFFF).withValues(alpha: 0.85);
   final Color _linkColor = const Color(0xFF2C6E8F);
 
   // ✅ 1. DEFINE GRADIENT
@@ -162,7 +162,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
           // 2. Overlay & Content
           Positioned.fill(
             child: Container(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               child: SafeArea(
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
@@ -235,7 +235,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
         borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 15,
             spreadRadius: 2,
           ),

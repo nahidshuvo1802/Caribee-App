@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 // Custom Components Imports
 import '../../../../utils/app_colors/app_colors.dart';
 import '../../../components/custom_text/custom_text.dart';
-import '../../../components/custom_royel_appbar/custom_royel_appbar.dart';
 
 class SupportScreen extends GetView {
   const SupportScreen({super.key});
@@ -59,7 +58,7 @@ class SupportScreen extends GetView {
                       borderRadius: BorderRadius.circular(16.r),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
+                          color: Colors.black.withValues(alpha: 0.05),
                           blurRadius: 10,
                           offset: const Offset(0, 4),
                         ),
@@ -209,7 +208,8 @@ class SupportScreen extends GetView {
                     decoration: BoxDecoration(
                       color: const Color(0xFFFFF5F2), // Peach/Light Orange
                       borderRadius: BorderRadius.circular(16.r),
-                      border: Border.all(color: Colors.orange.withOpacity(0.1)),
+                      border: Border.all(
+                          color: Colors.orange.withValues(alpha: 0.1)),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -290,7 +290,7 @@ class SupportScreen extends GetView {
                       borderRadius: BorderRadius.circular(12.r),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF2E7D58).withOpacity(0.3),
+                          color: const Color(0xFF2E7D58).withValues(alpha: 0.3),
                           blurRadius: 12,
                           offset: const Offset(0, 6),
                         ),
@@ -349,7 +349,7 @@ class SupportScreen extends GetView {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -421,7 +421,7 @@ class SafetyTrustInfoCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: AppColors.black
-                .withOpacity(0.05), // Fixed opacity for cleaner look
+                .withValues(alpha: 0.05), // Fixed opacity for cleaner look
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),

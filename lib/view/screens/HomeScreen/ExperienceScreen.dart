@@ -90,7 +90,8 @@ class _ExperiencesScreenState extends State<ExperiencesScreen>
         "location": "Ocho Rios",
         "image":
             "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?q=80&w=600&auto=format&fit=crop",
-        "tag": "Must Visit"
+        "tag": "Popular",
+        "category": "Water"
       },
       {
         "title": "Blue Hole Secret",
@@ -98,7 +99,8 @@ class _ExperiencesScreenState extends State<ExperiencesScreen>
         "location": "Ocho Rios",
         "image":
             "https://images.unsplash.com/photo-1544550581-5f7ceaf7f992?q=80&w=600&auto=format&fit=crop",
-        "tag": "Trending"
+        "tag": "Trending",
+        "category": "Water"
       },
       {
         "title": "Rick's Cafe Cliff",
@@ -106,7 +108,8 @@ class _ExperiencesScreenState extends State<ExperiencesScreen>
         "location": "Negril",
         "image":
             "https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?q=80&w=600&auto=format&fit=crop",
-        "tag": "Popular"
+        "tag": "Popular",
+        "category": "Adventure"
       },
     ];
 
@@ -186,7 +189,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen>
           // Dark Overlay
           Positioned.fill(
             child: Container(
-              color: Colors.black.withOpacity(0.4),
+              color: Colors.black.withValues(alpha: 0.4),
             ),
           ),
 
@@ -221,7 +224,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen>
                                 "Handpicked experiences. Designed to be felt, not visited.",
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
-                            color: Colors.white.withOpacity(0.9),
+                            color: Colors.white.withValues(alpha: 0.9),
                             textAlign: TextAlign.left,
                             maxLines: 2,
                           ),
@@ -241,7 +244,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen>
                                 borderRadius: BorderRadius.circular(16.r),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.08),
+                                    color: Colors.black.withValues(alpha: 0.08),
                                     blurRadius: 12,
                                     offset: const Offset(0, 4),
                                   ),
@@ -249,22 +252,10 @@ class _ExperiencesScreenState extends State<ExperiencesScreen>
                               ),
                               child: Row(
                                 children: [
-                                  Container(
-                                    padding: EdgeInsets.all(8.w),
-                                    decoration: BoxDecoration(
-                                      gradient: const LinearGradient(
-                                        colors: [
-                                          Color(0xFF2E5C38),
-                                          Color(0xFF66B290)
-                                        ],
-                                      ),
-                                      borderRadius: BorderRadius.circular(10.r),
-                                    ),
-                                    child: Icon(
-                                      Icons.search_rounded,
-                                      color: Colors.white,
-                                      size: 18.sp,
-                                    ),
+                                  Icon(
+                                    Icons.search_rounded,
+                                    color: Colors.grey[500],
+                                    size: 24.sp,
                                   ),
                                   SizedBox(width: 12.w),
                                   Expanded(
@@ -330,7 +321,42 @@ class _ExperiencesScreenState extends State<ExperiencesScreen>
                       child: Row(
                         children: filters.map((filter) {
                           bool isSelected =
-                              filter == "Nature"; // Logic for selected state
+                              filter == "Nature"; // Logic for selected
+
+                          // Define gradients based on filter type
+                          List<Color> gradientColors;
+                          Color shadowColor;
+
+                          if (filter == "Nature") {
+                            gradientColors = [
+                              const Color(0xFF2E7D32), // Green 800
+                              const Color(0xFF4CAF50), // Green 500
+                            ];
+                            shadowColor =
+                                const Color(0xFF2E7D32).withValues(alpha: 0.4);
+                          } else if (filter == "Adventure") {
+                            gradientColors = [
+                              const Color(0xFFE65100), // Orange 900
+                              const Color(0xFFFF9800), // Orange 500
+                            ];
+                            shadowColor =
+                                const Color(0xFFE65100).withValues(alpha: 0.4);
+                          } else if (filter == "Water") {
+                            gradientColors = [
+                              const Color(0xFF1565C0), // Blue 800
+                              const Color(0xFF2196F3), // Blue 500
+                            ];
+                            shadowColor =
+                                const Color(0xFF1565C0).withValues(alpha: 0.4);
+                          } else {
+                            // Default (Tours, etc.) - Teal as before
+                            gradientColors = [
+                              const Color.fromRGBO(46, 111, 101, 1),
+                              const Color.fromRGBO(88, 151, 107, 1),
+                            ];
+                            shadowColor =
+                                const Color.fromRGBO(224, 247, 184, 1);
+                          }
 
                           return GestureDetector(
                             onTap: () {
@@ -346,13 +372,19 @@ class _ExperiencesScreenState extends State<ExperiencesScreen>
                                 borderRadius:
                                     BorderRadius.circular(30.r), // Pill Shape
 
-                                // 🟢 Gradient for Selected State
+                                // 🟢 Gradient for Selected State or Specific Chips as requested?
+                                // User said "add a blue chip for ocean...".
+                                // Assuming this means ALWAYS colored for identification, or just when selected?
+                                // Standard pattern is color when selected.
+                                // However, user might want them to ALWAYS be colored to distinguish categories.
+                                // "in the experiences add a blue chip for ocean... green for nature..."
+                                // Let's make them colored if selected, but maybe hint the color if not?
+                                // For now, let's stick to the 'isSelected' render logic to avoid breaking the UI pattern,
+                                // BUT update the gradient to be category-specific.
+
                                 gradient: isSelected
-                                    ? const LinearGradient(
-                                        colors: [
-                                          Color.fromRGBO(46, 111, 101, 1),
-                                          Color.fromRGBO(88, 151, 107, 1),
-                                        ],
+                                    ? LinearGradient(
+                                        colors: gradientColors,
                                         begin: Alignment.centerLeft,
                                         end: Alignment.centerRight,
                                       )
@@ -364,11 +396,10 @@ class _ExperiencesScreenState extends State<ExperiencesScreen>
                                 // 🟢 Solid Shadow (Hard Shadow)
                                 boxShadow: isSelected
                                     ? [
-                                        const BoxShadow(
-                                          color:
-                                              Color.fromRGBO(224, 247, 184, 1),
-                                          offset: Offset(0, 4),
-                                          blurRadius: 0, // Solid shadow
+                                        BoxShadow(
+                                          color: shadowColor,
+                                          offset: const Offset(0, 4),
+                                          blurRadius: 4,
                                         ),
                                       ]
                                     : [],
@@ -497,8 +528,44 @@ class _ExperiencesScreenState extends State<ExperiencesScreen>
                           borderRadius: BorderRadius.circular(12.r)),
                       child: Row(
                         children: [
-                          Icon(Icons.local_fire_department,
-                              color: Colors.orange, size: 12.sp),
+                          item["tag"] == "Trusted"
+                              ? Image.asset("assets/images/icon/trusted.png",
+                                  height: 12.sp,
+                                  width: 12.sp,
+                                  fit: BoxFit.contain)
+                              : item["tag"] == "Top Rated"
+                                  ? Image.asset(
+                                      "assets/images/icon/favorite.png",
+                                      height: 12.sp,
+                                      width: 12.sp,
+                                      fit: BoxFit.contain)
+                                  : item["tag"] == "Weekly Pick"
+                                      ? Image.asset(
+                                          "assets/images/icon/7-days.png",
+                                          height: 12.sp,
+                                          width: 12.sp,
+                                          fit: BoxFit.contain)
+                                      : item["tag"] == "Trending"
+                                          ? Image.asset(
+                                              "assets/images/icon/trend.png",
+                                              height: 12.sp,
+                                              width: 12.sp,
+                                              fit: BoxFit.contain)
+                                          : item["tag"] == "Popular"
+                                              ? Image.asset(
+                                                  "assets/images/icon/flame.png",
+                                                  height: 12.sp,
+                                                  width: 12.sp,
+                                                  fit: BoxFit.contain)
+                                              : item["tag"] == "New"
+                                                  ? Icon(Icons.new_releases,
+                                                      color: Colors.orange,
+                                                      size: 12.sp)
+                                                  : Icon(
+                                                      Icons
+                                                          .local_fire_department,
+                                                      color: Colors.orange,
+                                                      size: 12.sp),
                           SizedBox(width: 4.w),
                           Text(item["tag"]!,
                               style: GoogleFonts.poppins(
@@ -507,7 +574,34 @@ class _ExperiencesScreenState extends State<ExperiencesScreen>
                         ],
                       ),
                     ),
-                  )
+                  ),
+                  // New Category Chip
+                  if (item.containsKey("category"))
+                    Positioned(
+                      top: 8.h,
+                      right: 8.w,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.w, vertical: 4.h),
+                        decoration: BoxDecoration(
+                          color: item["category"] == "Nature"
+                              ? const Color(0xFF2E7D32) // Green
+                              : item["category"] == "Water"
+                                  ? const Color(0xFF1565C0) // Blue
+                                  : const Color(
+                                      0xFFE65100), // Orange (Adventure)
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        child: Text(
+                          item["category"]!,
+                          style: GoogleFonts.poppins(
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),
@@ -579,7 +673,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen>
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),

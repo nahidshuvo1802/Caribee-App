@@ -29,13 +29,13 @@ class Promotionpagedetails extends StatelessWidget {
             leading: Container(
               margin: EdgeInsets.only(left: 20.w, top: 8.h, bottom: 8.h),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 shape: BoxShape.circle,
                 border:
-                    Border.all(color: Colors.white.withOpacity(0.4), width: 1),
+                    Border.all(color: Colors.white.withValues(alpha: 0.4), width: 1),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   )
@@ -73,7 +73,7 @@ class Promotionpagedetails extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20.r),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.15),
+                              color: Colors.black.withValues(alpha: 0.15),
                               blurRadius: 10,
                               offset: const Offset(0, 4),
                             ),
@@ -113,7 +113,7 @@ class Promotionpagedetails extends StatelessWidget {
                                   1.2, // 🟢 Adjusted height slightly so lines don't touch
                               shadows: [
                                 Shadow(
-                                  color: Colors.black.withOpacity(0.5),
+                                  color: Colors.black.withValues(alpha: 0.5),
                                   offset: const Offset(0, 4),
                                   blurRadius: 10,
                                 ),
@@ -137,7 +137,7 @@ class Promotionpagedetails extends StatelessWidget {
                                     color: Colors.grey,
                                     shadows: [
                                       Shadow(
-                                        color: Colors.black.withOpacity(0.99),
+                                        color: Colors.black.withValues(alpha: 0.99),
                                         offset: const Offset(0, 2),
                                         blurRadius: 4,
                                       ),
@@ -211,7 +211,7 @@ class Promotionpagedetails extends StatelessWidget {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFFE65100).withOpacity(0.4),
+                            color: const Color(0xFFE65100).withValues(alpha: 0.4),
                             blurRadius: 15,
                             offset: const Offset(0, 8),
                           ),
@@ -283,7 +283,7 @@ class _MemberExclusiveCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(26.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.3),
+            color: Colors.black.withValues(alpha: 0.3),
             blurRadius: 30,
             offset: const Offset(0, 10),
           ),
@@ -485,7 +485,7 @@ class _RefinementItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF2E7D58).withOpacity(0.3),
+            color: const Color(0xFF2E7D58).withValues(alpha: 0.3),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),

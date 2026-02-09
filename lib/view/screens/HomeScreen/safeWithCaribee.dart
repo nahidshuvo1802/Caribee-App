@@ -76,8 +76,8 @@ class _CaribeeHomeScreenState extends State<CaribeeHomeScreen> {
                   borderRadius: BorderRadius.circular(16.r),
                   gradient: LinearGradient(
                     colors: [
-                      const Color(0xFF4C846C).withOpacity(0.9),
-                      const Color(0xFF2E5C38).withOpacity(0.95),
+                      const Color(0xFF4C846C).withValues(alpha: 0.9),
+                      const Color(0xFF2E5C38).withValues(alpha: 0.95),
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -86,13 +86,29 @@ class _CaribeeHomeScreenState extends State<CaribeeHomeScreen> {
                 child: Row(
                   children: [
                     Container(
-                      padding: EdgeInsets.all(2.w),
-                      decoration: const BoxDecoration(
-                          color: Colors.white24, shape: BoxShape.circle),
-                      child: Image.asset(
-                        "assets/images/icon/yellowtick.png",
-                        height: 36.h,
-                        width: 36.w,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(30.r),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.wb_sunny_rounded,
+                            color: Colors.amberAccent,
+                            size: 20.sp,
+                          ),
+                          SizedBox(width: 6.w),
+                          Text(
+                            "28°C",
+                            style: GoogleFonts.poppins(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(width: 12.w),
@@ -113,7 +129,7 @@ class _CaribeeHomeScreenState extends State<CaribeeHomeScreen> {
                             "No unusual alerts. Enjoy your trip!",
                             style: GoogleFonts.poppins(
                               fontSize: 11.sp,
-                              color: Colors.white.withOpacity(0.9),
+                              color: Colors.white.withValues(alpha: 0.9),
                             ),
                           ),
                         ],
@@ -152,10 +168,10 @@ class _CaribeeHomeScreenState extends State<CaribeeHomeScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16.r),
-                border: Border.all(color: Colors.grey.withOpacity(0.1)),
+                border: Border.all(color: Colors.grey.withValues(alpha: 0.1)),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -199,8 +215,8 @@ class _CaribeeHomeScreenState extends State<CaribeeHomeScreen> {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 16.h),
-                    child:
-                        Divider(color: Colors.grey.withOpacity(0.1), height: 1),
+                    child: Divider(
+                        color: Colors.grey.withValues(alpha: 0.1), height: 1),
                   ),
                   // Hydration Row
                   Row(
@@ -238,10 +254,10 @@ class _CaribeeHomeScreenState extends State<CaribeeHomeScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16.r),
-                border: Border.all(color: Colors.grey.withOpacity(0.1)),
+                border: Border.all(color: Colors.grey.withValues(alpha: 0.1)),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -252,7 +268,7 @@ class _CaribeeHomeScreenState extends State<CaribeeHomeScreen> {
                   Container(
                     padding: EdgeInsets.all(8.w),
                     decoration: BoxDecoration(
-                        color: Colors.amber.withOpacity(0.1),
+                        color: Colors.amber.withValues(alpha: 0.1),
                         shape: BoxShape.circle),
                     child: Image.asset("assets/images/icon/shield.png",
                         height: 24.h, width: 24.w),
@@ -306,17 +322,17 @@ class _CaribeeHomeScreenState extends State<CaribeeHomeScreen> {
                 _buildNearbyCard(
                   title: "Police Station",
                   distance: "0.4 km",
-                  imagePath: "assets/images/icon/policelogo.png",
+                  imagePath: "assets/images/icon/police-station.png",
                 ),
                 _buildNearbyCard(
                   title: "Hospital",
                   distance: "0.4 km",
-                  imagePath: "assets/images/icon/policelogo.png",
+                  imagePath: "assets/images/icon/hospital.png",
                 ),
                 _buildNearbyCard(
-                  title: "Public Toilet",
+                  title: "ATM/Bank",
                   distance: "0.4 km",
-                  imagePath: "assets/images/icon/policelogo.png",
+                  imagePath: "assets/images/icon/atm.png",
                 ),
               ],
             ),
@@ -349,10 +365,10 @@ class _CaribeeHomeScreenState extends State<CaribeeHomeScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20.r),
-                border: Border.all(color: Colors.grey.withOpacity(0.1)),
+                border: Border.all(color: Colors.grey.withValues(alpha: 0.1)),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -403,15 +419,15 @@ class _CaribeeHomeScreenState extends State<CaribeeHomeScreen> {
   }) {
     return Container(
       width: 105.w,
-      height: 140.h, // Fixed height to make all cards same
+      height: 165.h, // Fixed height to make all cards same
       padding: EdgeInsets.all(10.w),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: Colors.grey.withOpacity(0.1)),
+        border: Border.all(color: Colors.grey.withValues(alpha: 0.1)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 5,
             offset: const Offset(0, 2),
           ),
@@ -421,7 +437,7 @@ class _CaribeeHomeScreenState extends State<CaribeeHomeScreen> {
         mainAxisAlignment:
             MainAxisAlignment.spaceBetween, // Distribute space evenly
         children: [
-          Image.asset(imagePath, height: 30.h, width: 30.w),
+          Image.asset(imagePath, height: 50.h, width: 50.w),
           Column(
             children: [
               Text(

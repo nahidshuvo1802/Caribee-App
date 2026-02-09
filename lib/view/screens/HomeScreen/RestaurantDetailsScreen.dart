@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tutor_app/view/components/custom_image/custom_image.dart';
+import 'package:caribee_app/view/components/custom_image/custom_image.dart';
 import '../../components/custom_nav_bar/navbar.dart';
 
 class RestaurantDetailsPage extends StatefulWidget {
@@ -90,7 +90,7 @@ class _RestaurantDetailsPageState extends State<RestaurantDetailsPage>
               leading: Container(
                 margin: EdgeInsets.all(8.w),
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.3),
+                  color: Colors.black.withValues(alpha: 0.3),
                   shape: BoxShape.circle,
                 ),
                 child: IconButton(
@@ -154,9 +154,9 @@ class _RestaurantDetailsPageState extends State<RestaurantDetailsPage>
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Colors.black.withOpacity(0.6),
+                            Colors.black.withValues(alpha: 0.6),
                             Colors.transparent,
-                            Colors.black.withOpacity(0.4),
+                            Colors.black.withValues(alpha: 0.4),
                           ],
                         ),
                       ),
@@ -491,7 +491,7 @@ class _RestaurantDetailsPageState extends State<RestaurantDetailsPage>
               borderRadius: BorderRadius.circular(12.r),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
+                  color: Colors.black.withValues(alpha: 0.2),
                   offset: const Offset(0, 4),
                   blurRadius: 5,
                 ),
