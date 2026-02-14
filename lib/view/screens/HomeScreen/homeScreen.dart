@@ -912,6 +912,23 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
+  // --- Star Rating Helper ---
+  Widget _buildStarRating(double rating, {double size = 12}) {
+    List<Widget> stars = [];
+    for (int i = 1; i <= 5; i++) {
+      IconData icon;
+      if (rating >= i) {
+        icon = Icons.star;
+      } else if (rating >= i - 0.5) {
+        icon = Icons.star_half;
+      } else {
+        icon = Icons.star_border;
+      }
+      stars.add(Icon(icon, color: Colors.amber, size: size));
+    }
+    return Row(mainAxisSize: MainAxisSize.min, children: stars);
+  }
+
   // 👇 Modified Widget to make chips look elevated (3D)
   Widget _buildFilterChip(String text, bool isSelected, {VoidCallback? onTap}) {
     return GestureDetector(
@@ -1166,16 +1183,9 @@ class _HomeScreenState extends State<HomeScreen>
                           SizedBox(height: 6.h),
                           Row(
                             children: [
-                              Row(
-                                children: List.generate(
-                                  5,
-                                  (index) => Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                    size: 12.sp,
-                                  ),
-                                ),
-                              ),
+                              _buildStarRating(
+                                  double.tryParse(item["rating"]!) ?? 0.0,
+                                  size: 12.sp),
                               SizedBox(width: 4.w),
                               Text(
                                 item["rating"]!,

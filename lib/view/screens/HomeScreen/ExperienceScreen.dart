@@ -482,6 +482,23 @@ class _ExperiencesScreenState extends State<ExperiencesScreen>
 
   // --- Helper Widgets ---
 
+  // --- Star Rating Helper ---
+  Widget _buildStarRating(double rating, {double size = 12}) {
+    List<Widget> stars = [];
+    for (int i = 1; i <= 5; i++) {
+      IconData icon;
+      if (rating >= i) {
+        icon = Icons.star;
+      } else if (rating >= i - 0.5) {
+        icon = Icons.star_half;
+      } else {
+        icon = Icons.star_border;
+      }
+      stars.add(Icon(icon, color: Colors.amber, size: size));
+    }
+    return Row(mainAxisSize: MainAxisSize.min, children: stars);
+  }
+
   // 3D Horizontal Card
   Widget _buildHomeScreenStyleCard(Map<String, String> item) {
     return GestureDetector(
@@ -623,8 +640,9 @@ class _ExperiencesScreenState extends State<ExperiencesScreen>
                     SizedBox(height: 6.h),
                     Row(
                       children: [
-                        Icon(Icons.star_outlined,
-                            color: Colors.amber, size: 18.sp),
+                        _buildStarRating(
+                            double.tryParse(item["rating"]!) ?? 0.0,
+                            size: 14.sp),
                         SizedBox(width: 4.w),
                         Text(item["rating"]!,
                             style: GoogleFonts.poppins(
@@ -727,7 +745,8 @@ class _ExperiencesScreenState extends State<ExperiencesScreen>
                   // Rating and Type
                   Row(
                     children: [
-                      Icon(Icons.star, color: Colors.amber, size: 14.sp),
+                      _buildStarRating(double.tryParse(item["rating"]!) ?? 0.0,
+                          size: 14.sp),
                       SizedBox(width: 4.w),
                       Text(item["rating"]!,
                           style: GoogleFonts.poppins(

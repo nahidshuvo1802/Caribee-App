@@ -140,7 +140,8 @@ class _ExperiencedetailsscreenState extends State<Experiencedetailsscreen>
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Colors.black.withValues(alpha: 0.6), // Darker at top
+                            Colors.black
+                                .withValues(alpha: 0.6), // Darker at top
                             Colors.transparent,
                             Colors.black.withValues(alpha: 0.4),
                           ],
@@ -248,14 +249,7 @@ class _ExperiencedetailsscreenState extends State<Experiencedetailsscreen>
                 ),
               ),
               SizedBox(width: 8.w),
-              ...List.generate(
-                5,
-                (index) => Icon(
-                  index < 4 ? Icons.star : Icons.star_half,
-                  color: Colors.amber,
-                  size: 16.sp,
-                ),
-              ),
+              _buildStarRating(4.8, size: 16.sp),
               SizedBox(width: 4.w),
               Text(
                 '4.8',
@@ -303,6 +297,23 @@ class _ExperiencedetailsscreenState extends State<Experiencedetailsscreen>
         ],
       ),
     );
+  }
+
+  // --- Star Rating Helper ---
+  Widget _buildStarRating(double rating, {double size = 16}) {
+    List<Widget> stars = [];
+    for (int i = 1; i <= 5; i++) {
+      IconData icon;
+      if (rating >= i) {
+        icon = Icons.star;
+      } else if (rating >= i - 0.5) {
+        icon = Icons.star_half;
+      } else {
+        icon = Icons.star_border;
+      }
+      stars.add(Icon(icon, color: Colors.amber, size: size));
+    }
+    return Row(mainAxisSize: MainAxisSize.min, children: stars);
   }
 
   Widget _buildTag(String text, Color bgColor) {
@@ -518,11 +529,7 @@ class _ExperiencedetailsscreenState extends State<Experiencedetailsscreen>
                             fontWeight: FontWeight.w600,
                             color: Colors.black)),
                     SizedBox(height: 2.h),
-                    Row(
-                        children: List.generate(
-                            5,
-                            (index) => Icon(Icons.star,
-                                color: Colors.amber, size: 14.sp))),
+                    _buildStarRating(5.0, size: 14.sp),
                   ],
                 ),
               ),

@@ -252,20 +252,21 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             child: SafeArea(
               top: false,
-              child: Row(
-                children: List.generate(locationOptions.length, (index) {
-                  final isSelected = selectedLocationIndex == index;
-                  return Expanded(
-                    child: GestureDetector(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(locationOptions.length, (index) {
+                    final isSelected = selectedLocationIndex == index;
+                    return GestureDetector(
                       onTap: () {
                         setState(() {
                           selectedLocationIndex = index;
                         });
                       },
                       child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 3.w),
+                        margin: EdgeInsets.symmetric(horizontal: 4.w),
                         padding: EdgeInsets.symmetric(
-                            vertical: 8.h, horizontal: 6.w),
+                            vertical: 8.h, horizontal: 16.w),
                         decoration: BoxDecoration(
                           color: isSelected ? Colors.grey[100] : Colors.white,
                           borderRadius: BorderRadius.circular(20.r),
@@ -282,30 +283,26 @@ class _SearchScreenState extends State<SearchScreen> {
                             if (index == 0)
                               Icon(
                                 Icons.location_on,
-                                size: 12.sp,
+                                size: 14.sp,
                                 color: const Color(0xFFE53935),
                               ),
-                            if (index == 0) SizedBox(width: 2.w),
-                            Flexible(
-                              child: Text(
-                                locationOptions[index],
-                                style: GoogleFonts.poppins(
-                                  fontSize: 10.sp,
-                                  fontWeight: isSelected
-                                      ? FontWeight.w600
-                                      : FontWeight.w400,
-                                  color: Colors.black87,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
+                            if (index == 0) SizedBox(width: 4.w),
+                            Text(
+                              locationOptions[index],
+                              style: GoogleFonts.poppins(
+                                fontSize: 12.sp,
+                                fontWeight: isSelected
+                                    ? FontWeight.w600
+                                    : FontWeight.w400,
+                                color: Colors.black87,
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                  );
-                }),
+                    );
+                  }),
+                ),
               ),
             ),
           ),

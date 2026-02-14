@@ -382,10 +382,27 @@ class _FavouriteScreenState extends State<FavouriteScreen>
     );
   }
 
+  // --- Star Rating Helper ---
+  Widget _buildStarRating(double rating, {double size = 14}) {
+    List<Widget> stars = [];
+    for (int i = 1; i <= 5; i++) {
+      IconData icon;
+      if (rating >= i) {
+        icon = Icons.star;
+      } else if (rating >= i - 0.5) {
+        icon = Icons.star_half;
+      } else {
+        icon = Icons.star_border;
+      }
+      stars.add(Icon(icon, color: Colors.amber, size: size));
+    }
+    return Row(mainAxisSize: MainAxisSize.min, children: stars);
+  }
+
   // --- Helper Widget: Favorite Card ---
   Widget _buildFavoriteCard(Map<String, dynamic> item) {
     return Container(
-      height: 110.h,
+      height: 125.h,
       width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -408,13 +425,13 @@ class _FavouriteScreenState extends State<FavouriteScreen>
             ),
             child: CustomNetworkImage(
               imageUrl: item["image"],
-              height: 110.h,
+              height: 125.h,
               width: 110.w,
             ),
           ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -442,12 +459,9 @@ class _FavouriteScreenState extends State<FavouriteScreen>
                   ),
                   Row(
                     children: [
-                      Row(
-                        children: List.generate(
-                            5,
-                            (index) => Icon(Icons.star,
-                                color: Colors.amber, size: 14.sp)),
-                      ),
+                      _buildStarRating(
+                          double.tryParse(item["rating"].toString()) ?? 0.0,
+                          size: 14.sp),
                       SizedBox(width: 5.w),
                       Text(
                         "${item["rating"]}",
@@ -455,59 +469,18 @@ class _FavouriteScreenState extends State<FavouriteScreen>
                           fontSize: 12.sp,
                           fontWeight: FontWeight.bold,
                           color: AppColors.black,
-                        ),
-                      ),
-                      SizedBox(width: 5.w),
-                      Text(
-                        "${item["rating"]}",
-                        style: GoogleFonts.poppins(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.black,
-                        ),
-                      ),
-                      Text(
-                        " (${item["rating"]})", // Display duplicate for now as requested or check if this is what user meant.
-                        // Wait, user said "both int stars and ratings number".
-                        // The existing code has stars and rating number.
-                        // "Row(children: List.generate(5, ...) ... Text("${item["rating"]}")"
-                        // It seems the user wants to ensure it is there.
-                        // Let's look at HomeScreen.dart lines 1099-1105. It has Icon(star) and Text(rating).
-                        // It does NOT have 5 stars.
-                        // User said "in every card where ratings are mentioned there'll be both stars and ratings number".
-                        // In FavoriteScreen, it has 5 stars AND the number.
-                        // In HomeScreen, it has 1 star and the number.
-                        // I should update HomeScreen to have 5 stars and the number if possible, or at least check if 5 stars fit.
-                        // The user request is "both stars and ratings number".
-                        // Plural "stars" might imply 5 stars.
-                        // Let's update HomeScreen to show 5 stars (or just one star and number if space is tight? User said "stars").
-                        // Since space might be tight in HomeScreen horizontal list, maybe just ensure the number is present.
-                        // The HomeScreen currently has `Icon(Icons.star_outlined, ...)` (singular).
-                        // I will change HomeScreen to use a Row of stars if it fits, or at least ensure the number is there.
-                        // It seems the user wants consistent "Stars + Number".
-                        // Let's assume they want the 5-star visual + number where possible.
-                        // However, strictly reading "both stars and ratings number" could mean "Star Icon + Number".
-                        // Let's look at the FavoriteScreen again. It has `List.generate(5...)` which creates 5 stars.
-                        // HomeScreen has 1 star.
-                        // I will update HomeScreen to have 1 star and number as it is, BUT maybe the user thinks it's missing somewhere?
-                        // Or maybe they want 5 stars in HomeScreen too?
-                        // Let's try to add the 5 stars in HomeScreen.
-                        style: GoogleFonts.poppins(
-                          fontSize: 12.sp,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          item["category"],
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.poppins(
-                            fontSize: 12.sp,
-                            color: AppColors.titleTextClr,
-                          ),
                         ),
                       ),
                     ],
+                  ),
+                  Text(
+                    item["category"],
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.poppins(
+                      fontSize: 12.sp,
+                      color: Colors.grey,
+                    ),
+                    maxLines: 1,
                   ),
                   Row(
                     children: [
