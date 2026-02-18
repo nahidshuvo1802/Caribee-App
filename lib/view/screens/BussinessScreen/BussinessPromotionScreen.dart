@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:caribee_app/view/screens/BussinessScreen/promotionPageDetails.dart';
+import 'package:caribee_app/view/screens/HomeScreen/homeScreen.dart';
 
 // --- Custom Components Imports ---
 import '../../components/custom_text/custom_text.dart';
@@ -119,7 +120,7 @@ class BusinessPromotionScreen extends StatelessWidget {
         leading: IconButton(
           icon:
               Icon(Icons.arrow_back_ios_new, color: Colors.black, size: 18.sp),
-          onPressed: () => Get.back(),
+          onPressed: () => Get.offAll(() => const HomeScreen()),
         ),
         title: CustomText(
           text: 'Exclusive Offers',

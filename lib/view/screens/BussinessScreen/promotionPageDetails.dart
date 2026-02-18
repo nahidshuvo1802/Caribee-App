@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:caribee_app/view/screens/HomeScreen/homeScreen.dart';
+
 // --- Custom Components Imports ---
 
 class Promotionpagedetails extends StatelessWidget {
@@ -31,8 +33,8 @@ class Promotionpagedetails extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
                 shape: BoxShape.circle,
-                border:
-                    Border.all(color: Colors.white.withValues(alpha: 0.4), width: 1),
+                border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.4), width: 1),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.1),
@@ -44,7 +46,7 @@ class Promotionpagedetails extends StatelessWidget {
               child: IconButton(
                 icon: Icon(Icons.arrow_back_ios_new,
                     color: Colors.white, size: 18.sp),
-                onPressed: () => Get.back(),
+                onPressed: () => Get.offAll(() => const HomeScreen()),
               ),
             ),
 
@@ -137,7 +139,8 @@ class Promotionpagedetails extends StatelessWidget {
                                     color: Colors.grey,
                                     shadows: [
                                       Shadow(
-                                        color: Colors.black.withValues(alpha: 0.99),
+                                        color: Colors.black
+                                            .withValues(alpha: 0.99),
                                         offset: const Offset(0, 2),
                                         blurRadius: 4,
                                       ),
@@ -211,7 +214,8 @@ class Promotionpagedetails extends StatelessWidget {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFFE65100).withValues(alpha: 0.4),
+                            color:
+                                const Color(0xFFE65100).withValues(alpha: 0.4),
                             blurRadius: 15,
                             offset: const Offset(0, 8),
                           ),
